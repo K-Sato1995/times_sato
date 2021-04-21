@@ -17,9 +17,10 @@ const Main = () => {
     <MainContainer>
       <Form />
       <CommentsContainer>
-        <Comment />
-        <Comment />
-        <Comment />
+        <Comment text={'https://qiita.com/ke-bo/items/1de55991d1b7b1166fb9'} />
+        <Comment text={'test'} />
+        <Comment text={'Reactの成果はなし'} />
+        <Comment text={'学習が進まないです'} />
       </CommentsContainer>
     </MainContainer>
   )
