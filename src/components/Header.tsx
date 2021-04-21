@@ -14,15 +14,12 @@ const Nav = styled.div`
   height: 50px;
   display: flex;
   justify-content: space-between;
-
-  /* border: solid 1px; */
 `
 
 const Title = styled.h1`
   font-size: 1.2em;
   color: 000000;
   padding-left: 20px;
-  /* border: solid 1px; */
 `
 
 const Header = () => {
