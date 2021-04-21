@@ -1,5 +1,6 @@
 import React from 'react'
 import { auth, firebase } from 'firebaseConfig'
+import styled from 'styled-components'
 
 const SignIn = () => {
   const signInWithGoogle = () => {

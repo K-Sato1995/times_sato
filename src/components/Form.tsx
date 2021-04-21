@@ -19,6 +19,8 @@ const CommentInput = styled.input`
   height: 37px;
   width: 100%;
   border: solid #e5e5e5 1px;
+  outline: none;
+  padding-left: 10px;
 `
 
 const SubmitButton = styled.button`
