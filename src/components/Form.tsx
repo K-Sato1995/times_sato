@@ -21,6 +21,12 @@ const CommentInput = styled.input`
   border: solid #e5e5e5 1px;
   outline: none;
   padding-left: 10px;
+
+  :disabled {
+    background-color: #eee;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `
 
 const SubmitButton = styled.button`
@@ -61,6 +67,7 @@ const Form = ({ currentUser }: Props) => {
       <CommentForm onSubmit={createComment}>
         <CommentInput
           value={formValue}
+          disabled={currentUser.uid !== `${process.env.REACT_APP_MY_UID}`}
           onChange={(e) => setFormValue(e.target.value)}
           placeholder={'Text'}
         />
