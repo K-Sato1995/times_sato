@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
-// import { useAuthState } from 'react-firebase-hooks/auth'
 
 const FormContainer = styled.div`
   max-width: 860px;
@@ -38,23 +37,21 @@ const SubmitButton = styled.button`
   }
 `
 
-const Form = () => {
-  const commentsRef = firestore.collection('comments')
+interface Props {
+  currentUser: firebase.User
+}
 
+const Form = ({ currentUser }: Props) => {
+  const commentsRef = firestore.collection('comments')
   const [formValue, setFormValue] = useState('')
 
   const createComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    // const { uid, photoURL } = auth.currentUser
-
     await commentsRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      // uid,
-      // photoURL,
+      uid: currentUser.uid,
     })
-
     setFormValue('')
   }
   return (
@@ -65,7 +62,13 @@ const Form = () => {
           onChange={(e) => setFormValue(e.target.value)}
           placeholder={'リンクか言葉を入力'}
         />
-        <SubmitButton disabled={!formValue}>Submit</SubmitButton>
+        <SubmitButton
+          disabled={
+            !formValue || currentUser.uid !== '2kiau8r0iBPDlpOYbe0DDI8Ba9H2'
+          }
+        >
+          Submit
+        </SubmitButton>
       </CommentForm>
     </FormContainer>
   )

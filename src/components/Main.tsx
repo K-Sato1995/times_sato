@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Form from 'components/Form'
 import Comment from 'components/Comment'
-import { firestore } from 'firebaseConfig'
+import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 const MainContainer = styled.div`
@@ -13,14 +13,19 @@ const MainContainer = styled.div`
 const CommentsContainer = styled.div`
   padding: 10px;
 `
-const Main = () => {
+
+interface Props {
+  currentUser: firebase.User
+}
+
+const Main = ({ currentUser }: Props) => {
   const commentsRef = firestore.collection('comments')
   const query = commentsRef.orderBy('createdAt', 'desc')
   const [comments] = useCollectionData(query, { idField: 'id' })
 
   return (
     <MainContainer>
-      <Form />
+      <Form currentUser={currentUser} />
       <CommentsContainer>
         {comments &&
           comments.map((msg) => <Comment key={msg.id} text={msg.text} />)}

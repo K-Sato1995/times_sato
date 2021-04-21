@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import SignOut from 'components/SignOut'
 
 const NavWrapper = styled.div`
   margin: 0 auto;
@@ -29,6 +30,7 @@ const Header = () => {
     <NavWrapper>
       <Nav>
         <Title>times_sato</Title>
+        <SignOut />
       </Nav>
     </NavWrapper>
   )
