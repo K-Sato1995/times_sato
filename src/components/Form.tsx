@@ -62,11 +62,11 @@ const Form = ({ currentUser }: Props) => {
         <CommentInput
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
-          placeholder={'リンクか言葉を入力'}
+          placeholder={'Text'}
         />
         <SubmitButton
           disabled={
-            !formValue || currentUser.uid !== '2kiau8r0iBPDlpOYbe0DDI8Ba9H2'
+            !formValue || currentUser.uid !== `${process.env.REACT_APP_MY_UID}`
           }
         >
           Submit

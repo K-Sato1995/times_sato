@@ -23,12 +23,19 @@ const Main = ({ currentUser }: Props) => {
   const query = commentsRef.orderBy('createdAt', 'desc')
   const [comments] = useCollectionData(query, { idField: 'id' })
 
+  console.log(comments)
   return (
     <MainContainer>
       <Form currentUser={currentUser} />
       <CommentsContainer>
         {comments &&
-          comments.map((msg) => <Comment key={msg.id} text={msg.text} />)}
+          comments.map((comment) => (
+            <Comment
+              key={comment.id}
+              text={comment.text}
+              createdAt={comment.createdAt}
+            />
+          ))}
       </CommentsContainer>
     </MainContainer>
   )

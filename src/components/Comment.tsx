@@ -1,6 +1,8 @@
 import React from 'react'
 import { ReactTinyLink } from 'react-tiny-link'
 import styled from 'styled-components'
+import { format } from 'date-fns'
+import { firebase } from 'firebaseConfig'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -26,6 +28,7 @@ const Text = styled.p``
 
 interface Props {
   text: string
+  createdAt: firebase.firestore.Timestamp
 }
 
 function isValidWebUrl(url: string) {
@@ -33,7 +36,7 @@ function isValidWebUrl(url: string) {
   return regEx.test(url)
 }
 
-const Comment = ({ text }: Props) => {
+const Comment = ({ text, createdAt }: Props) => {
   const content = isValidWebUrl(text) ? (
     <ReactTinyLink
       cardSize="small"
@@ -47,7 +50,9 @@ const Comment = ({ text }: Props) => {
   )
   return (
     <CommentWrapper>
-      <PostedDate>Posted on 2021/04/20</PostedDate>
+      <PostedDate>
+        {/* Posted on {format(new Date(createdAt), "'Today is a' eeee")} */}
+      </PostedDate>
       {content}
     </CommentWrapper>
   )
