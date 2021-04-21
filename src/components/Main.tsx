@@ -23,7 +23,6 @@ const Main = ({ currentUser }: Props) => {
   const query = commentsRef.orderBy('createdAt', 'desc')
   const [comments] = useCollectionData(query, { idField: 'id' })
 
-  console.log(comments)
   return (
     <MainContainer>
       <Form currentUser={currentUser} />
