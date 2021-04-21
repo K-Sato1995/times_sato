@@ -48,10 +48,13 @@ const Comment = ({ text, createdAt }: Props) => {
   ) : (
     <Text>{text}</Text>
   )
+
   return (
     <CommentWrapper>
       <PostedDate>
-        {/* Posted on {format(new Date(createdAt), "'Today is a' eeee")} */}
+        {createdAt
+          ? `Posted on ${format(new Date(createdAt.toDate()), 'yyyy-MM-dd')}`
+          : 'Loading'}
       </PostedDate>
       {content}
     </CommentWrapper>
