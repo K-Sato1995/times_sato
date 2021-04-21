@@ -2,25 +2,28 @@ import React from 'react'
 import styled from 'styled-components'
 import Form from 'components/Form'
 import Comment from 'components/Comment'
+import { firestore } from 'firebaseConfig'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 const MainContainer = styled.div`
   max-width: 860px;
   margin: 0 auto;
   margin-top: 20px;
-  /* border: solid 1px; */
 `
 const CommentsContainer = styled.div`
   padding: 10px;
 `
 const Main = () => {
+  const commentsRef = firestore.collection('comments')
+  const query = commentsRef.orderBy('createdAt', 'desc')
+  const [comments] = useCollectionData(query, { idField: 'id' })
+
   return (
     <MainContainer>
       <Form />
       <CommentsContainer>
-        <Comment text={'https://qiita.com/ke-bo/items/1de55991d1b7b1166fb9'} />
-        <Comment text={'test'} />
-        <Comment text={'Reactの成果はなし'} />
-        <Comment text={'学習が進まないです'} />
+        {comments &&
+          comments.map((msg) => <Comment key={msg.id} text={msg.text} />)}
       </CommentsContainer>
     </MainContainer>
   )
