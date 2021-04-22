@@ -7,6 +7,7 @@ const SignOutLink = styled.button`
   color: #697980;
   background-color: #fff;
   cursor: pointer;
+  padding-right: 20px;
 
   :hover {
     color: #111;
