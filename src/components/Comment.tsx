@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase } from 'firebaseConfig'
 import Linkify from 'react-linkify'
 import { FaEllipsisH } from 'react-icons/fa'
+import Options from 'components/Options'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -47,12 +48,29 @@ const OptionsIcon = styled(FaEllipsisH)`
   }
 `
 
+const OptionsContainer = styled.div`
+  display: flex;
+  flex-basis: auto;
+  flex-direction: column;
+  border: 0 solid black;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  .Dropdown-root {
+    border: solid 1px;
+  }
+`
+
 interface Props {
   text: string
   createdAt: firebase.firestore.Timestamp
 }
 
 const Comment = ({ text, createdAt }: Props) => {
+  const [visible, setVisible] = useState<boolean>(false)
+
   return (
     <CommentWrapper>
       <PostedDate>
@@ -60,7 +78,13 @@ const Comment = ({ text, createdAt }: Props) => {
           ? `Posted on ${format(new Date(createdAt.toDate()), 'yyyy-MM-dd')}`
           : 'Loading'}
       </PostedDate>
+
       <OptionsIcon />
+
+      <OptionsContainer>
+        <Options visible={visible} />
+      </OptionsContainer>
+
       <Linkify>{text}</Linkify>
     </CommentWrapper>
   )
