@@ -26,7 +26,7 @@ const CommentWrapper = styled.div`
 const PostedDate = styled.span`
   position: absolute;
   color: #697980;
-  left: 0;
+  right: 0;
   top: 0;
 `
 
