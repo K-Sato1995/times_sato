@@ -7,16 +7,13 @@ import Linkify from 'react-linkify'
 const CommentWrapper = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding: 40px 0 40px 10px;
   margin: 25px;
-  /* border: solid 1px; */
-
+  border-bottom: solid #e0e0e0 1px;
+  /* white-space: pre; */
   > a {
     color: #2c7b7d;
     text-decoration: none;
-
     :hover {
       text-decoration: underline;
     }
