@@ -18,7 +18,7 @@ const SiteTitle = styled.h1`
 const SignInButton = styled.button`
   position: absolute;
   top: 40%;
-  border: solid #e0e0e0 1px;
+  border: solid ${(props) => props.theme.borderColor} 1px;
   border-radius: 10px;
   cursor: pointer;
   color: #697980;
@@ -27,7 +27,7 @@ const SignInButton = styled.button`
   outline: none;
 
   :hover {
-    border: solid #e0e0e0 2px;
+    border: solid ${(props) => props.theme.borderColor} 2px;
   }
 `
 

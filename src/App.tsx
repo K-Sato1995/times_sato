@@ -19,7 +19,7 @@ function App() {
   if (loading)
     return (
       <LoaderWrapper>
-        <SyncLoader color={'#e0e0e0'} />
+        <SyncLoader color={'${(props) => props.theme.borderColor}'} />
       </LoaderWrapper>
     )
 

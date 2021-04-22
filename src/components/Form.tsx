@@ -33,7 +33,7 @@ const SubmitButton = styled.button`
   border-radius: 5px;
   width: 100px;
   font-weight: bold;
-  background-color: #2c7b7d;
+  background-color: ${(props) => props.theme.primaryColor};
   color: #fff;
   cursor: pointer;
   border: none;

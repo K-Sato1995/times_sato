@@ -11,11 +11,11 @@ const CommentWrapper = styled.div`
   display: flex;
   padding: 40px 5px;
   margin: 25px;
-  border-bottom: solid #e0e0e0 1px;
+  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   /* white-space: pre; */
   /* border: solid 1px; */
   > a {
-    color: #2c7b7d;
+    color: ${(props) => props.theme.primaryColor};
     text-decoration: none;
     :hover {
       text-decoration: underline;
@@ -42,7 +42,7 @@ const OptionsIcon = styled(FaEllipsisH)`
   transition: 0.2s;
 
   :hover {
-    color: #2c7b7d;
+    color: ${(props) => props.theme.primaryColor};
     background-color: #a4eef0;
     opacity: 0.7;
   }
@@ -71,6 +71,9 @@ interface Props {
 const Comment = ({ text, createdAt }: Props) => {
   const [visible, setVisible] = useState<boolean>(false)
 
+  const handleClick = () => {
+    setVisible(!visible)
+  }
   return (
     <CommentWrapper>
       <PostedDate>
@@ -79,7 +82,7 @@ const Comment = ({ text, createdAt }: Props) => {
           : 'Loading'}
       </PostedDate>
 
-      <OptionsIcon />
+      <OptionsIcon onClick={handleClick} />
 
       <OptionsContainer>
         <Options visible={visible} />
