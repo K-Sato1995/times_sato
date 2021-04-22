@@ -8,8 +8,8 @@ const CommentWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  padding-top: 30px;
-  padding-bottom: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
   margin: 25px;
   /* border: solid 1px; */
 
