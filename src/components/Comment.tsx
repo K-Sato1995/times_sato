@@ -88,11 +88,11 @@ const Comment = ({ comment }: Props) => {
 
       <OptionsContainer>
         <DeleteIcon
-          textColor="#2c7b7d"
-          backgroundColor="#a4eef0"
+          textColor="#ec2121"
+          backgroundColor="#f0a4a4"
           onClick={handleClick}
         />
-        <EditIcon textColor="#ec2121" backgroundColor="#f0a4a4" />
+        <EditIcon textColor="#2c7b7d" backgroundColor="#a4eef0" />
       </OptionsContainer>
 
       <Linkify>{text}</Linkify>
