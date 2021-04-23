@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase } from 'firebaseConfig'
 import Linkify from 'react-linkify'
-import { FaEllipsisH } from 'react-icons/fa'
-import Options from 'components/Options'
+import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -29,39 +28,34 @@ const PostedDate = styled.span`
   left: 5px;
   top: 0;
 `
-
-const OptionsIcon = styled(FaEllipsisH)`
+const OptionsContainer = styled.div`
+  display: flex;
   position: absolute;
-  color: #697980;
-  right: 0;
   top: 0;
+  right: 0;
+`
+const BaseIcon = styled.span`
+  color: #697980;
   cursor: pointer;
   margin-top: -10px;
   padding: 10px;
-  border-radius: 50px;
+  border-radius: 20%;
   transition: 0.2s;
 
   :hover {
-    color: ${(props) => props.theme.primaryColor};
-    background-color: #a4eef0;
+    color: ${(props: { backgroundColor: string; textColor: string }) =>
+      props.textColor};
+
+    background-color: ${(props: {
+      backgroundColor: string
+      textColor: string
+    }) => props.backgroundColor};
     opacity: 0.7;
   }
 `
 
-const OptionsContainer = styled.div`
-  display: flex;
-  flex-basis: auto;
-  flex-direction: column;
-  border: 0 solid black;
-  background-color: #fff;
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  .Dropdown-root {
-    border: solid 1px;
-  }
-`
+const DeleteIcon = BaseIcon.withComponent(FaTrashAlt)
+const EditIcon = BaseIcon.withComponent(FaRegEdit)
 
 interface Props {
   text: string
@@ -82,10 +76,13 @@ const Comment = ({ text, createdAt }: Props) => {
           : 'Loading'}
       </PostedDate>
 
-      <OptionsIcon onClick={handleClick} />
-
       <OptionsContainer>
-        <Options visible={visible} />
+        <DeleteIcon
+          textColor="#2c7b7d"
+          backgroundColor="#a4eef0"
+          onClick={handleClick}
+        />
+        <EditIcon textColor="#ec2121" backgroundColor="#f0a4a4" />
       </OptionsContainer>
 
       <Linkify>{text}</Linkify>
