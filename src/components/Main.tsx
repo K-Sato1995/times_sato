@@ -4,6 +4,7 @@ import Form from 'components/Form'
 import Comment from 'components/Comment'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { isKSato } from 'utils'
 
 const MainContainer = styled.div`
   max-width: 860px;
@@ -25,11 +26,15 @@ const Main = ({ currentUser }: Props) => {
 
   return (
     <MainContainer>
-      <Form currentUser={currentUser} />
+      {isKSato(currentUser.uid) && <Form currentUser={currentUser} />}
       <CommentsContainer>
         {comments &&
           comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment
+              key={comment.id}
+              comment={comment}
+              currentUser={currentUser}
+            />
           ))}
       </CommentsContainer>
     </MainContainer>

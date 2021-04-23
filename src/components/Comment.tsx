@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import Linkify from 'react-linkify'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
+import { isKSato } from 'utils'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -32,7 +33,9 @@ const OptionsContainer = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  display: ${(props: StyledCompsProps) => props.isVisible};
 `
+
 const BaseIcon = styled.span`
   color: #697980;
   cursor: pointer;
@@ -42,13 +45,8 @@ const BaseIcon = styled.span`
   transition: 0.2s;
 
   :hover {
-    color: ${(props: { backgroundColor: string; textColor: string }) =>
-      props.textColor};
-
-    background-color: ${(props: {
-      backgroundColor: string
-      textColor: string
-    }) => props.backgroundColor};
+    color: ${(props: StyledCompsProps) => props.textColor};
+    background-color: ${(props: StyledCompsProps) => props.backgroundColor};
     opacity: 0.7;
   }
 `
@@ -58,10 +56,12 @@ const EditIcon = BaseIcon.withComponent(FaRegEdit)
 
 interface Props {
   comment: firebase.firestore.DocumentData
+  currentUser: firebase.User
 }
 
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, currentUser }: Props) => {
   const { id, text, createdAt } = comment
+  const { uid } = currentUser
 
   const handleClick = () => {
     if (window.confirm('Are you sure you wish to delete this comment?')) {
@@ -86,7 +86,7 @@ const Comment = ({ comment }: Props) => {
           : 'Loading'}
       </PostedDate>
 
-      <OptionsContainer>
+      <OptionsContainer isVisible={`${isKSato(uid) ? '' : 'none'}`}>
         <DeleteIcon
           textColor="#ec2121"
           backgroundColor="#f0a4a4"

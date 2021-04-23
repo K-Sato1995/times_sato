@@ -52,13 +52,14 @@ interface Props {
 const Form = ({ currentUser }: Props) => {
   const commentsRef = firestore.collection('comments')
   const [formValue, setFormValue] = useState('')
+  const { uid } = currentUser
 
   const createComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await commentsRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid: currentUser.uid,
+      uid: uid,
     })
     setFormValue('')
   }
@@ -67,17 +68,10 @@ const Form = ({ currentUser }: Props) => {
       <CommentForm onSubmit={createComment}>
         <CommentInput
           value={formValue}
-          disabled={currentUser.uid !== `${process.env.REACT_APP_MY_UID}`}
           onChange={(e) => setFormValue(e.target.value)}
           placeholder={'Text'}
         />
-        <SubmitButton
-          disabled={
-            !formValue || currentUser.uid !== `${process.env.REACT_APP_MY_UID}`
-          }
-        >
-          Submit
-        </SubmitButton>
+        <SubmitButton disabled={!formValue}>Submit</SubmitButton>
       </CommentForm>
     </FormContainer>
   )
