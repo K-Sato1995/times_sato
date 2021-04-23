@@ -29,11 +29,7 @@ const Main = ({ currentUser }: Props) => {
       <CommentsContainer>
         {comments &&
           comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              text={comment.text}
-              createdAt={comment.createdAt}
-            />
+            <Comment key={comment.id} comment={comment} />
           ))}
       </CommentsContainer>
     </MainContainer>

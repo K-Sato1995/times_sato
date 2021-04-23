@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
-import { firebase } from 'firebaseConfig'
+import { firebase, firestore } from 'firebaseConfig'
 import Linkify from 'react-linkify'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 
@@ -11,8 +11,7 @@ const CommentWrapper = styled.div`
   padding: 40px 5px;
   margin: 25px;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-  /* white-space: pre; */
-  /* border: solid 1px; */
+
   > a {
     color: ${(props) => props.theme.primaryColor};
     text-decoration: none;
@@ -58,16 +57,27 @@ const DeleteIcon = BaseIcon.withComponent(FaTrashAlt)
 const EditIcon = BaseIcon.withComponent(FaRegEdit)
 
 interface Props {
-  text: string
-  createdAt: firebase.firestore.Timestamp
+  comment: firebase.firestore.DocumentData
 }
 
-const Comment = ({ text, createdAt }: Props) => {
-  const [visible, setVisible] = useState<boolean>(false)
+const Comment = ({ comment }: Props) => {
+  const { id, text, createdAt } = comment
 
   const handleClick = () => {
-    setVisible(!visible)
+    if (window.confirm('Are you sure you wish to delete this comment?')) {
+      firestore
+        .collection('comments')
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!')
+        })
+        .catch((error) => {
+          console.error('Error removing document: ', error)
+        })
+    }
   }
+
   return (
     <CommentWrapper>
       <PostedDate>
