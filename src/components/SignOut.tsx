@@ -3,6 +3,7 @@ import { auth } from 'firebaseConfig'
 import styled from 'styled-components'
 
 const SignOutLink = styled.button`
+  font-size: 1rem;
   border: none;
   color: #697980;
   background-color: #fff;

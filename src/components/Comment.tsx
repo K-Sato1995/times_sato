@@ -33,6 +33,7 @@ const OptionsContainer = styled.div`
 `
 
 const BaseIcon = styled.span`
+  font-size: 1rem;
   color: #697980;
   cursor: pointer;
   margin-top: -10px;
