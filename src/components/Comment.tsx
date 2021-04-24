@@ -12,6 +12,10 @@ const CommentWrapper = styled.div`
   padding: 40px 5px;
   margin: 25px;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+
+  @media screen and (max-width: 29.9999em) {
+    margin: 25px 0;
+  }
 `
 
 const PostedDate = styled.span`

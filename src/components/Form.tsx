@@ -12,9 +12,14 @@ const CommentForm = styled.form`
   display: flex;
   justify-content: center;
   padding: 35px;
+
+  @media screen and (max-width: 29.9999em) {
+    padding: 10px;
+  }
 `
 
 const CommentInput = styled.input`
+  font-size: 1rem;
   border-radius: 5px;
   height: 37px;
   width: 100%;
