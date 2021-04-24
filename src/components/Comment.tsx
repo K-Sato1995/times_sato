@@ -84,7 +84,7 @@ const Comment = ({ comment, currentUser }: Props) => {
       minLine={1}
       proxyUrl=""
       defaultMedia="logo512.png"
-      url={`https://thingproxy.freeboard.io/fetch/${text}`}
+      url={`https://api.allorigins.win/get?url=${encodeURIComponent(text)}`}
     />
   ) : (
     text
