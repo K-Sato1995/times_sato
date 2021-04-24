@@ -23,7 +23,7 @@ const CommentInput = styled.input`
   border-radius: 5px;
   height: 37px;
   width: 100%;
-  border: solid #e5e5e5 1px;
+  border: solid ${(props) => props.theme.borderColor} 1px;
   outline: none;
   padding-left: 10px;
 

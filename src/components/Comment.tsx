@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
-import Linkify from 'react-linkify'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
-import { isKSato } from 'utils'
+import { isKSato, isValidWebUrl } from 'utils'
+import { ReactTinyLink } from 'react-tiny-link'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -51,16 +51,17 @@ const BaseIcon = styled.span`
 const DeleteIcon = BaseIcon.withComponent(FaTrashAlt)
 const EditIcon = BaseIcon.withComponent(FaRegEdit)
 
-const Text = styled.p`
+const Content = styled.div`
   font-size: 1rem;
   width: auto;
   max-width: 100%;
   word-wrap: break-word;
-  > a {
-    color: ${(props) => props.theme.primaryColor};
-    text-decoration: none;
-    :hover {
-      text-decoration: underline;
+  > .react_tinylink_card {
+    box-shadow: none;
+    max-width: 100%;
+    border-radius: 5px;
+    .react_tinylink_card_media {
+      background-color: #fff;
     }
   }
 `
@@ -74,6 +75,19 @@ const Comment = ({ comment, currentUser }: Props) => {
   const { id, text, createdAt } = comment
   const { uid } = currentUser
 
+  const content = isValidWebUrl(text) ? (
+    <ReactTinyLink
+      cardSize="small"
+      showGraphic={true}
+      maxLine={2}
+      minLine={1}
+      proxyUrl=""
+      defaultMedia="logo512.png"
+      url={`https://thingproxy.freeboard.io/fetch/${text}`}
+    />
+  ) : (
+    text
+  )
   const handleClick = () => {
     if (window.confirm('Are you sure you wish to delete this comment?')) {
       firestore
@@ -106,9 +120,7 @@ const Comment = ({ comment, currentUser }: Props) => {
         <EditIcon textColor="#2c7b7d" backgroundColor="#a4eef0" />
       </OptionsContainer>
 
-      <Text>
-        <Linkify>{text}</Linkify>
-      </Text>
+      <Content>{content}</Content>
     </CommentWrapper>
   )
 }

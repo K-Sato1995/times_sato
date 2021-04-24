@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components'
 const theme = {
   primaryColor: '#2c7b7d',
   secondaryColor: '#697980',
-  borderColor: '#e0e0e0',
+  borderColor: '#E1E8EC',
 }
 
 ReactDOM.render(
