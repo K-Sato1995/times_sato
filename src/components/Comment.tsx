@@ -12,14 +12,6 @@ const CommentWrapper = styled.div`
   padding: 40px 5px;
   margin: 25px;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-
-  > a {
-    color: ${(props) => props.theme.primaryColor};
-    text-decoration: none;
-    :hover {
-      text-decoration: underline;
-    }
-  }
 `
 
 const PostedDate = styled.span`
@@ -53,6 +45,20 @@ const BaseIcon = styled.span`
 
 const DeleteIcon = BaseIcon.withComponent(FaTrashAlt)
 const EditIcon = BaseIcon.withComponent(FaRegEdit)
+
+const Text = styled.p`
+  font-size: 1rem;
+  width: auto;
+  max-width: 100%;
+  word-wrap: break-word;
+  > a {
+    color: ${(props) => props.theme.primaryColor};
+    text-decoration: none;
+    :hover {
+      text-decoration: underline;
+    }
+  }
+`
 
 interface Props {
   comment: firebase.firestore.DocumentData
@@ -95,7 +101,9 @@ const Comment = ({ comment, currentUser }: Props) => {
         <EditIcon textColor="#2c7b7d" backgroundColor="#a4eef0" />
       </OptionsContainer>
 
-      <Linkify>{text}</Linkify>
+      <Text>
+        <Linkify>{text}</Linkify>
+      </Text>
     </CommentWrapper>
   )
 }
