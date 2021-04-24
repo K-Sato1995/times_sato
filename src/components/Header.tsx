@@ -17,9 +17,13 @@ const Nav = styled.div`
 `
 
 const Title = styled.h1`
-  font-size: 1.2em;
+  font-size: 1.2rem;
   color: 000000;
   padding-left: 20px;
+
+  @media screen and (max-width: 29.9999em) {
+    padding-left: 10px;
+  }
 `
 
 const Header = () => {

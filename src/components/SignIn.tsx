@@ -11,7 +11,7 @@ const SiteTitle = styled.h1`
   display: block;
   position: absolute;
   left: 5%;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   color: 000000;
 `
 

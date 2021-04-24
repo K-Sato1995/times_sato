@@ -9,6 +9,9 @@ const SignOutLink = styled.button`
   cursor: pointer;
   padding-right: 20px;
 
+  @media screen and (max-width: 29.9999em) {
+    padding-right: 10px;
+  }
   :hover {
     color: #111;
   }
