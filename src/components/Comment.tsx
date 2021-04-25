@@ -84,7 +84,7 @@ const Comment = ({ comment, currentUser }: Props) => {
       minLine={1}
       proxyUrl=""
       defaultMedia="logo512.png"
-      url={`https://api.allorigins.win/get?url=${encodeURIComponent(text)}`}
+      url={`https://api.allorigins.win/raw?url=${encodeURIComponent(text)}`}
     />
   ) : (
     text
