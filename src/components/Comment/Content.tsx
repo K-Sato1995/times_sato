@@ -19,6 +19,18 @@ const Content = styled.div`
   > .comment-content {
     white-space: pre-wrap;
 
+    > h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      padding: 0;
+    }
+
+    > ul {
+      margin: 0;
+    }
+
     > p > a {
       text-decoration: none;
       color: ${(props) => props.theme.primaryColor};
