@@ -13,7 +13,7 @@ const MainContainer = styled.div`
   margin-top: 20px;
 `
 const CommentsContainer = styled.div`
-  padding: 10px;
+  padding: 0.1rem 0.625rem;
 `
 
 const LoaderWrapper = styled.div`
