@@ -56,6 +56,8 @@ const Content = styled.div`
   width: auto;
   max-width: 100%;
   word-wrap: break-word;
+  white-space: pre;
+
   > .react_tinylink_card {
     box-shadow: none;
     width: 100%;
