@@ -62,7 +62,7 @@ const CommentContent = ({ text }: Props) => {
         components={syntaxHighlighting}
         className={'comment-content'}
       >
-        {text.replace(httpLinkMatcher, '').replace(/\n/gi, '\n &nbsp;')}
+        {text.replace(httpLinkMatcher, '')}
       </ReactMarkdown>
 
       {extractedUrls?.map((link: string, idx: number) => (
