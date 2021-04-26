@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
-import { isKSato, isValidWebUrl } from 'utils'
-import { ReactTinyLink } from 'react-tiny-link'
+import { isKSato } from 'utils'
+import CommentContent from 'components/Comment/Content'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -51,24 +51,6 @@ const BaseIcon = styled.span`
 const DeleteIcon = BaseIcon.withComponent(FaTrashAlt)
 const EditIcon = BaseIcon.withComponent(FaRegEdit)
 
-const Content = styled.div`
-  font-size: 1rem;
-  width: auto;
-  max-width: 100%;
-  word-wrap: break-word;
-  white-space: pre;
-
-  > .react_tinylink_card {
-    box-shadow: none;
-    width: 100%;
-    max-width: 100%;
-    border-radius: 5px;
-    .react_tinylink_card_media {
-      background-color: #fff;
-    }
-  }
-`
-
 interface Props {
   comment: firebase.firestore.DocumentData
   currentUser: firebase.User
@@ -78,19 +60,6 @@ const Comment = ({ comment, currentUser }: Props) => {
   const { id, text, createdAt } = comment
   const { uid } = currentUser
 
-  const content = isValidWebUrl(text) ? (
-    <ReactTinyLink
-      cardSize="small"
-      showGraphic={true}
-      maxLine={2}
-      minLine={1}
-      proxyUrl=""
-      defaultMedia="logo512.png"
-      url={`https://api.allorigins.win/raw?url=${encodeURIComponent(text)}`}
-    />
-  ) : (
-    text
-  )
   const handleClick = () => {
     if (window.confirm('Are you sure you wish to delete this comment?')) {
       firestore
@@ -123,7 +92,7 @@ const Comment = ({ comment, currentUser }: Props) => {
         <EditIcon textColor="#2c7b7d" backgroundColor="#a4eef0" />
       </OptionsContainer>
 
-      <Content>{content}</Content>
+      <CommentContent text={text} />
     </CommentWrapper>
   )
 }
