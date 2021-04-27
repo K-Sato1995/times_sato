@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 
 type ButtonType = 'primary' | 'secondary' | 'link'
 
-const ButtonBase = styled.button`
+const StyledButton = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
@@ -53,7 +53,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
 const Button = (props: ButtonProps) => {
   const { children } = props
 
-  return <ButtonBase {...props}>{children}</ButtonBase>
+  return <StyledButton {...props}>{children}</StyledButton>
 }
 
 export default Button

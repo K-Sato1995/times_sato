@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
-import TextareaAutosize from 'react-textarea-autosize'
 import { FaInfoCircle } from 'react-icons/fa'
-import { Button } from 'components/atoms'
+import { Button, Textarea } from 'components/atoms'
 
 const FormContainer = styled.div`
   max-width: 860px;
@@ -33,27 +32,12 @@ const FormBottom = styled.div`
   justify-content: space-between;
 `
 
-const CommentInput = styled(TextareaAutosize)`
+const CommentInput = styled(Textarea)`
   border-radius: 5px;
-  font-size: 1rem;
   width: 100%;
-  border: solid ${(props) => props.theme.borderColor} 1px;
-  outline: none;
-  resize: none;
   padding: 0;
   padding-left: 0.1rem;
   padding-top: 0.3rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  :focus {
-    outline: auto ${(props) => props.theme.primaryColor} 1px;
-  }
-  :disabled {
-    background-color: #eee;
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 `
 const InfoIcon = styled(FaInfoCircle)`
   font-size: 0.8rem;
@@ -103,7 +87,9 @@ const Form = ({ currentUser }: Props) => {
         <FormTop>
           <CommentInput
             value={formValue}
-            onChange={(e) => setFormValue(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormValue(e.target.value)
+            }
             placeholder={'Text'}
             minRows={3}
             maxRows={6}
