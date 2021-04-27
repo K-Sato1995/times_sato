@@ -46,7 +46,7 @@ const Content = styled.div`
     width: 100%;
     max-width: 100%;
     border-radius: 5px;
-
+    margin-top: 0.625rem;
     .react_tinylink_card_media {
       background-color: #fff;
     }

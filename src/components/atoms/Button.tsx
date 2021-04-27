@@ -1,29 +1,59 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const Button = styled.button`
-  /* font-size: 1rem; */
-  /* border: none; */
-  color: #697980;
-  background-color: #fff;
+type ButtonType = 'primary' | 'secondary' | 'link'
+
+const ButtonBase = styled.button`
   cursor: pointer;
-  padding-right: 20px;
+  border: none;
+  outline: none;
 
-  @media screen and (max-width: 29.9999em) {
-    padding-right: 10px;
-  }
-  :hover {
-    color: #111;
+  ${(props: ButtonProps) =>
+    props.buttonType === 'primary' &&
+    css`
+      background-color: ${(props) => props.theme.primaryColor};
+      color: #fff;
+    `}
+
+  ${(props: ButtonProps) =>
+    props.buttonType === 'link' &&
+    css`
+      background-color: #fff;
+      color: #697980;
+
+      :hover {
+        color: #111;
+      }
+    `}
+  
+    ${(props: ButtonProps) =>
+    props.buttonType === 'secondary' &&
+    css`
+      border: solid ${(props) => props.theme.borderColor} 1px;
+      color: #697980;
+      background-color: #fff;
+
+      :hover {
+        border: solid ${(props) => props.theme.borderColor} 2px;
+      }
+    `}
+  
+   :disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `
 
-interface Props {
-  type: 'primary' | 'secondary' | 'link'
-  children: React.ReactChildren
+interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
+  buttonType?: ButtonType
+  children: React.ReactNode
+  [key: string]: any
 }
 
-const BaseButton = ({ children }: Props) => {
-  return <Button>{children}</Button>
+const Button = (props: ButtonProps) => {
+  const { children } = props
+
+  return <ButtonBase {...props}>{children}</ButtonBase>
 }
 
-export default BaseButton
+export default Button
