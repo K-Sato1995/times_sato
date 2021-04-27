@@ -1,6 +1,7 @@
 import React from 'react'
 import { auth, firebase } from 'firebaseConfig'
 import styled from 'styled-components'
+import { Button } from 'components/atoms'
 
 const Container = styled.div`
   display: flex;
@@ -15,20 +16,11 @@ const SiteTitle = styled.h1`
   color: 000000;
 `
 
-const SignInButton = styled.button`
+const SignInButton = styled(Button)`
   position: absolute;
   top: 40%;
-  border: solid ${(props) => props.theme.borderColor} 1px;
   border-radius: 10px;
-  cursor: pointer;
-  color: #697980;
-  background-color: #fff;
   padding: 10px;
-  outline: none;
-
-  :hover {
-    border: solid ${(props) => props.theme.borderColor} 2px;
-  }
 `
 
 const SignIn = () => {
@@ -40,7 +32,7 @@ const SignIn = () => {
   return (
     <Container>
       <SiteTitle>times_sato</SiteTitle>
-      <SignInButton onClick={signInWithGoogle}>
+      <SignInButton buttonType="secondary" onClick={signInWithGoogle}>
         Sign in with Google
       </SignInButton>
     </Container>

@@ -1,13 +1,10 @@
 import React from 'react'
 import { auth } from 'firebaseConfig'
 import styled from 'styled-components'
+import { Button } from 'components/atoms'
 
-const SignOutLink = styled.button`
+const SignOutLink = styled(Button)`
   font-size: 1rem;
-  border: none;
-  color: #697980;
-  background-color: #fff;
-  cursor: pointer;
   padding-right: 20px;
 
   @media screen and (max-width: 29.9999em) {
@@ -20,7 +17,9 @@ const SignOutLink = styled.button`
 const SignOut = () => {
   return (
     auth.currentUser && (
-      <SignOutLink onClick={() => auth.signOut()}>Sign Out</SignOutLink>
+      <SignOutLink buttonType="link" onClick={() => auth.signOut()}>
+        Sign Out
+      </SignOutLink>
     )
   )
 }

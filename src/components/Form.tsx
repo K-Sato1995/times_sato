@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import TextareaAutosize from 'react-textarea-autosize'
 import { FaInfoCircle } from 'react-icons/fa'
+import { Button } from 'components/atoms'
 
 const FormContainer = styled.div`
   max-width: 860px;
@@ -71,22 +72,11 @@ const InfoMessage = styled.span`
   color: ${(props) => props.theme.secondaryColor};
 `
 
-const SubmitButton = styled.button`
-  display: block;
+const SubmitButton = styled(Button)`
   padding: 0.5rem 1rem;
   border-radius: 5px;
   font-weight: bold;
-  background-color: ${(props) => props.theme.primaryColor};
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  outline: none;
   margin-right: -0.1rem;
-
-  :disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 `
 
 interface Props {
@@ -123,7 +113,9 @@ const Form = ({ currentUser }: Props) => {
           <InfoMessage>
             <InfoIcon /> Markdown Available
           </InfoMessage>
-          <SubmitButton disabled={!formValue}>Submit</SubmitButton>
+          <SubmitButton buttonType="primary" disabled={!formValue}>
+            Submit
+          </SubmitButton>
         </FormBottom>
       </CommentForm>
     </FormContainer>
