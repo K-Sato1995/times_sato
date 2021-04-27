@@ -5,6 +5,7 @@ import { firebase, firestore } from 'firebaseConfig'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import CommentContent from 'components/Comment/Content'
+import { Icon } from 'components/atoms'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -32,24 +33,8 @@ const OptionsContainer = styled.div`
   display: ${(props: StyledCompsProps) => props.isVisible};
 `
 
-const BaseIcon = styled.span`
-  font-size: 1rem;
-  color: #697980;
-  cursor: pointer;
-  margin-top: -10px;
-  padding: 10px;
-  border-radius: 20%;
-  transition: 0.2s;
-
-  :hover {
-    color: ${(props: StyledCompsProps) => props.textColor};
-    background-color: ${(props: StyledCompsProps) => props.backgroundColor};
-    opacity: 0.7;
-  }
-`
-
-const DeleteIcon = BaseIcon.withComponent(FaTrashAlt)
-const EditIcon = BaseIcon.withComponent(FaRegEdit)
+const DeleteIcon = Icon.withComponent(FaTrashAlt)
+const EditIcon = Icon.withComponent(FaRegEdit)
 
 interface Props {
   comment: firebase.firestore.DocumentData
