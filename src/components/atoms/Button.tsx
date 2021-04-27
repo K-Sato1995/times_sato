@@ -7,7 +7,6 @@ const ButtonBase = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
-  border-radius: 5px;
 
   ${(props: ButtonProps) =>
     props.buttonType === 'primary' &&

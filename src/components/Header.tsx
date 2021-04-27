@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import SignOut from 'components/SignOut'
-import Button from 'components/atoms/Button'
 
 const NavWrapper = styled.div`
   margin: 0 auto;
