@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import Form from 'components/Form'
-import Comment from 'components/Comment'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { isKSato } from 'utils'
 import { SyncLoader } from 'react-spinners'
+import { CommentBox } from 'components/organisms'
 
 const MainContainer = styled.div`
   max-width: 860px;
@@ -42,7 +42,7 @@ const Main = ({ currentUser }: Props) => {
         <CommentsContainer>
           {comments &&
             comments.map((comment) => (
-              <Comment
+              <CommentBox
                 key={comment.id}
                 comment={comment}
                 currentUser={currentUser}

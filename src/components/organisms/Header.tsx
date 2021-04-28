@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import SignOut from 'components/SignOut'
-import { Heading } from 'components/atoms'
+import { Heading, Button } from 'components/atoms'
+import { auth } from 'firebaseConfig'
 
 const NavWrapper = styled.div`
   margin: 0 auto;
@@ -27,12 +27,28 @@ const Title = styled(Heading).attrs(() => ({
   }
 `
 
+const SignOutLink = styled(Button)`
+  font-size: 1rem;
+  padding-right: 20px;
+
+  @media screen and (max-width: 29.9999em) {
+    padding-right: 10px;
+  }
+  :hover {
+    color: #111;
+  }
+`
+
 const Header = () => {
   return (
     <NavWrapper>
       <Nav>
         <Title>times_sato</Title>
-        <SignOut />
+        {auth.currentUser && (
+          <SignOutLink buttonType="link" onClick={() => auth.signOut()}>
+            Sign Out
+          </SignOutLink>
+        )}
       </Nav>
     </NavWrapper>
   )

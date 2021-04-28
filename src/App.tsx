@@ -1,6 +1,6 @@
 import React from 'react'
 import Main from 'components/Main'
-import Header from 'components/Header'
+import { Header } from 'components/organisms'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from 'firebaseConfig'
 import SignIn from 'components/SignIn'
