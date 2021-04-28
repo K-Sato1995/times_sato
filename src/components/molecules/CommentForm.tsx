@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Button, Textarea } from 'components/atoms'
 
@@ -53,33 +52,13 @@ const SubmitButton = styled(Button)`
 `
 
 interface Props {
-  comment: firebase.firestore.DocumentData
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
+  formValue: string
+  setFormValue: React.Dispatch<React.SetStateAction<string>>
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
 }
-
-const Form = ({ comment, setIsEditing }: Props) => {
-  const { id, text } = comment
-  const [formValue, setFormValue] = useState<string>(text)
-
-  const commentRef = firestore.collection('comments').doc(id)
-
-  const updateComment = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    await commentRef
-      .update({
-        text: formValue,
-      })
-      .then(() => {
-        alert('Document successfully updated!')
-        setIsEditing(false)
-      })
-      .catch((error) => {
-        console.error('Error updating document: ', error)
-      })
-  }
-
+const Form = ({ formValue, onSubmit, setFormValue }: Props) => {
   return (
-    <CommentForm onSubmit={updateComment}>
+    <CommentForm onSubmit={onSubmit}>
       <FormTop>
         <CommentInput
           value={formValue}
@@ -95,9 +74,7 @@ const Form = ({ comment, setIsEditing }: Props) => {
         <InfoMessage>
           <InfoIcon /> Markdown Available
         </InfoMessage>
-        <SubmitButton buttonType="primary" disabled={!formValue}>
-          Submit
-        </SubmitButton>
+        <SubmitButton buttonType="primary">Submit</SubmitButton>
       </FormBottom>
     </CommentForm>
   )

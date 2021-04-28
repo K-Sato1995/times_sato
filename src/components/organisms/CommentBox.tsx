@@ -5,7 +5,8 @@ import { firebase, firestore } from 'firebaseConfig'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon } from 'components/atoms'
-import { CommentContent, CommentEditForm } from 'components/molecules'
+import { CommentContent } from 'components/molecules'
+import { EditCommentForm } from 'components/organisms'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -87,7 +88,7 @@ const Comment = ({ comment, currentUser }: Props) => {
       </OptionsContainer>
 
       {isEditing ? (
-        <CommentEditForm comment={comment} setIsEditing={setIsEditing} />
+        <EditCommentForm comment={comment} setIsEditing={setIsEditing} />
       ) : (
         <CommentContent text={text} />
       )}

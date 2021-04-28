@@ -1,4 +1,4 @@
 import CommentContent from 'components/molecules/CommentContent'
-import CommentEditForm from 'components/molecules/CommentEditForm'
+import CommentForm from 'components/molecules/CommentForm'
 
-export { CommentContent, CommentEditForm }
+export { CommentContent, CommentForm }
