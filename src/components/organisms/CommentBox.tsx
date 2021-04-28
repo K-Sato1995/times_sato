@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon } from 'components/atoms'
-import { CommentContent } from 'components/molecules'
+import { CommentContent, CommentEditForm } from 'components/molecules'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -42,10 +42,11 @@ interface Props {
 }
 
 const Comment = ({ comment, currentUser }: Props) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false)
   const { id, text, createdAt } = comment
   const { uid } = currentUser
 
-  const handleClick = () => {
+  const deleteComment = () => {
     if (window.confirm('Are you sure you wish to delete this comment?')) {
       firestore
         .collection('comments')
@@ -60,6 +61,10 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
+  const editComment = () => {
+    setIsEditing(!isEditing)
+  }
+
   return (
     <CommentWrapper>
       <PostedDate>
@@ -72,12 +77,20 @@ const Comment = ({ comment, currentUser }: Props) => {
         <DeleteIcon
           textColor="#ec2121"
           backgroundColor="#f0a4a4"
-          onClick={handleClick}
+          onClick={deleteComment}
         />
-        <EditIcon textColor="#2c7b7d" backgroundColor="#a4eef0" />
+        <EditIcon
+          onClick={editComment}
+          textColor="#2c7b7d"
+          backgroundColor="#a4eef0"
+        />
       </OptionsContainer>
 
-      <CommentContent text={text} />
+      {isEditing ? (
+        <CommentEditForm comment={comment} setIsEditing={setIsEditing} />
+      ) : (
+        <CommentContent text={text} />
+      )}
     </CommentWrapper>
   )
 }

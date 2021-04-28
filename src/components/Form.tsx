@@ -10,6 +10,7 @@ const FormContainer = styled.div`
   margin: 2.25rem;
   padding: 1rem;
   border: solid ${(props) => props.theme.borderColor} 1px;
+  border-radius: 5px;
 
   @media screen and (max-width: 29.9999em) {
     margin: 0.625rem;
