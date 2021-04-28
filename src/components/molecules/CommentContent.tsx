@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { ReactTinyLink } from 'react-tiny-link'
 import { httpLinkMatcher } from 'utils'
-import { MarkdownContent } from 'components/atoms'
+import { Markdown } from 'components/atoms'
 
 interface Props {
   text: string
@@ -56,7 +56,7 @@ const CommentContent = ({ text }: Props) => {
 
   return (
     <Content>
-      <MarkdownContent mdText={text} />
+      <Markdown mdText={text} />
 
       {extractedUrls?.map((link: string, idx: number) => (
         <ReactTinyLink

@@ -8,7 +8,7 @@ interface Props {
   mdText: string
 }
 
-const MarkdownContent = ({ mdText }: Props) => {
+const Markdown = ({ mdText }: Props) => {
   const syntaxHighlighting = {
     code({ node, inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || '')
@@ -32,4 +32,4 @@ const MarkdownContent = ({ mdText }: Props) => {
   )
 }
 
-export default MarkdownContent
+export default Markdown
