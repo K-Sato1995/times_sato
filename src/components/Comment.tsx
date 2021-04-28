@@ -4,8 +4,8 @@ import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
 import { isKSato } from 'utils'
-import CommentContent from 'components/Comment/Content'
 import { Icon } from 'components/atoms'
+import { CommentContent } from 'components/molecules'
 
 const CommentWrapper = styled.div`
   position: relative;
