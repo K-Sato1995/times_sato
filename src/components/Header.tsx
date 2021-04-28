@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import SignOut from 'components/SignOut'
+import { Heading } from 'components/atoms'
 
 const NavWrapper = styled.div`
   margin: 0 auto;
@@ -16,9 +17,9 @@ const Nav = styled.div`
   justify-content: space-between;
 `
 
-const Title = styled.h1`
-  font-size: 1.2rem;
-  color: 000000;
+const Title = styled(Heading).attrs(() => ({
+  size: 'h1',
+}))`
   padding-left: 20px;
 
   @media screen and (max-width: 29.9999em) {
