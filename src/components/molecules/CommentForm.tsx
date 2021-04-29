@@ -56,6 +56,7 @@ interface Props {
   setFormValue: React.Dispatch<React.SetStateAction<string>>
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
 }
+
 const Form = ({ formValue, onSubmit, setFormValue }: Props) => {
   return (
     <CommentForm onSubmit={onSubmit}>
