@@ -5,6 +5,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { isKSato } from 'utils'
 import { SyncLoader } from 'react-spinners'
 import { CommentBox, NewCommentForm } from 'components/organisms'
+import { Heading } from 'components/atoms'
 
 const MainContainer = styled.div`
   max-width: 860px;
@@ -19,6 +20,12 @@ const LoaderWrapper = styled.div`
   position: absolute;
   top: 40%;
   left: 50%;
+`
+const NoPostWrapper = styled.div`
+  padding: 2.5rem 0.315rem;
+  display: flex;
+  justify-content: center;
+  margin: 1.625rem;
 `
 
 interface Props {
@@ -39,14 +46,19 @@ const Main = ({ currentUser }: Props) => {
         </LoaderWrapper>
       ) : (
         <CommentsContainer>
-          {comments &&
+          {comments?.length ? (
             comments.map((comment) => (
               <CommentBox
                 key={comment.id}
                 comment={comment}
                 currentUser={currentUser}
               />
-            ))}
+            ))
+          ) : (
+            <NoPostWrapper>
+              <Heading size="h2">Nothing was posted yet....</Heading>
+            </NoPostWrapper>
+          )}
         </CommentsContainer>
       )}
     </MainContainer>

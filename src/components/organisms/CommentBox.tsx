@@ -11,8 +11,8 @@ import { EditCommentForm } from 'components/organisms'
 const CommentWrapper = styled.div`
   position: relative;
   display: flex;
-  padding: 40px 5px;
-  margin: 25px;
+  padding: 2.5rem 0.315rem;
+  margin: 1.625rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
 
   @media screen and (max-width: 29.9999em) {
