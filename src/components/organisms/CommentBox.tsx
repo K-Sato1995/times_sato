@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
-import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
+import { FaRegTrashAlt, FaRegEdit, FaRegStar, FaStar } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon } from 'components/atoms'
 import { CommentContent } from 'components/molecules'
@@ -34,8 +34,23 @@ const OptionsContainer = styled.div`
   display: ${(props: StyledCompsProps) => props.isVisible};
 `
 
-const DeleteIcon = Icon.withComponent(FaTrashAlt)
+const DeleteIcon = Icon.withComponent(FaRegTrashAlt)
 const EditIcon = Icon.withComponent(FaRegEdit)
+const FavIcon = Icon.withComponent(FaRegStar)
+
+const FavedIcon = styled(FaStar)`
+  font-size: 1rem;
+  color: #ffd700;
+  cursor: pointer;
+  margin-top: -10px;
+  padding: 10px;
+  border-radius: 20%;
+  transition: 0.2s;
+
+  :hover {
+    opacity: 0.7;
+  }
+`
 
 interface Props {
   comment: firebase.firestore.DocumentData
@@ -44,7 +59,7 @@ interface Props {
 
 const Comment = ({ comment, currentUser }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
-  const { id, text, createdAt } = comment
+  const { id, text, pinned, createdAt } = comment
   const { uid } = currentUser
 
   const commentRef = firestore.collection('comments').doc(id)
@@ -56,7 +71,7 @@ const Comment = ({ comment, currentUser }: Props) => {
           deleted: true,
         })
         .then(() => {
-          alert('Document successfully deleted!')
+          console.log('Document successfully deleted!')
         })
         .catch((error) => {
           console.error('Error deleting document: ', error)
@@ -64,20 +79,31 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
-  // const physicalDeleteComment = () => {
-  //   if (window.confirm('Are you sure you wish to delete this comment?')) {
-  //     firestore
-  //       .collection('comments')
-  //       .doc(id)
-  //       .delete()
-  //       .then(() => {
-  //         console.log('Document successfully deleted!')
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error removing document: ', error)
-  //       })
-  //   }
-  // }
+  const pinComment = async () => {
+    await commentRef
+      .update({
+        pinned: true,
+      })
+      .then(() => {
+        console.log('Pinned the comment')
+      })
+      .catch((error) => {
+        console.error('Error pinning document: ', error)
+      })
+  }
+
+  const unpinComment = async () => {
+    await commentRef
+      .update({
+        pinned: false,
+      })
+      .then(() => {
+        console.log('Unpinned the comment')
+      })
+      .catch((error) => {
+        console.error('Error unpinning document: ', error)
+      })
+  }
 
   const editComment = () => {
     setIsEditing(!isEditing)
@@ -102,6 +128,16 @@ const Comment = ({ comment, currentUser }: Props) => {
           textColor="#2c7b7d"
           backgroundColor="#a4eef0"
         />
+
+        {pinned ? (
+          <FavedIcon onClick={unpinComment} />
+        ) : (
+          <FavIcon
+            onClick={pinComment}
+            textColor="#bb9f03"
+            backgroundColor="#fbff81"
+          />
+        )}
       </OptionsContainer>
 
       {isEditing ? (
@@ -114,3 +150,18 @@ const Comment = ({ comment, currentUser }: Props) => {
 }
 
 export default Comment
+
+// const physicalDeleteComment = () => {
+//   if (window.confirm('Are you sure you wish to delete this comment?')) {
+//     firestore
+//       .collection('comments')
+//       .doc(id)
+//       .delete()
+//       .then(() => {
+//         console.log('Document successfully deleted!')
+//       })
+//       .catch((error) => {
+//         console.error('Error removing document: ', error)
+//       })
+//   }
+// }

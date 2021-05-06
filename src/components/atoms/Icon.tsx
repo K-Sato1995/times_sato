@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 interface IconProps {
-  backgroundColor: string
-  textColor: string
+  backgroundColor?: string
+  textColor?: string
 }
 
 const Icon = styled.span`

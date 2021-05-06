@@ -40,6 +40,9 @@ const Main = ({ currentUser }: Props) => {
 
   const [comments, loading, error] = useCollectionData(query, { idField: 'id' })
 
+  const pinnedComments = comments?.filter((comment) => comment.pinned)
+  const otherComments = comments?.filter((comment) => !comment.pinned)
+
   if (error) {
     console.log(error?.message)
   }
@@ -54,13 +57,25 @@ const Main = ({ currentUser }: Props) => {
       ) : (
         <CommentsContainer>
           {comments?.length ? (
-            comments.map((comment) => (
-              <CommentBox
-                key={comment.id}
-                comment={comment}
-                currentUser={currentUser}
-              />
-            ))
+            <>
+              {pinnedComments &&
+                pinnedComments.map((comment) => (
+                  <CommentBox
+                    key={comment.id}
+                    comment={comment}
+                    currentUser={currentUser}
+                  />
+                ))}
+
+              {otherComments &&
+                otherComments.map((comment) => (
+                  <CommentBox
+                    key={comment.id}
+                    comment={comment}
+                    currentUser={currentUser}
+                  />
+                ))}
+            </>
           ) : (
             <NoPostWrapper>
               <Heading size="h2">Nothing was posted yet....</Heading>
