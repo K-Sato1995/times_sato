@@ -30,6 +30,7 @@ const Form = ({ currentUser }: Props) => {
     await commentsRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      deleted: false,
       uid: uid,
     })
     setFormValue('')

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
-import { FaTrashAlt, FaRegEdit } from 'react-icons/fa'
+import { FaTrashAlt } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon } from 'components/atoms'
 import { CommentContent } from 'components/molecules'
-import { EditCommentForm } from 'components/organisms'
 
 const CommentWrapper = styled.div`
   position: relative;
@@ -34,22 +33,20 @@ const OptionsContainer = styled.div`
   display: ${(props: StyledCompsProps) => props.isVisible};
 `
 
-const DeleteIcon = Icon.withComponent(FaTrashAlt)
-const EditIcon = Icon.withComponent(FaRegEdit)
+const RestoreIcon = Icon.withComponent(FaTrashAlt)
 
 interface Props {
   comment: firebase.firestore.DocumentData
   currentUser: firebase.User
 }
 
-const Comment = ({ comment, currentUser }: Props) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false)
+const DeletedComment = ({ comment, currentUser }: Props) => {
   const { id, text, createdAt } = comment
   const { uid } = currentUser
 
   const commentRef = firestore.collection('comments').doc(id)
 
-  const logicalDelteComment = async () => {
+  const restoreDeltedComment = async () => {
     if (window.confirm('Are you sure you wish to delete this comment?')) {
       await commentRef
         .update({
@@ -64,25 +61,6 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
-  // const physicalDeleteComment = () => {
-  //   if (window.confirm('Are you sure you wish to delete this comment?')) {
-  //     firestore
-  //       .collection('comments')
-  //       .doc(id)
-  //       .delete()
-  //       .then(() => {
-  //         console.log('Document successfully deleted!')
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error removing document: ', error)
-  //       })
-  //   }
-  // }
-
-  const editComment = () => {
-    setIsEditing(!isEditing)
-  }
-
   return (
     <CommentWrapper>
       <PostedDate>
@@ -92,25 +70,15 @@ const Comment = ({ comment, currentUser }: Props) => {
       </PostedDate>
 
       <OptionsContainer isVisible={`${isKSato(uid) ? '' : 'none'}`}>
-        <DeleteIcon
+        <RestoreIcon
           textColor="#ec2121"
           backgroundColor="#f0a4a4"
-          onClick={logicalDelteComment}
-        />
-        <EditIcon
-          onClick={editComment}
-          textColor="#2c7b7d"
-          backgroundColor="#a4eef0"
+          onClick={restoreDeltedComment}
         />
       </OptionsContainer>
-
-      {isEditing ? (
-        <EditCommentForm comment={comment} setIsEditing={setIsEditing} />
-      ) : (
-        <CommentContent text={text} />
-      )}
+      <CommentContent text={text} />
     </CommentWrapper>
   )
 }
 
-export default Comment
+export default DeletedComment

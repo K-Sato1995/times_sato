@@ -34,8 +34,15 @@ interface Props {
 
 const Main = ({ currentUser }: Props) => {
   const commentsRef = firestore.collection('comments')
-  const query = commentsRef.orderBy('createdAt', 'desc')
-  const [comments, loading] = useCollectionData(query, { idField: 'id' })
+  const query = commentsRef
+    .where('deleted', '==', false)
+    .orderBy('createdAt', 'desc')
+
+  const [comments, loading, error] = useCollectionData(query, { idField: 'id' })
+
+  if (error) {
+    console.log(error?.message)
+  }
 
   return (
     <MainContainer>
