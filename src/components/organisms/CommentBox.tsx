@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
-import { FaRegTrashAlt, FaRegEdit, FaRegStar, FaStar } from 'react-icons/fa'
+import {
+  FaRegTrashAlt,
+  FaRegEdit,
+  FaRegStar,
+  FaStar,
+  FaRegArrowAltCircleUp,
+} from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon } from 'components/atoms'
 import { CommentContent } from 'components/molecules'
@@ -26,6 +32,14 @@ const PostedDate = styled.span`
   left: 5px;
   top: 0;
 `
+
+const Delted = styled.span`
+  position: absolute;
+  color: #e66d6d;
+  left: 5px;
+  top: 0;
+`
+
 const OptionsContainer = styled.div`
   display: flex;
   position: absolute;
@@ -37,6 +51,7 @@ const OptionsContainer = styled.div`
 const DeleteIcon = Icon.withComponent(FaRegTrashAlt)
 const EditIcon = Icon.withComponent(FaRegEdit)
 const FavIcon = Icon.withComponent(FaRegStar)
+const RestoreIcon = Icon.withComponent(FaRegArrowAltCircleUp)
 
 const FavedIcon = styled(FaStar)`
   font-size: 1rem;
@@ -59,7 +74,7 @@ interface Props {
 
 const Comment = ({ comment, currentUser }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
-  const { id, text, pinned, createdAt } = comment
+  const { id, text, pinned, createdAt, deleted } = comment
   const { uid } = currentUser
 
   const commentRef = firestore.collection('comments').doc(id)
@@ -105,38 +120,68 @@ const Comment = ({ comment, currentUser }: Props) => {
       })
   }
 
+  const restoreDeltedComment = async () => {
+    if (window.confirm('Are you sure you wish to restore this comment?')) {
+      await commentRef
+        .update({
+          deleted: false,
+        })
+        .then(() => {
+          // alert('Document successfully restored!')
+        })
+        .catch((error) => {
+          console.error('Error deleting document: ', error)
+        })
+    }
+  }
+
   const editComment = () => {
     setIsEditing(!isEditing)
   }
 
   return (
     <CommentWrapper>
-      <PostedDate>
-        {createdAt
-          ? `Posted on ${format(new Date(createdAt.toDate()), 'yyyy-MM-dd')}`
-          : 'Loading'}
-      </PostedDate>
+      {deleted ? (
+        <Delted>Delted Comment</Delted>
+      ) : (
+        <PostedDate>
+          {createdAt
+            ? `Posted on ${format(new Date(createdAt.toDate()), 'yyyy-MM-dd')}`
+            : 'Loading'}
+        </PostedDate>
+      )}
 
       <OptionsContainer isVisible={`${isKSato(uid) ? '' : 'none'}`}>
-        <DeleteIcon
-          textColor="#ec2121"
-          backgroundColor="#f0a4a4"
-          onClick={logicalDelteComment}
-        />
-        <EditIcon
-          onClick={editComment}
-          textColor="#2c7b7d"
-          backgroundColor="#a4eef0"
-        />
-
-        {pinned ? (
-          <FavedIcon onClick={unpinComment} />
-        ) : (
-          <FavIcon
-            onClick={pinComment}
-            textColor="#bb9f03"
-            backgroundColor="#fbff81"
+        {deleted ? (
+          <RestoreIcon
+            textColor="#2c7b7d"
+            backgroundColor="#a4eef0"
+            onClick={restoreDeltedComment}
           />
+        ) : (
+          <>
+            <DeleteIcon
+              textColor="#ec2121"
+              backgroundColor="#f0a4a4"
+              onClick={logicalDelteComment}
+            />
+
+            <EditIcon
+              onClick={editComment}
+              textColor="#2c7b7d"
+              backgroundColor="#a4eef0"
+            />
+
+            {pinned ? (
+              <FavedIcon onClick={unpinComment} />
+            ) : (
+              <FavIcon
+                onClick={pinComment}
+                textColor="#bb9f03"
+                backgroundColor="#fbff81"
+              />
+            )}
+          </>
         )}
       </OptionsContainer>
 
