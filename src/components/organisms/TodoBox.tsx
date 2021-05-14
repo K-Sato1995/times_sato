@@ -10,6 +10,7 @@ const TodoContainer = styled.div`
   padding: 1rem 0.315rem;
   margin: 1.625rem 0;
   border: solid ${(props) => props.theme.borderColor} 1px;
+  border-radius: 5px;
   cursor: pointer;
 
   :hover {
