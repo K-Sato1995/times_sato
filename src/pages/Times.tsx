@@ -10,7 +10,6 @@ import { CommentSortOptions } from 'components/molecules'
 
 const CommentsContainer = styled.div`
   padding: 0.1rem 2.35rem;
-  border: solid 1px;
 `
 
 const LoaderWrapper = styled.div`

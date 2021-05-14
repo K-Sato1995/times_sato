@@ -1,11 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NewTodoForm } from 'components/organisms'
-import { firebase } from 'firebaseConfig'
+import { NewTodoForm, TodoBox } from 'components/organisms'
+import { firestore, firebase } from 'firebaseConfig'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { SyncLoader } from 'react-spinners'
+
+import { isKSato } from 'utils'
 
 const TodosContainer = styled.div`
   padding: 0.1rem 2.35rem;
-  border: solid 1px;
+`
+
+const LoaderWrapper = styled.div`
+  position: absolute;
+  top: 40%;
+  left: 50%;
 `
 
 interface Props {
@@ -13,12 +22,31 @@ interface Props {
 }
 
 const Todos = ({ currentUser }: Props) => {
+  const todosRef = firestore.collection('todos')
+
+  let query = todosRef.orderBy('createdAt', 'desc')
+
+  const [todos, loading, error] = useCollectionData(query, { idField: 'id' })
+
+  if (error) {
+    console.log(error.message)
+  }
+
   return (
     <>
-      <NewTodoForm currentUser={currentUser} />
-      <TodosContainer>
-        <h1>TODOS</h1>
-      </TodosContainer>
+      {isKSato(currentUser.uid) && <NewTodoForm currentUser={currentUser} />}
+
+      {loading ? (
+        <LoaderWrapper>
+          <SyncLoader color={'#e0e0e0'} />
+        </LoaderWrapper>
+      ) : (
+        <TodosContainer>
+          {todos?.map((todo) => (
+            <TodoBox key={todo.id} todo={todo} currentUser={currentUser} />
+          ))}
+        </TodosContainer>
+      )}
     </>
   )
 }
