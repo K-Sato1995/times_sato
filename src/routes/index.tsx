@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { firebase } from 'firebaseConfig'
-import Times from 'components/Times'
-import Todos from 'components/Todos'
+import Times from 'pages/Times'
+import Todos from 'pages/Todos'
 
 interface Props {
   currentUser: firebase.User
