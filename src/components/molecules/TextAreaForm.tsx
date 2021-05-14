@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Button, Textarea } from 'components/atoms'
 
-const CommentForm = styled.form`
+const TextAreaForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,7 @@ interface Props {
 
 const Form = ({ formValue, onSubmit, setFormValue }: Props) => {
   return (
-    <CommentForm onSubmit={onSubmit}>
+    <TextAreaForm onSubmit={onSubmit}>
       <FormTop>
         <CommentInput
           value={formValue}
@@ -77,7 +77,7 @@ const Form = ({ formValue, onSubmit, setFormValue }: Props) => {
         </InfoMessage>
         <SubmitButton buttonType="primary">Submit</SubmitButton>
       </FormBottom>
-    </CommentForm>
+    </TextAreaForm>
   )
 }
 

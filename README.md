@@ -8,3 +8,4 @@ Random stuff posted by me.
 - React
 - Atomic Design
 - styled-components
+- Firebase

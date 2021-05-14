@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { firestore, firebase } from 'firebaseConfig'
-import { CommentForm } from 'components/molecules'
+import { TextAreaForm } from 'components/molecules'
 
 interface Props {
   comment: firebase.firestore.DocumentData
@@ -29,7 +29,7 @@ const EditCommentForm = ({ comment, setIsEditing }: Props) => {
   }
 
   return (
-    <CommentForm
+    <TextAreaForm
       formValue={formValue}
       setFormValue={setFormValue}
       onSubmit={updateComment}

@@ -8,13 +8,8 @@ import { CommentBox, NewCommentForm } from 'components/organisms'
 import { Heading } from 'components/atoms'
 import { CommentSortOptions } from 'components/molecules'
 
-const MainContainer = styled.div`
-  max-width: 860px;
-  margin: 0 auto;
-  margin-top: 20px;
-`
 const CommentsContainer = styled.div`
-  padding: 0.1rem 2.35rem;
+  padding: 0.1rem 2.35rem 3.125rem 2.35rem;
 `
 
 const LoaderWrapper = styled.div`
@@ -33,7 +28,7 @@ interface Props {
   currentUser: firebase.User
 }
 
-const Main = ({ currentUser }: Props) => {
+const Times = ({ currentUser }: Props) => {
   const [dislpayDeletedComments, setDislpayDeletedComments] = useState<boolean>(
     false,
   )
@@ -60,7 +55,7 @@ const Main = ({ currentUser }: Props) => {
   }
 
   return (
-    <MainContainer>
+    <>
       {isKSato(currentUser.uid) && <NewCommentForm currentUser={currentUser} />}
       {loading ? (
         <LoaderWrapper>
@@ -99,8 +94,8 @@ const Main = ({ currentUser }: Props) => {
           )}
         </CommentsContainer>
       )}
-    </MainContainer>
+    </>
   )
 }
 
-export default Main
+export default Times

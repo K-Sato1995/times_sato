@@ -1,11 +1,18 @@
 import React from 'react'
-import Main from 'components/Main'
-import { Header } from 'components/organisms'
+import { Header, Footer } from 'components/organisms'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from 'firebaseConfig'
-import SignIn from 'components/SignIn'
+import SignIn from 'pages/SignIn'
 import { SyncLoader } from 'react-spinners'
 import styled from 'styled-components'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Routes from 'routes'
+
+const MainContainer = styled.div`
+  max-width: 860px;
+  margin: 0 auto;
+  margin-top: 20px;
+`
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -26,10 +33,15 @@ function App() {
   if (!user) return <SignIn />
 
   return (
-    <>
+    <Router>
       <Header />
-      <Main currentUser={user} />
-    </>
+
+      <MainContainer>
+        <Routes currentUser={user} />
+      </MainContainer>
+
+      <Footer />
+    </Router>
   )
 }
 
