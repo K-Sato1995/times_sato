@@ -9,7 +9,7 @@ import { Heading } from 'components/atoms'
 import { CommentSortOptions } from 'components/molecules'
 
 const CommentsContainer = styled.div`
-  padding: 0.1rem 2.35rem;
+  padding: 0.1rem 2.35rem 3.125rem 2.35rem;
 `
 
 const LoaderWrapper = styled.div`

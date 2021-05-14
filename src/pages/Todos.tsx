@@ -4,11 +4,10 @@ import { NewTodoForm, TodoBox } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { SyncLoader } from 'react-spinners'
-
 import { isKSato } from 'utils'
 
 const TodosContainer = styled.div`
-  padding: 0.1rem 2.35rem;
+  padding: 0.1rem 2.35rem 3.125rem 2.35rem;
 `
 
 const LoaderWrapper = styled.div`
