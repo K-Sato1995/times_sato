@@ -8,7 +8,7 @@ const TodoContainer = styled.div`
   position: relative;
   display: flex;
   padding: 1rem 0.315rem;
-  margin: 1.625rem 0;
+  margin: 1rem 0;
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-radius: 5px;
   cursor: pointer;
