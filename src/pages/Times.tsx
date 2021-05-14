@@ -8,13 +8,9 @@ import { CommentBox, NewCommentForm } from 'components/organisms'
 import { Heading } from 'components/atoms'
 import { CommentSortOptions } from 'components/molecules'
 
-const MainContainer = styled.div`
-  max-width: 860px;
-  margin: 0 auto;
-  margin-top: 20px;
-`
 const CommentsContainer = styled.div`
   padding: 0.1rem 2.35rem;
+  border: solid 1px;
 `
 
 const LoaderWrapper = styled.div`
@@ -60,7 +56,7 @@ const Times = ({ currentUser }: Props) => {
   }
 
   return (
-    <MainContainer>
+    <>
       {isKSato(currentUser.uid) && <NewCommentForm currentUser={currentUser} />}
       {loading ? (
         <LoaderWrapper>
@@ -99,7 +95,7 @@ const Times = ({ currentUser }: Props) => {
           )}
         </CommentsContainer>
       )}
-    </MainContainer>
+    </>
   )
 }
 

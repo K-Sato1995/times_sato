@@ -1,5 +1,5 @@
 import CommentContent from 'components/molecules/CommentContent'
-import CommentForm from 'components/molecules/CommentForm'
+import TextAreaForm from 'components/molecules/TextAreaForm'
 import CommentSortOptions from 'components/molecules/CommentSortOptions'
 
-export { CommentContent, CommentForm, CommentSortOptions }
+export { CommentContent, TextAreaForm, CommentSortOptions }

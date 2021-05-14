@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
-import { TextAreaForm } from 'components/molecules'
+import { TextAreaForm as TodoForm } from 'components/molecules'
 
 const FormContainer = styled.div`
   max-width: 860px;
@@ -21,16 +21,16 @@ interface Props {
 }
 
 const Form = ({ currentUser }: Props) => {
-  const commentsRef = firestore.collection('comments')
+  const todosRef = firestore.collection('todos')
   const [formValue, setFormValue] = useState('')
   const { uid } = currentUser
 
-  const createComment = async (e: React.FormEvent<HTMLFormElement>) => {
+  const createTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await commentsRef.add({
+    await todosRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      deleted: false,
+      completed: false,
       uid: uid,
     })
     setFormValue('')
@@ -38,10 +38,10 @@ const Form = ({ currentUser }: Props) => {
 
   return (
     <FormContainer>
-      <TextAreaForm
+      <TodoForm
         formValue={formValue}
         setFormValue={setFormValue}
-        onSubmit={createComment}
+        onSubmit={createTodo}
       />
     </FormContainer>
   )

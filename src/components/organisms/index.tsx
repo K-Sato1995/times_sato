@@ -3,5 +3,12 @@ import Header from 'components/organisms/Header'
 import EditCommentForm from 'components/organisms/EditCommentForm'
 import NewCommentForm from 'components/organisms/NewCommentForm'
 import Footer from 'components/organisms/Footer'
-
-export { CommentBox, EditCommentForm, NewCommentForm, Footer, Header }
+import NewTodoForm from 'components/organisms/NewTodoForm'
+export {
+  CommentBox,
+  EditCommentForm,
+  NewCommentForm,
+  NewTodoForm,
+  Footer,
+  Header,
+}

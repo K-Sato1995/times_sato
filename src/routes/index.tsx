@@ -14,7 +14,10 @@ const Routes = ({ currentUser }: Props) => {
       <Route exact path={['/', '/times']}>
         <Times currentUser={currentUser} />
       </Route>
-      <Route path={'/todos'} component={Todos} />
+
+      <Route path={'/todos'}>
+        <Todos currentUser={currentUser} />
+      </Route>
     </Switch>
   )
 }
