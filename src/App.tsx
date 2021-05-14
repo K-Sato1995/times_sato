@@ -6,6 +6,7 @@ import { auth } from 'firebaseConfig'
 import SignIn from 'components/SignIn'
 import { SyncLoader } from 'react-spinners'
 import styled from 'styled-components'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -26,11 +27,11 @@ function App() {
   if (!user) return <SignIn />
 
   return (
-    <>
+    <Router>
       <Header />
       <Main currentUser={user} />
       <Footer />
-    </>
+    </Router>
   )
 }
 

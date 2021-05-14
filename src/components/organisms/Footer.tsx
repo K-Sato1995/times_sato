@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from 'components/atoms'
 
@@ -22,7 +22,7 @@ const FooterContent = styled.div`
   font-size: 1.1rem;
 `
 
-const TimesLink = styled.a`
+const TimesLink = styled(Link)`
   position: absolute;
   height: 100%;
   text-decoration: none;
@@ -34,7 +34,7 @@ const TimesLink = styled.a`
   border-right: solid 1px ${(props) => props.theme.borderColor};
 `
 
-const TodosLink = styled.a`
+const TodosLink = styled(Link)`
   position: absolute;
   text-decoration: none;
   color: ${(props) => props.theme.secondaryColor};
@@ -49,8 +49,8 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterContent>
-        <TimesLink href="example.com">times</TimesLink>
-        <TodosLink>todos</TodosLink>
+        <TimesLink to={'/'}>times</TimesLink>
+        <TodosLink to={'/todos'}>todos</TodosLink>
       </FooterContent>
     </FooterContainer>
   )
