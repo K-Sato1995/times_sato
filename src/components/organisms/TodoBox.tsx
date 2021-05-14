@@ -16,6 +16,7 @@ const TodoContainer = styled.div`
   :hover {
     background-color: #f8f8f8;
   }
+
   @media screen and (max-width: 29.9999em) {
     margin: 1.5625rem 0;
   }

@@ -10,6 +10,10 @@ import { CommentSortOptions } from 'components/molecules'
 
 const CommentsContainer = styled.div`
   padding: 0.1rem 2.35rem 3.125rem 2.35rem;
+
+  @media screen and (max-width: 29.9999em) {
+    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
+  }
 `
 
 const LoaderWrapper = styled.div`
