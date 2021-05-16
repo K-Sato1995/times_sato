@@ -5,7 +5,7 @@ import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { SyncLoader } from 'react-spinners'
 import { Heading } from 'components/atoms'
-import { isKSato } from 'utils'
+// import { isKSato } from 'utils'
 
 const MainWrapper = styled.div`
   padding: 0 2.35rem 4.125rem 2.35rem;
@@ -56,9 +56,7 @@ const Todos = ({ currentUser }: Props) => {
   const todosRef = firestore.collection('todos')
   const statusesRef = firestore.collection('statuses')
 
-  const todoQuery = todosRef
-    // .where('completed', '==', false)
-    .orderBy('createdAt', 'desc')
+  const todoQuery = todosRef.orderBy('createdAt', 'asc')
 
   const [todos, todoLoading, todoError] = useCollectionData(todoQuery, {
     idField: 'id',
@@ -86,8 +84,6 @@ const Todos = ({ currentUser }: Props) => {
 
   return (
     <>
-      {isKSato(currentUser.uid) && <NewTodoForm currentUser={currentUser} />}
-
       {todoLoading || statusLoading ? (
         <LoaderWrapper>
           <SyncLoader color={'#e0e0e0'} />
@@ -108,9 +104,16 @@ const Todos = ({ currentUser }: Props) => {
                         <TodoBox
                           key={todo.id}
                           todo={todo}
+                          statusColor={tagColor}
                           currentUser={currentUser}
                         />
                       ))}
+
+                      <NewTodoForm
+                        currentUser={currentUser}
+                        status={key}
+                        statusColor={tagColor}
+                      />
                     </TodosConatiner>
                   </StatusContiner>
                 )

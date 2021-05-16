@@ -6,6 +6,7 @@ const StyledInput = styled.input`
   border: solid ${(props) => props.theme.borderColor} 1px;
   outline: none;
   resize: none;
+
   :focus {
     outline: auto ${(props) => props.theme.primaryColor} 1px;
   }
