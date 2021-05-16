@@ -105,6 +105,7 @@ const Todos = ({ currentUser }: Props) => {
                           key={todo.id}
                           todo={todo}
                           statusColor={tagColor}
+                          statuses={statuses}
                           currentUser={currentUser}
                         />
                       ))}
