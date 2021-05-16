@@ -36,6 +36,7 @@ const Times = ({ currentUser }: Props) => {
   const [dislpayDeletedComments, setDislpayDeletedComments] = useState<boolean>(
     false,
   )
+  const [dislpayNewItemForm, setDislpayNewItemForm] = useState<boolean>(false)
 
   const commentsRef = firestore.collection('comments')
 
@@ -60,17 +61,22 @@ const Times = ({ currentUser }: Props) => {
 
   return (
     <>
-      {isKSato(currentUser.uid) && <NewCommentForm currentUser={currentUser} />}
+      <CommentSortOptions
+        dislpayDeletedComments={dislpayDeletedComments}
+        setDislpayDeletedComments={setDislpayDeletedComments}
+        dislpayNewItemForm={dislpayNewItemForm}
+        setDislpayNewItemForm={setDislpayNewItemForm}
+      />
+      {isKSato(currentUser.uid) && dislpayNewItemForm && (
+        <NewCommentForm currentUser={currentUser} />
+      )}
+
       {loading ? (
         <LoaderWrapper>
           <SyncLoader color={'#e0e0e0'} />
         </LoaderWrapper>
       ) : (
         <CommentsContainer>
-          <CommentSortOptions
-            dislpayDeletedComments={dislpayDeletedComments}
-            setDislpayDeletedComments={setDislpayDeletedComments}
-          />
           {comments?.length ? (
             <>
               {pinnedComments &&

@@ -10,8 +10,7 @@ interface Props {
 
 const Content = styled.div`
   font-size: 1rem;
-  width: auto;
-  max-width: 100%;
+  width: 100%;
   word-wrap: break-word;
 
   > .comment-content {
@@ -39,14 +38,24 @@ const Content = styled.div`
     }
   }
 
-  > .react_tinylink_card {
+  .react_tinylink_card {
     box-shadow: none;
     width: 100%;
     max-width: 100%;
-    border-radius: 5px;
+    border-radius: 2.5px;
+    max-height: 4.25rem;
     margin-top: 0.625rem;
+
     .react_tinylink_card_media {
       background-color: #fff;
+    }
+
+    .react_tinylink_card_content_description {
+      display: none;
+    }
+
+    .react_tinylink_footer {
+      display: none;
     }
   }
 `
@@ -59,16 +68,20 @@ const CommentContent = ({ text }: Props) => {
       <Markdown mdText={text} />
 
       {extractedUrls?.map((link: string, idx: number) => (
-        <ReactTinyLink
-          key={idx}
-          cardSize="small"
-          showGraphic={true}
-          maxLine={2}
-          minLine={1}
-          proxyUrl=""
-          defaultMedia="me.png"
-          url={`https://api.allorigins.win/raw?url=${encodeURIComponent(link)}`}
-        />
+        <div key={idx}>
+          <ReactTinyLink
+            key={idx}
+            cardSize="small"
+            showGraphic={true}
+            maxLine={2}
+            minLine={1}
+            proxyUrl=""
+            defaultMedia="me.png"
+            url={`https://api.allorigins.win/raw?url=${encodeURIComponent(
+              link,
+            )}`}
+          />
+        </div>
       ))}
     </Content>
   )
