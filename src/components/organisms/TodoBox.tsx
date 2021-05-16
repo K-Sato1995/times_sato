@@ -8,9 +8,8 @@ const TodoContainer = styled.div`
   position: relative;
   display: flex;
   padding: 1rem 0.315rem;
-  margin: 1rem 0;
-  border: solid ${(props) => props.theme.borderColor} 1px;
-  border-radius: 5px;
+  /* margin: 1rem 0; */
+  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   cursor: pointer;
 
   :hover {
