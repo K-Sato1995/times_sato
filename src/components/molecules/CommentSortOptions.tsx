@@ -7,7 +7,7 @@ const SortOptions = styled.div`
   text-align: right;
 
   @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
+    padding: 0rem 0.625rem 0rem 0.625rem;
   }
 `
 
