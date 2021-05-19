@@ -227,7 +227,7 @@ const Comment = ({ comment, currentUser }: Props) => {
           <>
             <OptionsIcon
               onClick={() => {
-                setDisplayOptions(true)
+                setDisplayOptions(!displayOptions)
               }}
             />
 
