@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import styled, { css } from 'styled-components'
+import React from 'react'
+import styled from 'styled-components'
 import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -48,56 +48,23 @@ const StatusTag = styled.span`
     props.color ? props.color : (props) => props.theme.primaryColor};
 `
 
-const NewStatusButton = styled.span`
-  margin: 2rem 0;
-  font-size: 0.8rem;
-  width: 100%;
-  color: ${(props) => props.theme.secondaryColor};
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-
-  ${(props: { isDisplayed: boolean }) =>
-    props.isDisplayed &&
-    css`
-      display: none;
-    `}
-
-  &:hover {
-    color: ${(props) => props.theme.primaryColor};
-  }
-
-  &:before,
-  &:after {
-    content: '';
-    display: inline-block;
-    border-bottom: solid 1px ${(props) => props.theme.borderColor};
-    flex: 1 1 auto;
-    margin: 0 1rem;
-  }
-`
-
 interface Props {
   currentUser: firebase.User
 }
 
 const Todos = ({ currentUser }: Props) => {
-  const [displayNewStatusForm, setDisplayNewStatusForm] = useState<boolean>(
-    false,
-  )
   const todosRef = firestore.collection('todos')
   const statusesRef = firestore.collection('statuses')
 
   const todoQuery = todosRef.orderBy('createdAt', 'asc')
+  const statusesQuery = statusesRef.orderBy('order', 'desc')
 
   const [todos, todoLoading, todoError] = useCollectionData(todoQuery, {
     idField: 'id',
   })
 
   const [statuses, statusLoading, statusError] = useCollectionData(
-    statusesRef,
+    statusesQuery,
     {
       idField: 'id',
     },
@@ -112,8 +79,11 @@ const Todos = ({ currentUser }: Props) => {
 
   statuses?.forEach((status) => {
     let tmp = todos?.filter((todo) => todo.status === status.name)
-    todosByStatus[status.name] = { color: status.color }
-    todosByStatus[status.name] = { ...todosByStatus[status.name], todos: tmp }
+    todosByStatus[status.name] = {
+      color: status.color,
+      order: status.order,
+      todos: tmp,
+    }
   })
 
   return (
@@ -129,6 +99,7 @@ const Todos = ({ currentUser }: Props) => {
               {Object.keys(todosByStatus).map((key: string, idx: number) => {
                 const todos = todosByStatus[key].todos
                 const tagColor = todosByStatus[key].color
+                const currOrder = todosByStatus[key].order
 
                 return (
                   <StatusContiner key={idx} className="statusContainer">
@@ -150,23 +121,15 @@ const Todos = ({ currentUser }: Props) => {
                         statusColor={tagColor}
                       />
                     </TodosConatiner>
+
+                    <NewStatusForm
+                      currentUser={currentUser}
+                      statuses={statuses}
+                      currOrder={currOrder}
+                    />
                   </StatusContiner>
                 )
               })}
-              <NewStatusButton
-                onClick={() => {
-                  setDisplayNewStatusForm(true)
-                }}
-                isDisplayed={displayNewStatusForm}
-              >
-                New Status
-              </NewStatusButton>
-
-              <NewStatusForm
-                currentUser={currentUser}
-                displayNewStatusForm={displayNewStatusForm}
-                setDisplayNewStatusForm={setDisplayNewStatusForm}
-              />
             </>
           ) : (
             <NoPostWrapper>
