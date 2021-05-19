@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import {
@@ -8,6 +8,8 @@ import {
   FaRegStar,
   FaStar,
   FaRegArrowAltCircleUp,
+  FaEllipsisH,
+  FaTimes,
 } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon } from 'components/atoms'
@@ -48,22 +50,82 @@ const OptionsContainer = styled.div`
   display: ${(props: StyledCompsProps) => props.isVisible};
 `
 
-const DeleteIcon = Icon.withComponent(FaRegTrashAlt)
-const EditIcon = Icon.withComponent(FaRegEdit)
-const FavIcon = Icon.withComponent(FaRegStar)
 const RestoreIcon = Icon.withComponent(FaRegArrowAltCircleUp)
+const FavIcon = styled(FaRegStar)`
+  vertical-align: text-top;
+`
+const DeleteIcon = styled(FaRegTrashAlt)`
+  vertical-align: text-top;
+`
+const EditIcon = styled(FaRegEdit)`
+  vertical-align: text-top;
+`
 
-const FavedIcon = styled(FaStar)`
+const OptionsIcon = styled(FaEllipsisH)`
+  color: ${(props) => props.theme.secondaryColor};
   font-size: 1rem;
-  color: #ffd700;
   cursor: pointer;
   margin-top: -10px;
   padding: 10px;
-  border-radius: 20%;
+  border-radius: 50%;
   transition: 0.2s;
 
   :hover {
     opacity: 0.7;
+    background-color: #a4eef0;
+  }
+`
+
+const FavedIcon = styled(FaStar)`
+  font-size: 1rem;
+  margin-left: 0.4rem;
+  color: #ffd700;
+  border-radius: 20%;
+  transition: 0.2s;
+  vertical-align: text-top;
+`
+const OptionsList = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  left: 0.3rem;
+  margin: 10px 0;
+  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 25%);
+  background: #fff;
+  border-radius: 2.5px;
+  z-index: 1000;
+  min-width: 150px;
+  overflow-y: auto;
+
+  ${(props: { isDisplayed?: boolean }) =>
+    !props.isDisplayed &&
+    css`
+      display: none;
+    `}
+`
+
+const ListTop = styled.div`
+  background-color: #fafbfc;
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  height: 1.5rem;
+`
+
+const CloseIcon = styled(FaTimes)`
+  position: absolute;
+  right: 5%;
+  top: 4%;
+  font-size: 1rem;
+  cursor: pointer;
+  color: ${(props) => props.theme.secondaryColor};
+`
+
+const OptionItem = styled.div`
+  padding: 0.25rem;
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  color: ${(props) => props.theme.secondaryColor};
+  cursor: pointer;
+
+  :hover {
+    background-color: #f8f8f8;
   }
 `
 
@@ -74,6 +136,7 @@ interface Props {
 
 const Comment = ({ comment, currentUser }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
+  const [displayOptions, setDisplayOptions] = useState<boolean>(false)
   const { id, text, pinned, createdAt, deleted } = comment
   const { uid } = currentUser
 
@@ -148,6 +211,8 @@ const Comment = ({ comment, currentUser }: Props) => {
           {createdAt
             ? `Posted on ${format(new Date(createdAt.toDate()), 'yyyy-MM-dd')}`
             : 'Loading'}
+
+          {pinned && <FavedIcon />}
         </PostedDate>
       )}
 
@@ -160,27 +225,39 @@ const Comment = ({ comment, currentUser }: Props) => {
           />
         ) : (
           <>
-            <DeleteIcon
-              textColor="#ec2121"
-              backgroundColor="#f0a4a4"
-              onClick={logicalDelteComment}
+            <OptionsIcon
+              onClick={() => {
+                setDisplayOptions(true)
+              }}
             />
 
-            <EditIcon
-              onClick={editComment}
-              textColor="#2c7b7d"
-              backgroundColor="#a4eef0"
-            />
+            <OptionsList isDisplayed={displayOptions}>
+              <ListTop>
+                <CloseIcon
+                  onClick={() => {
+                    setDisplayOptions(false)
+                  }}
+                />
+              </ListTop>
 
-            {pinned ? (
-              <FavedIcon onClick={unpinComment} />
-            ) : (
-              <FavIcon
-                onClick={pinComment}
-                textColor="#bb9f03"
-                backgroundColor="#fbff81"
-              />
-            )}
+              <OptionItem onClick={logicalDelteComment}>
+                <DeleteIcon /> Delete
+              </OptionItem>
+
+              <OptionItem onClick={editComment}>
+                <EditIcon /> Edit
+              </OptionItem>
+
+              {pinned ? (
+                <OptionItem onClick={unpinComment}>
+                  <FavIcon /> UnStar
+                </OptionItem>
+              ) : (
+                <OptionItem onClick={pinComment}>
+                  <FavIcon /> Star
+                </OptionItem>
+              )}
+            </OptionsList>
           </>
         )}
       </OptionsContainer>

@@ -11,7 +11,7 @@ const Icon = styled.span`
   cursor: pointer;
   margin-top: -10px;
   padding: 10px;
-  border-radius: 20%;
+  border-radius: 50%;
   transition: 0.2s;
 
   :hover {
