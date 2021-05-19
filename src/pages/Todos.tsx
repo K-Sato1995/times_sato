@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { NewTodoForm, TodoBox } from 'components/organisms'
+import React, { useState } from 'react'
+import styled, { css } from 'styled-components'
+import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { SyncLoader } from 'react-spinners'
@@ -8,7 +8,7 @@ import { Heading } from 'components/atoms'
 // import { isKSato } from 'utils'
 
 const MainWrapper = styled.div`
-  padding: 0 2.35rem 4.125rem 2.35rem;
+  padding: 0 2.35rem 3.125rem 2.35rem;
 
   .statusContainer:not(: first-child) {
     margin-top: 1rem;
@@ -48,11 +48,45 @@ const StatusTag = styled.span`
     props.color ? props.color : (props) => props.theme.primaryColor};
 `
 
+const NewStatusButton = styled.span`
+  margin: 2rem 0;
+  font-size: 0.8rem;
+  width: 100%;
+  color: ${(props) => props.theme.secondaryColor};
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+
+  ${(props: { isDisplayed: boolean }) =>
+    props.isDisplayed &&
+    css`
+      display: none;
+    `}
+
+  &:hover {
+    color: ${(props) => props.theme.primaryColor};
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    display: inline-block;
+    border-bottom: solid 1px ${(props) => props.theme.borderColor};
+    flex: 1 1 auto;
+    margin: 0 1rem;
+  }
+`
+
 interface Props {
   currentUser: firebase.User
 }
 
 const Todos = ({ currentUser }: Props) => {
+  const [displayNewStatusForm, setDisplayNewStatusForm] = useState<boolean>(
+    false,
+  )
   const todosRef = firestore.collection('todos')
   const statusesRef = firestore.collection('statuses')
 
@@ -119,6 +153,20 @@ const Todos = ({ currentUser }: Props) => {
                   </StatusContiner>
                 )
               })}
+              <NewStatusButton
+                onClick={() => {
+                  setDisplayNewStatusForm(true)
+                }}
+                isDisplayed={displayNewStatusForm}
+              >
+                New Status
+              </NewStatusButton>
+
+              <NewStatusForm
+                currentUser={currentUser}
+                displayNewStatusForm={displayNewStatusForm}
+                setDisplayNewStatusForm={setDisplayNewStatusForm}
+              />
             </>
           ) : (
             <NoPostWrapper>
