@@ -121,7 +121,9 @@ const Form = ({ currentUser, status, statusColor }: Props) => {
           </FormCenter>
 
           <FormRight>
-            <CreateButton buttonType={'primary'}>Save</CreateButton>
+            <CreateButton disabled={!formValue} buttonType={'primary'}>
+              Save
+            </CreateButton>
             <XIcon
               onClick={() => {
                 setDisplayForm(false)

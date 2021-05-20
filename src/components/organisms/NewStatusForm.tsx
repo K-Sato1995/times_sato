@@ -188,7 +188,12 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
         </FormMiddle>
 
         <FormBottom>
-          <CreateButton buttonType={'primary'}>Submit</CreateButton>
+          <CreateButton
+            disabled={!formValue.name || !formValue.color}
+            buttonType={'primary'}
+          >
+            Submit
+          </CreateButton>
         </FormBottom>
       </NewStatusForm>
     </>

@@ -75,7 +75,9 @@ const Form = ({ formValue, onSubmit, setFormValue }: Props) => {
         <InfoMessage>
           <InfoIcon /> Markdown Available
         </InfoMessage>
-        <SubmitButton buttonType="primary">Submit</SubmitButton>
+        <SubmitButton disabled={!formValue} buttonType="primary">
+          Submit
+        </SubmitButton>
       </FormBottom>
     </TextAreaForm>
   )
