@@ -27,6 +27,11 @@ const Form = ({ currentUser }: Props) => {
 
   const createComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!formValue) {
+      alert("Comment can't be blank")
+      return
+    }
+
     await commentsRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),

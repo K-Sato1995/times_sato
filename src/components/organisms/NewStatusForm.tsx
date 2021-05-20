@@ -117,6 +117,15 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
   const createStatus = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (!formValue.name) {
+      alert("StatusName can't be blank")
+      return
+    }
+    if (!formValue.color) {
+      alert("StatusColor can't be blank")
+      return
+    }
+
     const previousStatuses = statuses?.filter(
       (status) => currOrder <= status.order,
     )

@@ -89,6 +89,10 @@ const Form = ({ currentUser, status, statusColor }: Props) => {
 
   const createTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!formValue) {
+      alert("Text can't be blank")
+      return
+    }
     await todosRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
