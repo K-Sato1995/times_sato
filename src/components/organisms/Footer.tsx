@@ -30,7 +30,10 @@ const FooterItem = styled(Link)`
   text-align: center;
   width: 33%;
   color: ${(props) => props.theme.secondaryColor};
-  border-right: solid 1px ${(props) => props.theme.borderColor};
+
+  :not(:last-child) {
+    border-right: solid 1px ${(props) => props.theme.borderColor};
+  }
 `
 
 const Footer = () => {
