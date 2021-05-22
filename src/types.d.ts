@@ -14,3 +14,11 @@ type TodosByStatus = {
     todos?: firebase.firestore.DocumentData
   }
 }
+
+type LogItemsByCategory = {
+  [id: string]: {
+    color?: string
+    categoryID: string
+    items?: firebase.firestore.DocumentData
+  }
+}

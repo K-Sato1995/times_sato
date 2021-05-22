@@ -10,10 +10,6 @@ import { Heading } from 'components/atoms'
 const MainWrapper = styled.div`
   padding: 0 2.35rem 3.125rem 2.35rem;
 
-  .statusContainer:not(: first-child) {
-    margin-top: 1rem;
-  }
-
   @media screen and (max-width: 29.9999em) {
     padding: 0.1rem 0.625rem 3.125rem 0.625rem;
   }
@@ -24,7 +20,11 @@ const TodosConatiner = styled.div`
   border-bottom: 0;
 `
 
-const StatusContiner = styled.div``
+const StatusContiner = styled.div`
+  :not(: first-child) {
+    margin-top: 1rem;
+  }
+`
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -102,7 +102,7 @@ const Todos = ({ currentUser }: Props) => {
                 const currOrder = todosByStatus[key].order
 
                 return (
-                  <StatusContiner key={idx} className="statusContainer">
+                  <StatusContiner key={idx}>
                     <StatusTag color={tagColor}>{key}</StatusTag>
                     <TodosConatiner key={idx}>
                       {todos?.map((todo: any) => (
