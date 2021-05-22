@@ -86,59 +86,59 @@ const Todos = ({ currentUser }: Props) => {
     }
   })
 
+  if (todoLoading || statusLoading) {
+    return (
+      <LoaderWrapper>
+        <SyncLoader color={'#e0e0e0'} />
+      </LoaderWrapper>
+    )
+  }
+
   return (
-    <>
-      {todoLoading || statusLoading ? (
-        <LoaderWrapper>
-          <SyncLoader color={'#e0e0e0'} />
-        </LoaderWrapper>
-      ) : (
-        <MainWrapper>
-          {todosByStatus ? (
-            <>
-              {Object.keys(todosByStatus).map((key: string, idx: number) => {
-                const todos = todosByStatus[key].todos
-                const tagColor = todosByStatus[key].color
-                const currOrder = todosByStatus[key].order
+    <MainWrapper>
+      {todos?.length ? (
+        <>
+          {Object.keys(todosByStatus).map((key: string, idx: number) => {
+            const todos = todosByStatus[key].todos
+            const tagColor = todosByStatus[key].color
+            const currOrder = todosByStatus[key].order
 
-                return (
-                  <StatusContiner key={idx}>
-                    <StatusTag color={tagColor}>{key}</StatusTag>
-                    <TodosConatiner key={idx}>
-                      {todos?.map((todo: any) => (
-                        <TodoBox
-                          key={todo.id}
-                          todo={todo}
-                          statusColor={tagColor}
-                          statuses={statuses}
-                          currentUser={currentUser}
-                        />
-                      ))}
-
-                      <NewTodoForm
-                        currentUser={currentUser}
-                        status={key}
-                        statusColor={tagColor}
-                      />
-                    </TodosConatiner>
-
-                    <NewStatusForm
-                      currentUser={currentUser}
+            return (
+              <StatusContiner key={idx}>
+                <StatusTag color={tagColor}>{key}</StatusTag>
+                <TodosConatiner key={idx}>
+                  {todos?.map((todo: any) => (
+                    <TodoBox
+                      key={todo.id}
+                      todo={todo}
+                      statusColor={tagColor}
                       statuses={statuses}
-                      currOrder={currOrder}
+                      currentUser={currentUser}
                     />
-                  </StatusContiner>
-                )
-              })}
-            </>
-          ) : (
-            <NoPostWrapper>
-              <Heading size="h2">Nothing was posted yet....</Heading>
-            </NoPostWrapper>
-          )}
-        </MainWrapper>
+                  ))}
+
+                  <NewTodoForm
+                    currentUser={currentUser}
+                    status={key}
+                    statusColor={tagColor}
+                  />
+                </TodosConatiner>
+
+                <NewStatusForm
+                  currentUser={currentUser}
+                  statuses={statuses}
+                  currOrder={currOrder}
+                />
+              </StatusContiner>
+            )
+          })}
+        </>
+      ) : (
+        <NoPostWrapper>
+          <Heading size="h2">Nothing was posted yet....</Heading>
+        </NoPostWrapper>
       )}
-    </>
+    </MainWrapper>
   )
 }
 

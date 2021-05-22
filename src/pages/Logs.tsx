@@ -89,52 +89,51 @@ const Logs = ({ currentUser }: Props) => {
       items,
     }
   })
-  return (
-    <>
-      {categoriesLoading || logItemsLoading ? (
-        <LoaderWrapper>
-          <SyncLoader color={'#e0e0e0'} />
-        </LoaderWrapper>
-      ) : (
-        <MainWrapper>
-          {logItemsByCateogory ? (
-            <>
-              {Object.keys(logItemsByCateogory).map(
-                (key: string, idx: number) => {
-                  const items = logItemsByCateogory[key].items
-                  const tagColor = logItemsByCateogory[key].color
-                  const categoryID = logItemsByCateogory[key].categoryID
-                  return (
-                    <CategoryContainer key={idx}>
-                      <CategoryTag color={tagColor}>{key}</CategoryTag>
-                      <ItemsConatiner>
-                        {items?.map((item: any) => (
-                          <LogItem
-                            key={item.id}
-                            item={item}
-                            categoryColor={tagColor}
-                          />
-                        ))}
 
-                        <NewLogItemForm
-                          currentUser={currentUser}
-                          categoryID={categoryID}
-                          categoryColor={tagColor}
-                        />
-                      </ItemsConatiner>
-                    </CategoryContainer>
-                  )
-                },
-              )}
-            </>
-          ) : (
-            <NoPostWrapper>
-              <Heading size="h2">Nothing was posted yet....</Heading>
-            </NoPostWrapper>
-          )}
-        </MainWrapper>
+  if (categoriesLoading || logItemsLoading) {
+    return (
+      <LoaderWrapper>
+        <SyncLoader color={'#e0e0e0'} />
+      </LoaderWrapper>
+    )
+  }
+
+  return (
+    <MainWrapper>
+      {logItems?.length ? (
+        <>
+          {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
+            const items = logItemsByCateogory[key].items
+            const tagColor = logItemsByCateogory[key].color
+            const categoryID = logItemsByCateogory[key].categoryID
+            return (
+              <CategoryContainer key={idx}>
+                <CategoryTag color={tagColor}>{key}</CategoryTag>
+                <ItemsConatiner>
+                  {items?.map((item: any) => (
+                    <LogItem
+                      key={item.id}
+                      item={item}
+                      categoryColor={tagColor}
+                    />
+                  ))}
+
+                  <NewLogItemForm
+                    currentUser={currentUser}
+                    categoryID={categoryID}
+                    categoryColor={tagColor}
+                  />
+                </ItemsConatiner>
+              </CategoryContainer>
+            )
+          })}
+        </>
+      ) : (
+        <NoPostWrapper>
+          <Heading size="h2">Nothing was posted yet....</Heading>
+        </NoPostWrapper>
       )}
-    </>
+    </MainWrapper>
   )
 }
 

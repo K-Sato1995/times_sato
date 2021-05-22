@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firebase } from 'firebaseConfig'
-import { useHistory } from 'react-router-dom'
+import { firebase, firestore } from 'firebaseConfig'
+import { format } from 'date-fns'
 
 const ItemContainer = styled.div`
   position: relative;
@@ -15,13 +15,8 @@ const ItemContainer = styled.div`
   }
 `
 
-const ItemLeft = styled.div`
-  position: relative;
-  width: 5%;
-`
+const ItemLeft = styled.div``
 const ItemRight = styled.div`
-  width: 95%;
-  font-size: 1rem;
   word-wrap: break-word;
 `
 
@@ -41,37 +36,32 @@ const CategoryIcon = styled.span`
   }
 `
 
-const TotalHours = styled.span`
+const Hours = styled.span`
   position: absolute;
   right: 5%;
   color: ${(props) => props.theme.secondaryColor};
 `
 
 interface Props {
-  item: firebase.firestore.DocumentData
-  categoryColor?: string
+  log: firebase.firestore.DocumentData
 }
 
-const LogItem = ({ item, categoryColor }: Props) => {
-  const { name, totalHours, id } = item
-  const history = useHistory()
-
+const LogBox = ({ log }: Props) => {
+  const { description, hours, date } = log
+  console.log(date)
   return (
-    <ItemContainer
-      onClick={() => {
-        history.push(`/logs/${id}`)
-      }}
-    >
-      <ItemLeft>
+    <ItemContainer>
+      {/* <ItemLeft>
         <CategoryIcon color={categoryColor} />
-      </ItemLeft>
+      </ItemLeft> */}
 
       <ItemRight>
-        {name}
-        <TotalHours>{totalHours} Hours</TotalHours>
+        {description}
+        <Hours>{hours} Hours</Hours>
+        {format(new Date(date.toDate()), 'yyyy/MM/dd')}
       </ItemRight>
     </ItemContainer>
   )
 }
 
-export default LogItem
+export default LogBox

@@ -8,6 +8,7 @@ import NewTodoForm from 'components/organisms/NewTodoForm'
 import NewStatusForm from 'components/organisms/NewStatusForm'
 import LogItem from 'components/organisms/LogItem'
 import NewLogItemForm from 'components/organisms/NewLogItemForm'
+import LogBox from 'components/organisms/LogBox'
 
 export {
   CommentBox,
@@ -18,6 +19,7 @@ export {
   NewCommentForm,
   NewTodoForm,
   NewStatusForm,
+  LogBox,
   Footer,
   Header,
 }
