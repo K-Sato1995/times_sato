@@ -70,10 +70,13 @@ const NewLogBox = styled.div`
 
 interface Props {
   itemID: string
+  logItem?: firebase.firestore.DocumentData
 }
 
-const Form = ({ itemID }: Props) => {
+const Form = ({ itemID, logItem }: Props) => {
   const logsRef = firestore.collection('logs')
+  const logItemRef = firestore.collection('logItems').doc(itemID)
+
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { description: '', date: null, hours: null }
   const [formValue, setFormValue] = useState<{
@@ -88,6 +91,11 @@ const Form = ({ itemID }: Props) => {
       alert("Anything can't be blank")
       return
     }
+
+    await logItemRef.update({
+      totalHours: logItem?.totalHours + formValue.hours,
+    })
+
     await logsRef.add({
       description: formValue.description,
       date: formValue.date,

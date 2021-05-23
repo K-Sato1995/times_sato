@@ -1,14 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firebase, firestore } from 'firebaseConfig'
+import { firestore } from 'firebaseConfig'
 import { SyncLoader } from 'react-spinners'
 import { useParams } from 'react-router-dom'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import {
+  useCollectionData,
+  useDocumentData,
+} from 'react-firebase-hooks/firestore'
+import { Heading } from 'components/atoms'
 import { LogBox } from 'components/organisms'
 import { NewLogForm } from 'components/organisms'
 
 const MainWrapper = styled.div`
-  padding: 0 2.35rem 3.125rem 2.35rem;
+  padding: 0 2.35rem 4.125rem 2.35rem;
 
   @media screen and (max-width: 29.9999em) {
     padding: 0.1rem 0.625rem 3.125rem 0.625rem;
@@ -29,15 +33,26 @@ const LoaderWrapper = styled.div`
 const LogDetail = () => {
   const { itemID } = useParams<{ itemID: string }>()
   const logsRef = firestore.collection('logs')
-  const query = logsRef.where('logItemID', '==', itemID)
+  const logItemRef = firestore.doc(`logItems/${itemID}`)
 
-  const [logs, loading, error] = useCollectionData(query, { idField: 'id' })
+  const logQuery = logsRef
+    .where('logItemID', '==', itemID)
+    .orderBy('date', 'desc')
 
-  if (error) {
-    console.log(error.message)
+  const [logs, logLoading, logError] = useCollectionData(logQuery, {
+    idField: 'id',
+  })
+
+  const [logItem, logItemLoading, logItemError] = useDocumentData(logItemRef, {
+    idField: 'id',
+  })
+
+  if (logError || logItemError) {
+    logError && console.log(logError.message)
+    logItemError && console.log(logItemError.message)
   }
 
-  if (loading) {
+  if (logLoading || logItemLoading) {
     return (
       <LoaderWrapper>
         <SyncLoader color={'#e0e0e0'} />
@@ -47,12 +62,14 @@ const LogDetail = () => {
 
   return (
     <MainWrapper>
+      <Heading size={'h1'}>{logItem?.name}</Heading>
+
       <LogsConatiner>
         {logs?.map((log) => (
           <LogBox key={log.id} log={log} />
         ))}
 
-        <NewLogForm itemID={itemID} />
+        <NewLogForm itemID={itemID} logItem={logItem} />
       </LogsConatiner>
     </MainWrapper>
   )
