@@ -5,6 +5,7 @@ import { SyncLoader } from 'react-spinners'
 import { useParams } from 'react-router-dom'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { LogBox } from 'components/organisms'
+import { NewLogForm } from 'components/organisms'
 
 const MainWrapper = styled.div`
   padding: 0 2.35rem 3.125rem 2.35rem;
@@ -50,6 +51,8 @@ const LogDetail = () => {
         {logs?.map((log) => (
           <LogBox key={log.id} log={log} />
         ))}
+
+        <NewLogForm itemID={itemID} />
       </LogsConatiner>
     </MainWrapper>
   )

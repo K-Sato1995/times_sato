@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firebase, firestore } from 'firebaseConfig'
+import { firebase } from 'firebaseConfig'
 import { format } from 'date-fns'
 
 const ItemContainer = styled.div`
