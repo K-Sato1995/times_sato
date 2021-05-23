@@ -5,8 +5,7 @@ import { format } from 'date-fns'
 
 const ItemContainer = styled.div`
   position: relative;
-  display: flex;
-  padding: 0.6rem 0;
+  padding: 0.6rem 1rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   cursor: pointer;
 
@@ -15,30 +14,20 @@ const ItemContainer = styled.div`
   }
 `
 
-const ItemLeft = styled.div``
-const ItemRight = styled.div`
-  word-wrap: break-word;
-`
-
-const CategoryIcon = styled.span`
-  position: absolute;
-  top: 50%;
-  left: 50%;
+const LogDescription = styled.div`
   display: inline-block;
-  border-radius: 2.5px;
-  cursor: pointer;
-  height: 10px;
-  width: 10px;
-  margin-top: -5px;
-  margin-left: -5px;
-  background-color: ${(props: { color?: string }) =>
-    props.color ? props.color : (props) => props.theme.primaryColor};
-  }
+  color: ${(props) => props.theme.secondaryColor};
+  word-wrap: break-word;
+  margin-left: 1rem;
 `
 
-const Hours = styled.span`
-  position: absolute;
-  right: 5%;
+const LogHours = styled.div`
+  color: ${(props) => props.theme.secondaryColor};
+  float: right;
+`
+
+const LogDate = styled.div`
+  float: left;
   color: ${(props) => props.theme.secondaryColor};
 `
 
@@ -48,18 +37,11 @@ interface Props {
 
 const LogBox = ({ log }: Props) => {
   const { description, hours, date } = log
-  console.log(date)
   return (
     <ItemContainer>
-      {/* <ItemLeft>
-        <CategoryIcon color={categoryColor} />
-      </ItemLeft> */}
-
-      <ItemRight>
-        {description}
-        <Hours>{hours} Hours</Hours>
-        {format(new Date(date.toDate()), 'yyyy/MM/dd')}
-      </ItemRight>
+      <LogDate>{format(new Date(date.toDate()), 'yyyy/MM/dd')}</LogDate>
+      <LogDescription>{description}</LogDescription>
+      <LogHours>{hours} Hours</LogHours>
     </ItemContainer>
   )
 }
