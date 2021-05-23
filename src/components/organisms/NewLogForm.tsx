@@ -6,16 +6,6 @@ import { FaTimes } from 'react-icons/fa'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-/* 
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
- !!!!!!!!!!!!!!! UPDATE TOAL HOURS !!!!!!!!!!!!!!!!!!!!!
-*/
-
 const LogItemForm = styled.form`
   padding: 0.6rem 0 0.6rem 1rem;
   display: flex;
