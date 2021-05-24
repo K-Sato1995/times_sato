@@ -1,7 +1,7 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { LogItem, NewLogItemForm } from 'components/organisms'
+import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
 import { Heading } from 'components/atoms'
 import { SyncLoader } from 'react-spinners'
 import styled from 'styled-components'
@@ -127,6 +127,8 @@ const Logs = ({ currentUser }: Props) => {
               </CategoryContainer>
             )
           })}
+
+          <NewCategoryForm currentUser={currentUser} />
         </>
       ) : (
         <NoPostWrapper>
