@@ -2,7 +2,6 @@ import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
-import { Heading } from 'components/atoms'
 import { SyncLoader } from 'react-spinners'
 import styled from 'styled-components'
 
@@ -43,13 +42,6 @@ const CategoryTag = styled.span`
   padding: 0.2rem 0.5rem;
   background-color: ${(props: { color?: string }) =>
     props.color ? props.color : (props) => props.theme.primaryColor};
-`
-
-const NoPostWrapper = styled.div`
-  padding: 2.5rem 0.315rem;
-  display: flex;
-  justify-content: center;
-  margin: 1.625rem;
 `
 
 const Logs = ({ currentUser }: Props) => {
@@ -100,41 +92,29 @@ const Logs = ({ currentUser }: Props) => {
 
   return (
     <MainWrapper>
-      {logItems?.length ? (
-        <>
-          {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
-            const items = logItemsByCateogory[key].items
-            const tagColor = logItemsByCateogory[key].color
-            const categoryID = logItemsByCateogory[key].categoryID
-            return (
-              <CategoryContainer key={idx}>
-                <CategoryTag color={tagColor}>{key}</CategoryTag>
-                <ItemsConatiner>
-                  {items?.map((item: any) => (
-                    <LogItem
-                      key={item.id}
-                      item={item}
-                      categoryColor={tagColor}
-                    />
-                  ))}
+      {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
+        const items = logItemsByCateogory[key].items
+        const tagColor = logItemsByCateogory[key].color
+        const categoryID = logItemsByCateogory[key].categoryID
+        return (
+          <CategoryContainer key={idx}>
+            <CategoryTag color={tagColor}>{key}</CategoryTag>
+            <ItemsConatiner>
+              {items?.map((item: any) => (
+                <LogItem key={item.id} item={item} categoryColor={tagColor} />
+              ))}
 
-                  <NewLogItemForm
-                    currentUser={currentUser}
-                    categoryID={categoryID}
-                    categoryColor={tagColor}
-                  />
-                </ItemsConatiner>
-              </CategoryContainer>
-            )
-          })}
+              <NewLogItemForm
+                currentUser={currentUser}
+                categoryID={categoryID}
+                categoryColor={tagColor}
+              />
+            </ItemsConatiner>
+          </CategoryContainer>
+        )
+      })}
 
-          <NewCategoryForm currentUser={currentUser} />
-        </>
-      ) : (
-        <NoPostWrapper>
-          <Heading size="h2">Nothing was posted yet....</Heading>
-        </NoPostWrapper>
-      )}
+      <NewCategoryForm currentUser={currentUser} />
     </MainWrapper>
   )
 }
