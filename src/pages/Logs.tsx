@@ -73,7 +73,9 @@ const Logs = ({ currentUser }: Props) => {
   let logItemsByCateogory: LogItemsByCategory = {}
 
   logCategories?.forEach((category) => {
-    let items = logItems?.filter((item) => item.categoryID === category.id)
+    let items = logItems
+      ?.filter((item) => item.categoryID === category.id)
+      .sort((a, b) => a.createdAt - b.createdAt)
 
     logItemsByCateogory[category.name] = {
       color: category.color,
