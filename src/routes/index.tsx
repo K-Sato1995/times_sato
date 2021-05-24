@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom'
 import { firebase } from 'firebaseConfig'
 import Times from 'pages/Times'
 import Todos from 'pages/Todos'
+import Logs from 'pages/Logs'
+import LogDetail from 'pages/LogDetail'
 
 interface Props {
   currentUser: firebase.User
@@ -17,6 +19,14 @@ const Routes = ({ currentUser }: Props) => {
 
       <Route path={'/todos'}>
         <Todos currentUser={currentUser} />
+      </Route>
+
+      <Route exact path={'/logs'}>
+        <Logs currentUser={currentUser} />
+      </Route>
+
+      <Route path={'/logs/:itemID(\\w+)'}>
+        <LogDetail />
       </Route>
     </Switch>
   )

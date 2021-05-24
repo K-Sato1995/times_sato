@@ -19,37 +19,30 @@ const FooterContent = styled.div`
   max-width: 860px;
   height: 3.125rem;
   font-size: 1.1rem;
+  text-align: center;
 `
 
-const TimesLink = styled(Link)`
-  position: absolute;
+const FooterItem = styled(Link)`
+  display: inline-block;
   height: 100%;
   text-decoration: none;
-  left: 0;
   padding-top: 1rem;
   text-align: center;
-  width: 50%;
+  width: 33%;
   color: ${(props) => props.theme.secondaryColor};
-  border-right: solid 1px ${(props) => props.theme.borderColor};
-`
 
-const TodosLink = styled(Link)`
-  position: absolute;
-  text-decoration: none;
-  color: ${(props) => props.theme.secondaryColor};
-  height: 100%;
-  text-align: center;
-  padding-top: 1rem;
-  right: 0;
-  width: 50%;
+  :not(:last-child) {
+    border-right: solid 1px ${(props) => props.theme.borderColor};
+  }
 `
 
 const Footer = () => {
   return (
     <FooterContainer>
       <FooterContent>
-        <TimesLink to={'/'}>times</TimesLink>
-        <TodosLink to={'/todos'}>todos</TodosLink>
+        <FooterItem to={'/'}>times</FooterItem>
+        <FooterItem to={'/todos'}>todos</FooterItem>
+        <FooterItem to={'/logs'}>logs</FooterItem>
       </FooterContent>
     </FooterContainer>
   )
