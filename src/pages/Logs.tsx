@@ -72,17 +72,19 @@ const Logs = ({ currentUser }: Props) => {
 
   let logItemsByCateogory: LogItemsByCategory = {}
 
-  logCategories?.forEach((category) => {
-    let items = logItems
-      ?.filter((item) => item.categoryID === category.id)
-      .sort((a, b) => a.createdAt - b.createdAt)
+  logCategories
+    ?.sort((a, b) => a.createdAt - b.createdAt)
+    .forEach((category) => {
+      let items = logItems
+        ?.filter((item) => item.categoryID === category.id)
+        .sort((a, b) => a.createdAt - b.createdAt)
 
-    logItemsByCateogory[category.name] = {
-      color: category.color,
-      categoryID: category.id,
-      items,
-    }
-  })
+      logItemsByCateogory[category.name] = {
+        color: category.color,
+        categoryID: category.id,
+        items,
+      }
+    })
 
   if (categoriesLoading || logItemsLoading) {
     return (
