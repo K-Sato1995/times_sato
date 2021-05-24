@@ -120,6 +120,7 @@ const Form = ({ itemID, logItem }: Props) => {
               placeholder={'Hours'}
               value={formValue.hours}
               type="number"
+              step="0.01"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setFormValue({ ...formValue, hours: Number(e.target.value) })
               }
