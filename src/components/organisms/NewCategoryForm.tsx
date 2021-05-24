@@ -68,7 +68,7 @@ const TodoInput = styled(Input)`
 `
 
 const NewCategoryButton = styled.span`
-  margin: 1rem 0;
+  margin: 2rem 0;
   font-size: 0.8rem;
   width: 100%;
   color: ${(props) => props.theme.secondaryColor};
@@ -77,7 +77,6 @@ const NewCategoryButton = styled.span`
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  opacity: 0;
   transition: opacity 0.25s;
 
   ${(props: { isDisplayed: boolean }) =>
