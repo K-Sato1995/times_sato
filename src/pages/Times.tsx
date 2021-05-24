@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { isKSato } from 'utils'
-import { SyncLoader } from 'react-spinners'
+import { CommentSortOptions, LoadingState, NoItem } from 'components/molecules'
 import { CommentBox, NewCommentForm } from 'components/organisms'
-import { Heading } from 'components/atoms'
-import { CommentSortOptions } from 'components/molecules'
 
 const CommentsContainer = styled.div`
   padding: 0.1rem 2.35rem 3.125rem 2.35rem;
@@ -14,18 +12,6 @@ const CommentsContainer = styled.div`
   @media screen and (max-width: 29.9999em) {
     padding: 0.1rem 0.625rem 3.125rem 0.625rem;
   }
-`
-
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-`
-const NoPostWrapper = styled.div`
-  padding: 2.5rem 0.315rem;
-  display: flex;
-  justify-content: center;
-  margin: 1.625rem;
 `
 
 interface Props {
@@ -59,8 +45,31 @@ const Times = ({ currentUser }: Props) => {
     console.log(error?.message)
   }
 
+  if (loading) {
+    return <LoadingState />
+  }
+
+  if (!comments?.length) {
+    return (
+      <CommentsContainer>
+        <CommentSortOptions
+          dislpayDeletedComments={dislpayDeletedComments}
+          setDislpayDeletedComments={setDislpayDeletedComments}
+          dislpayNewItemForm={dislpayNewItemForm}
+          setDislpayNewItemForm={setDislpayNewItemForm}
+        />
+
+        {isKSato(currentUser.uid) && dislpayNewItemForm && (
+          <NewCommentForm currentUser={currentUser} />
+        )}
+
+        <NoItem />
+      </CommentsContainer>
+    )
+  }
+
   return (
-    <>
+    <CommentsContainer>
       <CommentSortOptions
         dislpayDeletedComments={dislpayDeletedComments}
         setDislpayDeletedComments={setDislpayDeletedComments}
@@ -71,40 +80,24 @@ const Times = ({ currentUser }: Props) => {
         <NewCommentForm currentUser={currentUser} />
       )}
 
-      {loading ? (
-        <LoaderWrapper>
-          <SyncLoader color={'#e0e0e0'} />
-        </LoaderWrapper>
-      ) : (
-        <CommentsContainer>
-          {comments?.length ? (
-            <>
-              {pinnedComments &&
-                pinnedComments.map((comment) => (
-                  <CommentBox
-                    key={comment.id}
-                    comment={comment}
-                    currentUser={currentUser}
-                  />
-                ))}
+      {pinnedComments &&
+        pinnedComments.map((comment) => (
+          <CommentBox
+            key={comment.id}
+            comment={comment}
+            currentUser={currentUser}
+          />
+        ))}
 
-              {otherComments &&
-                otherComments.map((comment) => (
-                  <CommentBox
-                    key={comment.id}
-                    comment={comment}
-                    currentUser={currentUser}
-                  />
-                ))}
-            </>
-          ) : (
-            <NoPostWrapper>
-              <Heading size="h2">Nothing was posted yet....</Heading>
-            </NoPostWrapper>
-          )}
-        </CommentsContainer>
-      )}
-    </>
+      {otherComments &&
+        otherComments.map((comment) => (
+          <CommentBox
+            key={comment.id}
+            comment={comment}
+            currentUser={currentUser}
+          />
+        ))}
+    </CommentsContainer>
   )
 }
 

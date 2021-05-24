@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 
 const SortOptions = styled.div`
   color: ${(props) => props.theme.secondaryColor};
-  padding: 0 2.35rem;
+  /* padding: 0 2.35rem; */
   text-align: right;
 
   @media screen and (max-width: 29.9999em) {

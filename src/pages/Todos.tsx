@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { LoadingState } from 'components/molecules'
 import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { SyncLoader } from 'react-spinners'
-import { Heading } from 'components/atoms'
-// import { isKSato } from 'utils'
 
 const MainWrapper = styled.div`
   padding: 0 2.35rem 3.125rem 2.35rem;
@@ -26,18 +24,6 @@ const StatusContiner = styled.div`
   }
 `
 
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-`
-
-const NoPostWrapper = styled.div`
-  padding: 2.5rem 0.315rem;
-  display: flex;
-  justify-content: center;
-  margin: 1.625rem;
-`
 const StatusTag = styled.span`
   display: inline-block;
   color: #fff;
@@ -86,58 +72,44 @@ const Todos = ({ currentUser }: Props) => {
     }
   })
 
-  if (todoLoading || statusLoading) {
-    return (
-      <LoaderWrapper>
-        <SyncLoader color={'#e0e0e0'} />
-      </LoaderWrapper>
-    )
-  }
+  if (todoLoading || statusLoading) return <LoadingState />
 
   return (
     <MainWrapper>
-      {todos?.length ? (
-        <>
-          {Object.keys(todosByStatus).map((key: string, idx: number) => {
-            const todos = todosByStatus[key].todos
-            const tagColor = todosByStatus[key].color
-            const currOrder = todosByStatus[key].order
+      {Object.keys(todosByStatus).map((key: string, idx: number) => {
+        const todos = todosByStatus[key].todos
+        const tagColor = todosByStatus[key].color
+        const currOrder = todosByStatus[key].order
 
-            return (
-              <StatusContiner key={idx}>
-                <StatusTag color={tagColor}>{key}</StatusTag>
-                <TodosConatiner key={idx}>
-                  {todos?.map((todo: any) => (
-                    <TodoBox
-                      key={todo.id}
-                      todo={todo}
-                      statusColor={tagColor}
-                      statuses={statuses}
-                      currentUser={currentUser}
-                    />
-                  ))}
-
-                  <NewTodoForm
-                    currentUser={currentUser}
-                    status={key}
-                    statusColor={tagColor}
-                  />
-                </TodosConatiner>
-
-                <NewStatusForm
-                  currentUser={currentUser}
+        return (
+          <StatusContiner key={idx}>
+            <StatusTag color={tagColor}>{key}</StatusTag>
+            <TodosConatiner key={idx}>
+              {todos?.map((todo: any) => (
+                <TodoBox
+                  key={todo.id}
+                  todo={todo}
+                  statusColor={tagColor}
                   statuses={statuses}
-                  currOrder={currOrder}
+                  currentUser={currentUser}
                 />
-              </StatusContiner>
-            )
-          })}
-        </>
-      ) : (
-        <NoPostWrapper>
-          <Heading size="h2">Nothing was posted yet....</Heading>
-        </NoPostWrapper>
-      )}
+              ))}
+
+              <NewTodoForm
+                currentUser={currentUser}
+                status={key}
+                statusColor={tagColor}
+              />
+            </TodosConatiner>
+
+            <NewStatusForm
+              currentUser={currentUser}
+              statuses={statuses}
+              currOrder={currOrder}
+            />
+          </StatusContiner>
+        )
+      })}
     </MainWrapper>
   )
 }

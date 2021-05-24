@@ -1,8 +1,8 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { LoadingState } from 'components/molecules'
 import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
-import { SyncLoader } from 'react-spinners'
 import styled from 'styled-components'
 
 interface Props {
@@ -15,12 +15,6 @@ const MainWrapper = styled.div`
   @media screen and (max-width: 29.9999em) {
     padding: 0.1rem 0.625rem 3.125rem 0.625rem;
   }
-`
-
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 50%;
 `
 
 const CategoryContainer = styled.div`
@@ -86,13 +80,7 @@ const Logs = ({ currentUser }: Props) => {
       }
     })
 
-  if (categoriesLoading || logItemsLoading) {
-    return (
-      <LoaderWrapper>
-        <SyncLoader color={'#e0e0e0'} />
-      </LoaderWrapper>
-    )
-  }
+  if (categoriesLoading || logItemsLoading) return <LoadingState />
 
   return (
     <MainWrapper>

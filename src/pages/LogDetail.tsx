@@ -1,15 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { firestore } from 'firebaseConfig'
-import { SyncLoader } from 'react-spinners'
 import { useParams } from 'react-router-dom'
 import {
   useCollectionData,
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
 import { Heading } from 'components/atoms'
-import { LogBox } from 'components/organisms'
-import { NewLogForm } from 'components/organisms'
+import { LoadingState } from 'components/molecules'
+import { NewLogForm, LogBox } from 'components/organisms'
 
 const MainWrapper = styled.div`
   padding: 0 2.35rem 4.125rem 2.35rem;
@@ -22,12 +21,6 @@ const MainWrapper = styled.div`
 const LogsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
-`
-
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 50%;
 `
 
 const LogDetail = () => {
@@ -52,13 +45,7 @@ const LogDetail = () => {
     logItemError && console.log(logItemError.message)
   }
 
-  if (logLoading || logItemLoading) {
-    return (
-      <LoaderWrapper>
-        <SyncLoader color={'#e0e0e0'} />
-      </LoaderWrapper>
-    )
-  }
+  if (logLoading || logItemLoading) return <LoadingState />
 
   return (
     <MainWrapper>
