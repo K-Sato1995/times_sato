@@ -4,5 +4,6 @@ import Input from 'components/atoms/Input'
 import Textarea from 'components/atoms/Textarea'
 import Markdown from 'components/atoms/Markdown'
 import Heading from 'components/atoms/Heading'
+import OptionItem from 'components/atoms/OptionItem'
 
-export { Button, Icon, Input, Textarea, Markdown, Heading }
+export { Button, Icon, Input, Textarea, Markdown, Heading, OptionItem }

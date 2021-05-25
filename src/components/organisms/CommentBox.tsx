@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import {
@@ -9,11 +9,10 @@ import {
   FaStar,
   FaRegArrowAltCircleUp,
   FaEllipsisH,
-  FaTimes,
 } from 'react-icons/fa'
 import { isKSato } from 'utils'
-import { Icon } from 'components/atoms'
-import { CommentContent } from 'components/molecules'
+import { Icon, OptionItem } from 'components/atoms'
+import { CommentContent, OptionList } from 'components/molecules'
 import { EditCommentForm } from 'components/organisms'
 
 const CommentWrapper = styled.div`
@@ -83,50 +82,6 @@ const FavedIcon = styled(FaStar)`
   border-radius: 20%;
   transition: 0.2s;
   vertical-align: text-top;
-`
-const OptionsList = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  left: 0.3rem;
-  margin: 10px 0;
-  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 25%);
-  background: #fff;
-  border-radius: 2.5px;
-  z-index: 1000;
-  min-width: 150px;
-  overflow-y: auto;
-
-  ${(props: { isDisplayed?: boolean }) =>
-    !props.isDisplayed &&
-    css`
-      display: none;
-    `}
-`
-
-const ListTop = styled.div`
-  background-color: #fafbfc;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  height: 1.5rem;
-`
-
-const CloseIcon = styled(FaTimes)`
-  position: absolute;
-  right: 5%;
-  top: 4%;
-  font-size: 1rem;
-  cursor: pointer;
-  color: ${(props) => props.theme.secondaryColor};
-`
-
-const OptionItem = styled.div`
-  padding: 0.25rem;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  color: ${(props) => props.theme.secondaryColor};
-  cursor: pointer;
-
-  :hover {
-    background-color: #f8f8f8;
-  }
 `
 
 interface Props {
@@ -202,6 +157,50 @@ const Comment = ({ comment, currentUser }: Props) => {
     setIsEditing(!isEditing)
   }
 
+  const options: {
+    handleClick: () => void
+    component: React.ReactNode
+    displayed: boolean
+  }[] = [
+    {
+      handleClick: logicalDelteComment,
+      component: (
+        <>
+          <DeleteIcon /> Delete
+        </>
+      ),
+      displayed: true,
+    },
+    {
+      handleClick: editComment,
+      component: (
+        <>
+          <EditIcon /> Edit
+        </>
+      ),
+
+      displayed: true,
+    },
+    {
+      handleClick: unpinComment,
+      component: (
+        <>
+          <FavIcon /> UnStar
+        </>
+      ),
+      displayed: pinned,
+    },
+    {
+      handleClick: pinComment,
+      component: (
+        <>
+          <FavIcon /> Star
+        </>
+      ),
+      displayed: !pinned,
+    },
+  ]
+
   return (
     <CommentWrapper>
       {deleted ? (
@@ -231,33 +230,20 @@ const Comment = ({ comment, currentUser }: Props) => {
               }}
             />
 
-            <OptionsList isDisplayed={displayOptions}>
-              <ListTop>
-                <CloseIcon
-                  onClick={() => {
-                    setDisplayOptions(false)
-                  }}
-                />
-              </ListTop>
-
-              <OptionItem onClick={logicalDelteComment}>
-                <DeleteIcon /> Delete
-              </OptionItem>
-
-              <OptionItem onClick={editComment}>
-                <EditIcon /> Edit
-              </OptionItem>
-
-              {pinned ? (
-                <OptionItem onClick={unpinComment}>
-                  <FavIcon /> UnStar
-                </OptionItem>
-              ) : (
-                <OptionItem onClick={pinComment}>
-                  <FavIcon /> Star
-                </OptionItem>
-              )}
-            </OptionsList>
+            {displayOptions && (
+              <OptionList setDisplayOptionList={setDisplayOptions}>
+                {options.map((option, idx) => {
+                  const { handleClick, component, displayed } = option
+                  return (
+                    displayed && (
+                      <OptionItem key={idx} onClick={handleClick}>
+                        {component}
+                      </OptionItem>
+                    )
+                  )
+                })}
+              </OptionList>
+            )}
           </>
         )}
       </OptionsContainer>
