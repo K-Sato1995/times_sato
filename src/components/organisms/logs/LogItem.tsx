@@ -41,6 +41,12 @@ const CategoryIcon = styled.span`
   }
 `
 
+const ItemName = styled.div`
+  display: inline-block;
+  font-size: 1rem;
+  width: 80%;
+`
+
 const TotalHours = styled.span`
   position: absolute;
   right: 5%;
@@ -67,7 +73,7 @@ const LogItem = ({ item, categoryColor }: Props) => {
       </ItemLeft>
 
       <ItemRight>
-        {name}
+        <ItemName>{name}</ItemName>
         <TotalHours>{totalHours} Hours</TotalHours>
       </ItemRight>
     </ItemContainer>

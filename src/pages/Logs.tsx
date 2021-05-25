@@ -1,6 +1,7 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { ContentWrapper, Badge } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
 import styled from 'styled-components'
@@ -8,14 +9,6 @@ import styled from 'styled-components'
 interface Props {
   currentUser: firebase.User
 }
-
-const MainWrapper = styled.div`
-  padding: 0 2.35rem 3.125rem 2.35rem;
-
-  @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
-  }
-`
 
 const CategoryContainer = styled.div`
   :not(: first-child) {
@@ -26,16 +19,6 @@ const CategoryContainer = styled.div`
 const ItemsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
-`
-
-const CategoryTag = styled.span`
-  display: inline-block;
-  color: #fff;
-  border-top-left-radius: 2.5px;
-  border-top-right-radius: 2.5px;
-  padding: 0.2rem 0.5rem;
-  background-color: ${(props: { color?: string }) =>
-    props.color ? props.color : (props) => props.theme.primaryColor};
 `
 
 const Logs = ({ currentUser }: Props) => {
@@ -83,14 +66,14 @@ const Logs = ({ currentUser }: Props) => {
   if (categoriesLoading || logItemsLoading) return <LoadingState />
 
   return (
-    <MainWrapper>
+    <ContentWrapper>
       {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
         const items = logItemsByCateogory[key].items
         const tagColor = logItemsByCateogory[key].color
         const categoryID = logItemsByCateogory[key].categoryID
         return (
           <CategoryContainer key={idx}>
-            <CategoryTag color={tagColor}>{key}</CategoryTag>
+            <Badge backgroundColor={tagColor} text={key} />
             <ItemsConatiner>
               {items?.map((item: any) => (
                 <LogItem key={item.id} item={item} categoryColor={tagColor} />
@@ -107,7 +90,7 @@ const Logs = ({ currentUser }: Props) => {
       })}
 
       <NewCategoryForm currentUser={currentUser} />
-    </MainWrapper>
+    </ContentWrapper>
   )
 }
 

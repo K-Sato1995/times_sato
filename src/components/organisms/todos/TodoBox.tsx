@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProps } from 'styled-components'
+import { OptionItem } from 'components/atoms'
+import { OptionList } from 'components/molecules'
 import { firebase, firestore } from 'firebaseConfig'
 import { isKSato } from 'utils'
-import { FaTimes } from 'react-icons/fa'
 
 const TodoContainer = styled.div`
   position: relative;
@@ -58,45 +59,6 @@ const StatusIcon = styled.span`
   }
 `
 
-const StatusOptionsContainer = styled.div`
-  position: absolute;
-  top: 1.5rem;
-  left: 0.3rem;
-  margin: 10px 0;
-  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 25%);
-  background: #fff;
-  border-radius: 2.5px;
-  z-index: 1000;
-  min-width: 150px;
-  overflow-y: auto;
-`
-
-const StatusOptionTop = styled.div`
-  background-color: #fafbfc;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  height: 1.5rem;
-`
-
-const CloseIcon = styled(FaTimes)`
-  position: absolute;
-  right: 5%;
-  top: 4%;
-  font-size: 1rem;
-  color: ${(props) => props.theme.secondaryColor};
-`
-
-const StatusOption = styled.div`
-  padding: 0.25rem;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  color: ${(props) => props.theme.secondaryColor};
-
-  :hover {
-    background-color: ${(props: { color?: string }) =>
-      props.color ? props.color : (props) => props.theme.primaryColor};
-    color: #fff;
-  }
-`
-
 interface Props {
   todo: firebase.firestore.DocumentData
   currentUser: firebase.User
@@ -132,31 +94,26 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
 
   return (
     <TodoContainer>
-      {displayStatusOptions ? (
-        <StatusOptionsContainer>
-          <StatusOptionTop>
-            <CloseIcon
-              onClick={() => {
-                setDisplayStatusOptions(false)
-              }}
-            />
-          </StatusOptionTop>
+      {displayStatusOptions && (
+        <OptionList setDisplayOptionList={setDisplayStatusOptions}>
           {statuses
             ?.filter((status) => status.name !== todo.status)
             ?.map((status, idx) => (
-              <StatusOption
-                color={status.color}
+              <OptionItem
+                hoverBackgroundColor={
+                  status.color
+                    ? status.color
+                    : (props: ThemeProps<any>) => props.theme.primaryColor
+                }
                 key={idx}
                 onClick={() => {
                   updateStatus(status.name)
                 }}
               >
                 {status.name}
-              </StatusOption>
+              </OptionItem>
             ))}
-        </StatusOptionsContainer>
-      ) : (
-        <></>
+        </OptionList>
       )}
 
       <TodoLeft>

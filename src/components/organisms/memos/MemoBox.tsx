@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { format } from 'date-fns'
 import { firebase, firestore } from 'firebaseConfig'
 import {
@@ -9,14 +9,13 @@ import {
   FaStar,
   FaRegArrowAltCircleUp,
   FaEllipsisH,
-  FaTimes,
 } from 'react-icons/fa'
 import { isKSato } from 'utils'
-import { Icon } from 'components/atoms'
-import { CommentContent } from 'components/molecules'
-import { EditCommentForm } from 'components/organisms'
+import { Icon, OptionItem } from 'components/atoms'
+import { OptionList } from 'components/molecules'
+import { EditMemoForm, MemoContent } from 'components/organisms'
 
-const CommentWrapper = styled.div`
+const MemoWrapper = styled.div`
   position: relative;
   display: flex;
   padding: 1.5rem 0.315rem;
@@ -84,67 +83,23 @@ const FavedIcon = styled(FaStar)`
   transition: 0.2s;
   vertical-align: text-top;
 `
-const OptionsList = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  left: 0.3rem;
-  margin: 10px 0;
-  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 25%);
-  background: #fff;
-  border-radius: 2.5px;
-  z-index: 1000;
-  min-width: 150px;
-  overflow-y: auto;
-
-  ${(props: { isDisplayed?: boolean }) =>
-    !props.isDisplayed &&
-    css`
-      display: none;
-    `}
-`
-
-const ListTop = styled.div`
-  background-color: #fafbfc;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  height: 1.5rem;
-`
-
-const CloseIcon = styled(FaTimes)`
-  position: absolute;
-  right: 5%;
-  top: 4%;
-  font-size: 1rem;
-  cursor: pointer;
-  color: ${(props) => props.theme.secondaryColor};
-`
-
-const OptionItem = styled.div`
-  padding: 0.25rem;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  color: ${(props) => props.theme.secondaryColor};
-  cursor: pointer;
-
-  :hover {
-    background-color: #f8f8f8;
-  }
-`
 
 interface Props {
-  comment: firebase.firestore.DocumentData
+  memo: firebase.firestore.DocumentData
   currentUser: firebase.User
 }
 
-const Comment = ({ comment, currentUser }: Props) => {
+const Memo = ({ memo, currentUser }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [displayOptions, setDisplayOptions] = useState<boolean>(false)
-  const { id, text, pinned, createdAt, deleted } = comment
+  const { id, text, pinned, createdAt, deleted } = memo
   const { uid } = currentUser
 
-  const commentRef = firestore.collection('comments').doc(id)
+  const memoRef = firestore.collection('comments').doc(id)
 
-  const logicalDelteComment = async () => {
-    if (window.confirm('Are you sure you wish to delete this comment?')) {
-      await commentRef
+  const logicalDelteMemo = async () => {
+    if (window.confirm('Are you sure you wish to delete this memo?')) {
+      await memoRef
         .update({
           deleted: true,
         })
@@ -157,35 +112,35 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
-  const pinComment = async () => {
-    await commentRef
+  const pinMemo = async () => {
+    await memoRef
       .update({
         pinned: true,
       })
       .then(() => {
-        console.log('Pinned the comment')
+        console.log('Pinned the memo')
       })
       .catch((error) => {
         console.error('Error pinning document: ', error)
       })
   }
 
-  const unpinComment = async () => {
-    await commentRef
+  const unpinMemo = async () => {
+    await memoRef
       .update({
         pinned: false,
       })
       .then(() => {
-        console.log('Unpinned the comment')
+        console.log('Unpinned the memo')
       })
       .catch((error) => {
         console.error('Error unpinning document: ', error)
       })
   }
 
-  const restoreDeltedComment = async () => {
-    if (window.confirm('Are you sure you wish to restore this comment?')) {
-      await commentRef
+  const restoreDeltedMemo = async () => {
+    if (window.confirm('Are you sure you wish to restore this memo?')) {
+      await memoRef
         .update({
           deleted: false,
         })
@@ -198,14 +153,58 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
-  const editComment = () => {
+  const editMemo = () => {
     setIsEditing(!isEditing)
   }
 
+  const options: {
+    handleClick: () => void
+    component: React.ReactNode
+    displayed: boolean
+  }[] = [
+    {
+      handleClick: logicalDelteMemo,
+      component: (
+        <>
+          <DeleteIcon /> Delete
+        </>
+      ),
+      displayed: true,
+    },
+    {
+      handleClick: editMemo,
+      component: (
+        <>
+          <EditIcon /> Edit
+        </>
+      ),
+
+      displayed: true,
+    },
+    {
+      handleClick: unpinMemo,
+      component: (
+        <>
+          <FavIcon /> UnStar
+        </>
+      ),
+      displayed: pinned,
+    },
+    {
+      handleClick: pinMemo,
+      component: (
+        <>
+          <FavIcon /> Star
+        </>
+      ),
+      displayed: !pinned,
+    },
+  ]
+
   return (
-    <CommentWrapper>
+    <MemoWrapper>
       {deleted ? (
-        <Delted>Delted Comment</Delted>
+        <Delted>Delted Memo</Delted>
       ) : (
         <PostedDate>
           {createdAt
@@ -221,7 +220,7 @@ const Comment = ({ comment, currentUser }: Props) => {
           <RestoreIcon
             textColor="#2c7b7d"
             backgroundColor="#a4eef0"
-            onClick={restoreDeltedComment}
+            onClick={restoreDeltedMemo}
           />
         ) : (
           <>
@@ -231,52 +230,39 @@ const Comment = ({ comment, currentUser }: Props) => {
               }}
             />
 
-            <OptionsList isDisplayed={displayOptions}>
-              <ListTop>
-                <CloseIcon
-                  onClick={() => {
-                    setDisplayOptions(false)
-                  }}
-                />
-              </ListTop>
-
-              <OptionItem onClick={logicalDelteComment}>
-                <DeleteIcon /> Delete
-              </OptionItem>
-
-              <OptionItem onClick={editComment}>
-                <EditIcon /> Edit
-              </OptionItem>
-
-              {pinned ? (
-                <OptionItem onClick={unpinComment}>
-                  <FavIcon /> UnStar
-                </OptionItem>
-              ) : (
-                <OptionItem onClick={pinComment}>
-                  <FavIcon /> Star
-                </OptionItem>
-              )}
-            </OptionsList>
+            {displayOptions && (
+              <OptionList setDisplayOptionList={setDisplayOptions}>
+                {options.map((option, idx) => {
+                  const { handleClick, component, displayed } = option
+                  return (
+                    displayed && (
+                      <OptionItem key={idx} onClick={handleClick}>
+                        {component}
+                      </OptionItem>
+                    )
+                  )
+                })}
+              </OptionList>
+            )}
           </>
         )}
       </OptionsContainer>
 
       {isEditing ? (
-        <EditCommentForm comment={comment} setIsEditing={setIsEditing} />
+        <EditMemoForm memo={memo} setIsEditing={setIsEditing} />
       ) : (
-        <CommentContent text={text} />
+        <MemoContent text={text} />
       )}
-    </CommentWrapper>
+    </MemoWrapper>
   )
 }
 
-export default Comment
+export default Memo
 
-// const physicalDeleteComment = () => {
-//   if (window.confirm('Are you sure you wish to delete this comment?')) {
+// const physicalDeleteMemo = () => {
+//   if (window.confirm('Are you sure you wish to delete this memo?')) {
 //     firestore
-//       .collection('comments')
+//       .collection('memos')
 //       .doc(id)
 //       .delete()
 //       .then(() => {

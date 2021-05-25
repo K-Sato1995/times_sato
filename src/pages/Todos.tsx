@@ -1,17 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { ContentWrapper, Badge } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-
-const MainWrapper = styled.div`
-  padding: 0 2.35rem 3.125rem 2.35rem;
-
-  @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
-  }
-`
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -22,16 +15,6 @@ const StatusContiner = styled.div`
   :not(: first-child) {
     margin-top: 1rem;
   }
-`
-
-const StatusTag = styled.span`
-  display: inline-block;
-  color: #fff;
-  border-top-left-radius: 2.5px;
-  border-top-right-radius: 2.5px;
-  padding: 0.2rem 0.5rem;
-  background-color: ${(props: { color?: string }) =>
-    props.color ? props.color : (props) => props.theme.primaryColor};
 `
 
 interface Props {
@@ -75,7 +58,7 @@ const Todos = ({ currentUser }: Props) => {
   if (todoLoading || statusLoading) return <LoadingState />
 
   return (
-    <MainWrapper>
+    <ContentWrapper>
       {Object.keys(todosByStatus).map((key: string, idx: number) => {
         const todos = todosByStatus[key].todos
         const tagColor = todosByStatus[key].color
@@ -83,7 +66,7 @@ const Todos = ({ currentUser }: Props) => {
 
         return (
           <StatusContiner key={idx}>
-            <StatusTag color={tagColor}>{key}</StatusTag>
+            <Badge backgroundColor={tagColor} text={key} />
             <TodosConatiner key={idx}>
               {todos?.map((todo: any) => (
                 <TodoBox
@@ -110,7 +93,7 @@ const Todos = ({ currentUser }: Props) => {
           </StatusContiner>
         )
       })}
-    </MainWrapper>
+    </ContentWrapper>
   )
 }
 

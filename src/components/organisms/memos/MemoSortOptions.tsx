@@ -34,24 +34,24 @@ const SortOption = styled.span`
 `
 
 interface Props {
-  dislpayDeletedComments: boolean
-  setDislpayDeletedComments: React.Dispatch<React.SetStateAction<boolean>>
+  dislpayDeletedMemos: boolean
+  setDislpayDeletedMemos: React.Dispatch<React.SetStateAction<boolean>>
   dislpayNewItemForm: boolean
   setDislpayNewItemForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CommentSortOptions = ({
-  dislpayDeletedComments,
-  setDislpayDeletedComments,
+const MemoSortOptions = ({
+  dislpayDeletedMemos,
+  setDislpayDeletedMemos,
   dislpayNewItemForm,
   setDislpayNewItemForm,
 }: Props) => {
   return (
     <SortOptions>
       <SortOption
-        checked={dislpayDeletedComments}
+        checked={dislpayDeletedMemos}
         onClick={() => {
-          setDislpayDeletedComments(!dislpayDeletedComments)
+          setDislpayDeletedMemos(!dislpayDeletedMemos)
         }}
       >
         Show Deleted
@@ -69,4 +69,4 @@ const CommentSortOptions = ({
   )
 }
 
-export default CommentSortOptions
+export default MemoSortOptions

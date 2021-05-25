@@ -3,19 +3,19 @@ import { firestore, firebase } from 'firebaseConfig'
 import { TextAreaForm } from 'components/molecules'
 
 interface Props {
-  comment: firebase.firestore.DocumentData
+  memo: firebase.firestore.DocumentData
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const EditCommentForm = ({ comment, setIsEditing }: Props) => {
-  const { id, text } = comment
+const EditMemoForm = ({ memo, setIsEditing }: Props) => {
+  const { id, text } = memo
   const [formValue, setFormValue] = useState<string>(text)
 
-  const commentRef = firestore.collection('comments').doc(id)
+  const memoRef = firestore.collection('comments').doc(id)
 
-  const updateComment = async (e: React.FormEvent<HTMLFormElement>) => {
+  const updateMemo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await commentRef
+    await memoRef
       .update({
         text: formValue,
       })
@@ -32,9 +32,9 @@ const EditCommentForm = ({ comment, setIsEditing }: Props) => {
     <TextAreaForm
       formValue={formValue}
       setFormValue={setFormValue}
-      onSubmit={updateComment}
+      onSubmit={updateMemo}
     />
   )
 }
 
-export default EditCommentForm
+export default EditMemoForm

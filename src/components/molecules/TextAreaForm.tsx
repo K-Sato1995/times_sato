@@ -20,7 +20,7 @@ const FormBottom = styled.div`
   justify-content: space-between;
 `
 
-const CommentInput = styled(Textarea)`
+const MemoInput = styled(Textarea)`
   border-radius: 5px;
   width: 100%;
   padding: 0;
@@ -61,7 +61,7 @@ const Form = ({ formValue, onSubmit, setFormValue }: Props) => {
   return (
     <TextAreaForm onSubmit={onSubmit}>
       <FormTop>
-        <CommentInput
+        <MemoInput
           value={formValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setFormValue(e.target.value)
