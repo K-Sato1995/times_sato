@@ -16,7 +16,7 @@ const ItemContainer = styled.div`
 
 const LogDescription = styled.div`
   display: inline-block;
-  width: 60%;
+  width: 65%;
   color: ${(props) => props.theme.secondaryColor};
   word-wrap: break-word;
   margin-left: 1rem;
@@ -30,8 +30,7 @@ const LogHours = styled.div`
 
 const LogDate = styled.div`
   display: inline-block;
-  width: 25%;
-
+  width: 15%;
   color: ${(props) => props.theme.secondaryColor};
 `
 
@@ -43,7 +42,7 @@ const LogBox = ({ log }: Props) => {
   const { description, hours, date } = log
   return (
     <ItemContainer>
-      <LogDate>{format(new Date(date.toDate()), 'yyyy/MM/dd')}</LogDate>
+      <LogDate>{format(new Date(date.toDate()), 'yy/MM/dd')}</LogDate>
       <LogDescription>{description}</LogDescription>
       <LogHours>{hours}h</LogHours>
     </ItemContainer>
