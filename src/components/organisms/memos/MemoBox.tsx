@@ -84,6 +84,13 @@ const FavedIcon = styled(FaStar)`
   vertical-align: text-top;
 `
 
+const OptionListWrapper = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  z-index: 100;
+`
+
 interface Props {
   memo: firebase.firestore.DocumentData
   currentUser: firebase.User
@@ -231,18 +238,20 @@ const Memo = ({ memo, currentUser }: Props) => {
             />
 
             {displayOptions && (
-              <OptionList setDisplayOptionList={setDisplayOptions}>
-                {options.map((option, idx) => {
-                  const { handleClick, component, displayed } = option
-                  return (
-                    displayed && (
-                      <OptionItem key={idx} onClick={handleClick}>
-                        {component}
-                      </OptionItem>
+              <OptionListWrapper>
+                <OptionList setDisplayOptionList={setDisplayOptions}>
+                  {options.map((option, idx) => {
+                    const { handleClick, component, displayed } = option
+                    return (
+                      displayed && (
+                        <OptionItem key={idx} onClick={handleClick}>
+                          {component}
+                        </OptionItem>
+                      )
                     )
-                  )
-                })}
-              </OptionList>
+                  })}
+                </OptionList>
+              </OptionListWrapper>
             )}
           </>
         )}

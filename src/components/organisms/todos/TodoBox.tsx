@@ -59,6 +59,13 @@ const StatusIcon = styled.span`
   }
 `
 
+const OptionListWrapper = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  left: 0.3rem;
+  z-index: 100;
+`
+
 interface Props {
   todo: firebase.firestore.DocumentData
   currentUser: firebase.User
@@ -95,25 +102,27 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   return (
     <TodoContainer>
       {displayStatusOptions && (
-        <OptionList setDisplayOptionList={setDisplayStatusOptions}>
-          {statuses
-            ?.filter((status) => status.name !== todo.status)
-            ?.map((status, idx) => (
-              <OptionItem
-                hoverBackgroundColor={
-                  status.color
-                    ? status.color
-                    : (props: ThemeProps<any>) => props.theme.primaryColor
-                }
-                key={idx}
-                onClick={() => {
-                  updateStatus(status.name)
-                }}
-              >
-                {status.name}
-              </OptionItem>
-            ))}
-        </OptionList>
+        <OptionListWrapper>
+          <OptionList setDisplayOptionList={setDisplayStatusOptions}>
+            {statuses
+              ?.filter((status) => status.name !== todo.status)
+              ?.map((status, idx) => (
+                <OptionItem
+                  hoverBackgroundColor={
+                    status.color
+                      ? status.color
+                      : (props: ThemeProps<any>) => props.theme.primaryColor
+                  }
+                  key={idx}
+                  onClick={() => {
+                    updateStatus(status.name)
+                  }}
+                >
+                  {status.name}
+                </OptionItem>
+              ))}
+          </OptionList>
+        </OptionListWrapper>
       )}
 
       <TodoLeft>
