@@ -12,10 +12,10 @@ import {
 } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon, OptionItem } from 'components/atoms'
-import { CommentContent, OptionList } from 'components/molecules'
-import { EditCommentForm } from 'components/organisms'
+import { MemoContent, OptionList } from 'components/molecules'
+import { EditMemoForm } from 'components/organisms'
 
-const CommentWrapper = styled.div`
+const MemoWrapper = styled.div`
   position: relative;
   display: flex;
   padding: 1.5rem 0.315rem;
@@ -85,21 +85,21 @@ const FavedIcon = styled(FaStar)`
 `
 
 interface Props {
-  comment: firebase.firestore.DocumentData
+  memo: firebase.firestore.DocumentData
   currentUser: firebase.User
 }
 
-const Comment = ({ comment, currentUser }: Props) => {
+const Memo = ({ memo, currentUser }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [displayOptions, setDisplayOptions] = useState<boolean>(false)
-  const { id, text, pinned, createdAt, deleted } = comment
+  const { id, text, pinned, createdAt, deleted } = memo
   const { uid } = currentUser
 
-  const commentRef = firestore.collection('comments').doc(id)
+  const memoRef = firestore.collection('comments').doc(id)
 
-  const logicalDelteComment = async () => {
-    if (window.confirm('Are you sure you wish to delete this comment?')) {
-      await commentRef
+  const logicalDelteMemo = async () => {
+    if (window.confirm('Are you sure you wish to delete this memo?')) {
+      await memoRef
         .update({
           deleted: true,
         })
@@ -112,35 +112,35 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
-  const pinComment = async () => {
-    await commentRef
+  const pinMemo = async () => {
+    await memoRef
       .update({
         pinned: true,
       })
       .then(() => {
-        console.log('Pinned the comment')
+        console.log('Pinned the memo')
       })
       .catch((error) => {
         console.error('Error pinning document: ', error)
       })
   }
 
-  const unpinComment = async () => {
-    await commentRef
+  const unpinMemo = async () => {
+    await memoRef
       .update({
         pinned: false,
       })
       .then(() => {
-        console.log('Unpinned the comment')
+        console.log('Unpinned the memo')
       })
       .catch((error) => {
         console.error('Error unpinning document: ', error)
       })
   }
 
-  const restoreDeltedComment = async () => {
-    if (window.confirm('Are you sure you wish to restore this comment?')) {
-      await commentRef
+  const restoreDeltedMemo = async () => {
+    if (window.confirm('Are you sure you wish to restore this memo?')) {
+      await memoRef
         .update({
           deleted: false,
         })
@@ -153,7 +153,7 @@ const Comment = ({ comment, currentUser }: Props) => {
     }
   }
 
-  const editComment = () => {
+  const editMemo = () => {
     setIsEditing(!isEditing)
   }
 
@@ -163,7 +163,7 @@ const Comment = ({ comment, currentUser }: Props) => {
     displayed: boolean
   }[] = [
     {
-      handleClick: logicalDelteComment,
+      handleClick: logicalDelteMemo,
       component: (
         <>
           <DeleteIcon /> Delete
@@ -172,7 +172,7 @@ const Comment = ({ comment, currentUser }: Props) => {
       displayed: true,
     },
     {
-      handleClick: editComment,
+      handleClick: editMemo,
       component: (
         <>
           <EditIcon /> Edit
@@ -182,7 +182,7 @@ const Comment = ({ comment, currentUser }: Props) => {
       displayed: true,
     },
     {
-      handleClick: unpinComment,
+      handleClick: unpinMemo,
       component: (
         <>
           <FavIcon /> UnStar
@@ -191,7 +191,7 @@ const Comment = ({ comment, currentUser }: Props) => {
       displayed: pinned,
     },
     {
-      handleClick: pinComment,
+      handleClick: pinMemo,
       component: (
         <>
           <FavIcon /> Star
@@ -202,9 +202,9 @@ const Comment = ({ comment, currentUser }: Props) => {
   ]
 
   return (
-    <CommentWrapper>
+    <MemoWrapper>
       {deleted ? (
-        <Delted>Delted Comment</Delted>
+        <Delted>Delted Memo</Delted>
       ) : (
         <PostedDate>
           {createdAt
@@ -220,7 +220,7 @@ const Comment = ({ comment, currentUser }: Props) => {
           <RestoreIcon
             textColor="#2c7b7d"
             backgroundColor="#a4eef0"
-            onClick={restoreDeltedComment}
+            onClick={restoreDeltedMemo}
           />
         ) : (
           <>
@@ -249,20 +249,20 @@ const Comment = ({ comment, currentUser }: Props) => {
       </OptionsContainer>
 
       {isEditing ? (
-        <EditCommentForm comment={comment} setIsEditing={setIsEditing} />
+        <EditMemoForm memo={memo} setIsEditing={setIsEditing} />
       ) : (
-        <CommentContent text={text} />
+        <MemoContent text={text} />
       )}
-    </CommentWrapper>
+    </MemoWrapper>
   )
 }
 
-export default Comment
+export default Memo
 
-// const physicalDeleteComment = () => {
-//   if (window.confirm('Are you sure you wish to delete this comment?')) {
+// const physicalDeleteMemo = () => {
+//   if (window.confirm('Are you sure you wish to delete this memo?')) {
 //     firestore
-//       .collection('comments')
+//       .collection('memos')
 //       .doc(id)
 //       .delete()
 //       .then(() => {

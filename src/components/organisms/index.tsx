@@ -1,8 +1,8 @@
-import CommentBox from 'components/organisms/CommentBox'
+import MemoBox from 'components/organisms/MemoBox'
 import TodoBox from 'components/organisms/TodoBox'
 import Header from 'components/organisms/Header'
-import EditCommentForm from 'components/organisms/EditCommentForm'
-import NewCommentForm from 'components/organisms/NewCommentForm'
+import EditMemoForm from 'components/organisms/EditMemoForm'
+import NewMemoForm from 'components/organisms/NewMemoForm'
 import Footer from 'components/organisms/Footer'
 import NewTodoForm from 'components/organisms/NewTodoForm'
 import NewStatusForm from 'components/organisms/NewStatusForm'
@@ -13,12 +13,12 @@ import NewLogItemForm from 'components/organisms/NewLogItemForm'
 import LogBox from 'components/organisms/LogBox'
 
 export {
-  CommentBox,
+  MemoBox,
   TodoBox,
   LogItem,
   NewLogItemForm,
-  EditCommentForm,
-  NewCommentForm,
+  EditMemoForm,
+  NewMemoForm,
   NewTodoForm,
   NewStatusForm,
   NewCategoryForm,

@@ -1,15 +1,15 @@
-import CommentContent from 'components/molecules/CommentContent'
+import MemoContent from 'components/molecules/MemoContent'
 import TextAreaForm from 'components/molecules/TextAreaForm'
-import CommentSortOptions from 'components/molecules/CommentSortOptions'
+import MemoSortOptions from 'components/molecules/MemoSortOptions'
 import LoadingState from 'components/molecules/LoadingState'
 import OptionList from 'components/molecules/OptionList'
 import NoItem from 'components/molecules/NoItem'
 
 export {
-  CommentContent,
+  MemoContent,
   TextAreaForm,
   LoadingState,
-  CommentSortOptions,
+  MemoSortOptions,
   OptionList,
   NoItem,
 }

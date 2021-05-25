@@ -3,35 +3,31 @@ import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { isKSato } from 'utils'
 import { ContentWrapper } from 'components/atoms'
-import { CommentSortOptions, LoadingState, NoItem } from 'components/molecules'
-import { CommentBox, NewCommentForm } from 'components/organisms'
+import { MemoSortOptions, LoadingState, NoItem } from 'components/molecules'
+import { MemoBox, NewMemoForm } from 'components/organisms'
 
 interface Props {
   currentUser: firebase.User
 }
 
 const Times = ({ currentUser }: Props) => {
-  const [dislpayDeletedComments, setDislpayDeletedComments] = useState<boolean>(
-    false,
-  )
+  const [dislpayDeletedMemos, setDislpayDeletedMemos] = useState<boolean>(false)
   const [dislpayNewItemForm, setDislpayNewItemForm] = useState<boolean>(false)
 
-  const commentsRef = firestore.collection('comments')
+  const memosRef = firestore.collection('comments')
 
-  let query = commentsRef.orderBy('createdAt', 'desc')
+  let query = memosRef.orderBy('createdAt', 'desc')
 
-  if (dislpayDeletedComments) {
-    query = commentsRef.orderBy('createdAt', 'desc')
+  if (dislpayDeletedMemos) {
+    query = memosRef.orderBy('createdAt', 'desc')
   } else {
-    query = commentsRef
-      .where('deleted', '==', false)
-      .orderBy('createdAt', 'desc')
+    query = memosRef.where('deleted', '==', false).orderBy('createdAt', 'desc')
   }
 
-  const [comments, loading, error] = useCollectionData(query, { idField: 'id' })
+  const [memos, loading, error] = useCollectionData(query, { idField: 'id' })
 
-  const pinnedComments = comments?.filter((comment) => comment.pinned)
-  const otherComments = comments?.filter((comment) => !comment.pinned)
+  const pinnedMemos = memos?.filter((memo) => memo.pinned)
+  const otherMemos = memos?.filter((memo) => !memo.pinned)
 
   if (error) {
     console.log(error?.message)
@@ -41,18 +37,18 @@ const Times = ({ currentUser }: Props) => {
     return <LoadingState />
   }
 
-  if (!comments?.length) {
+  if (!memos?.length) {
     return (
       <ContentWrapper>
-        <CommentSortOptions
-          dislpayDeletedComments={dislpayDeletedComments}
-          setDislpayDeletedComments={setDislpayDeletedComments}
+        <MemoSortOptions
+          dislpayDeletedMemos={dislpayDeletedMemos}
+          setDislpayDeletedMemos={setDislpayDeletedMemos}
           dislpayNewItemForm={dislpayNewItemForm}
           setDislpayNewItemForm={setDislpayNewItemForm}
         />
 
         {isKSato(currentUser.uid) && dislpayNewItemForm && (
-          <NewCommentForm currentUser={currentUser} />
+          <NewMemoForm currentUser={currentUser} />
         )}
 
         <NoItem />
@@ -62,32 +58,24 @@ const Times = ({ currentUser }: Props) => {
 
   return (
     <ContentWrapper>
-      <CommentSortOptions
-        dislpayDeletedComments={dislpayDeletedComments}
-        setDislpayDeletedComments={setDislpayDeletedComments}
+      <MemoSortOptions
+        dislpayDeletedMemos={dislpayDeletedMemos}
+        setDislpayDeletedMemos={setDislpayDeletedMemos}
         dislpayNewItemForm={dislpayNewItemForm}
         setDislpayNewItemForm={setDislpayNewItemForm}
       />
       {isKSato(currentUser.uid) && dislpayNewItemForm && (
-        <NewCommentForm currentUser={currentUser} />
+        <NewMemoForm currentUser={currentUser} />
       )}
 
-      {pinnedComments &&
-        pinnedComments.map((comment) => (
-          <CommentBox
-            key={comment.id}
-            comment={comment}
-            currentUser={currentUser}
-          />
+      {pinnedMemos &&
+        pinnedMemos.map((memo) => (
+          <MemoBox key={memo.id} memo={memo} currentUser={currentUser} />
         ))}
 
-      {otherComments &&
-        otherComments.map((comment) => (
-          <CommentBox
-            key={comment.id}
-            comment={comment}
-            currentUser={currentUser}
-          />
+      {otherMemos &&
+        otherMemos.map((memo) => (
+          <MemoBox key={memo.id} memo={memo} currentUser={currentUser} />
         ))}
     </ContentWrapper>
   )

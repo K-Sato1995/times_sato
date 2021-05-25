@@ -25,7 +25,7 @@ const Markdown = ({ mdText }: Props) => {
     <ReactMarkdown
       remarkPlugins={[gfm]}
       components={syntaxHighlighting}
-      className={'comment-content'}
+      className={'memo-content'}
     >
       {mdText.replace(httpLinkMatcher, '')}
     </ReactMarkdown>

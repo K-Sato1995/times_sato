@@ -13,7 +13,7 @@ const Content = styled.div`
   width: 100%;
   word-wrap: break-word;
 
-  > .comment-content {
+  > .memo-content {
     white-space: pre-wrap;
 
     > h1,
@@ -60,7 +60,7 @@ const Content = styled.div`
   }
 `
 
-const CommentContent = ({ text }: Props) => {
+const MemoContent = ({ text }: Props) => {
   const extractedUrls = text.match(httpLinkMatcher)
 
   return (
@@ -87,4 +87,4 @@ const CommentContent = ({ text }: Props) => {
   )
 }
 
-export default CommentContent
+export default MemoContent

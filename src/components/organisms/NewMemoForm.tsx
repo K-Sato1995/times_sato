@@ -21,18 +21,18 @@ interface Props {
 }
 
 const Form = ({ currentUser }: Props) => {
-  const commentsRef = firestore.collection('comments')
+  const memosRef = firestore.collection('memos')
   const [formValue, setFormValue] = useState('')
   const { uid } = currentUser
 
-  const createComment = async (e: React.FormEvent<HTMLFormElement>) => {
+  const createMemo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!formValue) {
-      alert("Comment can't be blank")
+      alert("Memo can't be blank")
       return
     }
 
-    await commentsRef.add({
+    await memosRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       deleted: false,
@@ -46,7 +46,7 @@ const Form = ({ currentUser }: Props) => {
       <TextAreaForm
         formValue={formValue}
         setFormValue={setFormValue}
-        onSubmit={createComment}
+        onSubmit={createMemo}
       />
     </FormContainer>
   )
