@@ -34,7 +34,8 @@ const StyledButton = styled.button`
       background-color: #fff;
 
       :hover {
-        border: solid ${(props) => props.theme.borderColor} 2px;
+        background-color: #697980;
+        color: #fff;
       }
     `}
   

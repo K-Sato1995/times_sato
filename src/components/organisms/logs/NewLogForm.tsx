@@ -2,53 +2,55 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import { FaTimes } from 'react-icons/fa'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const LogItemForm = styled.form`
-  padding: 0.6rem 0 0.6rem 1rem;
-  display: flex;
+  padding: 0.6rem 1rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-`
 
-const FormCenter = styled.div`
-  width: 85%;
-  display: flex;
-`
-
-const FormRight = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-evenly;
-  width: 15%;
-  border-left: solid ${(props) => props.theme.borderColor} 1px;
+  .react-datepicker-wrapper {
+    display: block;
+  }
 `
 
 const LogInput = styled(Input)`
   border: none;
+  padding: 0;
+  padding-bottom: 0.3rem;
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
 
   :focus {
     outline: none;
   }
 `
 
-const CreateButton = styled(Button)`
-  padding: 0rem 0.6rem;
-  border-radius: 2.5px;
+const FormContent = styled.div``
+
+const FormBottom = styled.div`
+  position: relative;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
 `
 
-const XIcon = styled(FaTimes)`
-  font-size: 1rem;
-  color: ${(props) => props.theme.secondaryColor};
-  cursor: pointer;
-  padding-top: 2px;
-  transition: 0.2s;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
 
-  :hover {
-    opacity: 0.7;
+const FormButton = styled(Button)`
+  padding: 0.6rem 0.6rem;
+  border-radius: 2.5px;
+
+  :first-child {
+    margin-right: 1rem;
   }
 `
+
 const NewLogBox = styled.div`
   text-align: center;
   font-size: 0.8rem;
@@ -101,10 +103,9 @@ const Form = ({ itemID, logItem }: Props) => {
     <>
       {displayForm ? (
         <LogItemForm onSubmit={createLogItem}>
-          <FormCenter>
+          <FormContent>
             <DatePicker
               selected={formValue.date}
-              isClearable
               placeholderText="Date"
               onChange={(date) => setFormValue({ ...formValue, date: date })}
               customInput={<LogInput />}
@@ -120,28 +121,33 @@ const Form = ({ itemID, logItem }: Props) => {
               placeholder={'Hours'}
               value={formValue.hours}
               type="number"
-              step="0.01"
+              step="0.1"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setFormValue({ ...formValue, hours: Number(e.target.value) })
               }
             />
-          </FormCenter>
+          </FormContent>
 
-          <FormRight>
-            <CreateButton
-              disabled={
-                !formValue.date || !formValue.description || !formValue.hours
-              }
-              buttonType={'primary'}
-            >
-              Save
-            </CreateButton>
-            <XIcon
-              onClick={() => {
-                setDisplayForm(false)
-              }}
-            />
-          </FormRight>
+          <FormBottom>
+            <Buttons>
+              <FormButton
+                disabled={
+                  !formValue.date || !formValue.description || !formValue.hours
+                }
+                buttonType={'primary'}
+              >
+                Save
+              </FormButton>
+              <FormButton
+                onClick={() => {
+                  setDisplayForm(false)
+                }}
+                buttonType={'secondary'}
+              >
+                Close
+              </FormButton>
+            </Buttons>
+          </FormBottom>
         </LogItemForm>
       ) : (
         <NewLogBox
