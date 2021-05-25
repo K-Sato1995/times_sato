@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ContentWrapper } from 'components/atoms'
+import { ContentWrapper, Badge } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
@@ -15,16 +15,6 @@ const StatusContiner = styled.div`
   :not(: first-child) {
     margin-top: 1rem;
   }
-`
-
-const StatusTag = styled.span`
-  display: inline-block;
-  color: #fff;
-  border-top-left-radius: 2.5px;
-  border-top-right-radius: 2.5px;
-  padding: 0.2rem 0.5rem;
-  background-color: ${(props: { color?: string }) =>
-    props.color ? props.color : (props) => props.theme.primaryColor};
 `
 
 interface Props {
@@ -76,7 +66,7 @@ const Todos = ({ currentUser }: Props) => {
 
         return (
           <StatusContiner key={idx}>
-            <StatusTag color={tagColor}>{key}</StatusTag>
+            <Badge backgroundColor={tagColor} text={key} />
             <TodosConatiner key={idx}>
               {todos?.map((todo: any) => (
                 <TodoBox

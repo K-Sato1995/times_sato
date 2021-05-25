@@ -1,7 +1,7 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { ContentWrapper } from 'components/atoms'
+import { ContentWrapper, Badge } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
 import styled from 'styled-components'
@@ -19,16 +19,6 @@ const CategoryContainer = styled.div`
 const ItemsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
-`
-
-const CategoryTag = styled.span`
-  display: inline-block;
-  color: #fff;
-  border-top-left-radius: 2.5px;
-  border-top-right-radius: 2.5px;
-  padding: 0.2rem 0.5rem;
-  background-color: ${(props: { color?: string }) =>
-    props.color ? props.color : (props) => props.theme.primaryColor};
 `
 
 const Logs = ({ currentUser }: Props) => {
@@ -83,7 +73,7 @@ const Logs = ({ currentUser }: Props) => {
         const categoryID = logItemsByCateogory[key].categoryID
         return (
           <CategoryContainer key={idx}>
-            <CategoryTag color={tagColor}>{key}</CategoryTag>
+            <Badge backgroundColor={tagColor} text={key} />
             <ItemsConatiner>
               {items?.map((item: any) => (
                 <LogItem key={item.id} item={item} categoryColor={tagColor} />
