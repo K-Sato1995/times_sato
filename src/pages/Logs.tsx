@@ -1,6 +1,7 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { ContentWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
 import styled from 'styled-components'
@@ -8,14 +9,6 @@ import styled from 'styled-components'
 interface Props {
   currentUser: firebase.User
 }
-
-const MainWrapper = styled.div`
-  padding: 0 2.35rem 3.125rem 2.35rem;
-
-  @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
-  }
-`
 
 const CategoryContainer = styled.div`
   :not(: first-child) {
@@ -83,7 +76,7 @@ const Logs = ({ currentUser }: Props) => {
   if (categoriesLoading || logItemsLoading) return <LoadingState />
 
   return (
-    <MainWrapper>
+    <ContentWrapper>
       {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
         const items = logItemsByCateogory[key].items
         const tagColor = logItemsByCateogory[key].color
@@ -107,7 +100,7 @@ const Logs = ({ currentUser }: Props) => {
       })}
 
       <NewCategoryForm currentUser={currentUser} />
-    </MainWrapper>
+    </ContentWrapper>
   )
 }
 

@@ -1,17 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { ContentWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-
-const MainWrapper = styled.div`
-  padding: 0 2.35rem 3.125rem 2.35rem;
-
-  @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
-  }
-`
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -75,7 +68,7 @@ const Todos = ({ currentUser }: Props) => {
   if (todoLoading || statusLoading) return <LoadingState />
 
   return (
-    <MainWrapper>
+    <ContentWrapper>
       {Object.keys(todosByStatus).map((key: string, idx: number) => {
         const todos = todosByStatus[key].todos
         const tagColor = todosByStatus[key].color
@@ -110,7 +103,7 @@ const Todos = ({ currentUser }: Props) => {
           </StatusContiner>
         )
       })}
-    </MainWrapper>
+    </ContentWrapper>
   )
 }
 

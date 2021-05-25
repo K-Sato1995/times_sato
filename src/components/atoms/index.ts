@@ -5,5 +5,15 @@ import Textarea from 'components/atoms/Textarea'
 import Markdown from 'components/atoms/Markdown'
 import Heading from 'components/atoms/Heading'
 import OptionItem from 'components/atoms/OptionItem'
+import ContentWrapper from 'components/atoms/ContentWrapper'
 
-export { Button, Icon, Input, Textarea, Markdown, Heading, OptionItem }
+export {
+  Button,
+  Icon,
+  Input,
+  Textarea,
+  Markdown,
+  Heading,
+  OptionItem,
+  ContentWrapper,
+}

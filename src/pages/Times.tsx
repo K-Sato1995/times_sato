@@ -1,18 +1,10 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { isKSato } from 'utils'
+import { ContentWrapper } from 'components/atoms'
 import { CommentSortOptions, LoadingState, NoItem } from 'components/molecules'
 import { CommentBox, NewCommentForm } from 'components/organisms'
-
-const CommentsContainer = styled.div`
-  padding: 0.1rem 2.35rem 3.125rem 2.35rem;
-
-  @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
-  }
-`
 
 interface Props {
   currentUser: firebase.User
@@ -51,7 +43,7 @@ const Times = ({ currentUser }: Props) => {
 
   if (!comments?.length) {
     return (
-      <CommentsContainer>
+      <ContentWrapper>
         <CommentSortOptions
           dislpayDeletedComments={dislpayDeletedComments}
           setDislpayDeletedComments={setDislpayDeletedComments}
@@ -64,12 +56,12 @@ const Times = ({ currentUser }: Props) => {
         )}
 
         <NoItem />
-      </CommentsContainer>
+      </ContentWrapper>
     )
   }
 
   return (
-    <CommentsContainer>
+    <ContentWrapper>
       <CommentSortOptions
         dislpayDeletedComments={dislpayDeletedComments}
         setDislpayDeletedComments={setDislpayDeletedComments}
@@ -97,7 +89,7 @@ const Times = ({ currentUser }: Props) => {
             currentUser={currentUser}
           />
         ))}
-    </CommentsContainer>
+    </ContentWrapper>
   )
 }
 

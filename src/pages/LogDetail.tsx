@@ -6,17 +6,9 @@ import {
   useCollectionData,
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
-import { Heading } from 'components/atoms'
+import { Heading, ContentWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewLogForm, LogBox } from 'components/organisms'
-
-const MainWrapper = styled.div`
-  padding: 0 2.35rem 4.125rem 2.35rem;
-
-  @media screen and (max-width: 29.9999em) {
-    padding: 0.1rem 0.625rem 3.125rem 0.625rem;
-  }
-`
 
 const LogsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -48,7 +40,7 @@ const LogDetail = () => {
   if (logLoading || logItemLoading) return <LoadingState />
 
   return (
-    <MainWrapper>
+    <ContentWrapper>
       <Heading size={'h1'}>{logItem?.name}</Heading>
 
       <LogsConatiner>
@@ -58,7 +50,7 @@ const LogDetail = () => {
 
         <NewLogForm itemID={itemID} logItem={logItem} />
       </LogsConatiner>
-    </MainWrapper>
+    </ContentWrapper>
   )
 }
 
