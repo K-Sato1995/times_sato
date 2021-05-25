@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
+import { useDetectOutsideClick } from 'hooks'
 import { FaTimes } from 'react-icons/fa'
 
 const OptionListContainer = styled.div`
@@ -37,8 +38,11 @@ interface Props {
 }
 
 const OptionList = ({ children, setDisplayOptionList }: Props) => {
+  const wrapperRef = useRef(null)
+  useDetectOutsideClick(wrapperRef, setDisplayOptionList)
+
   return (
-    <OptionListContainer>
+    <OptionListContainer ref={wrapperRef}>
       <OptionListTop>
         <CloseIcon
           onClick={() => {
