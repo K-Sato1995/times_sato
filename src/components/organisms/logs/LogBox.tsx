@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 
 const ItemContainer = styled.div`
   position: relative;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 0.5rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   cursor: pointer;
 
@@ -16,18 +16,22 @@ const ItemContainer = styled.div`
 
 const LogDescription = styled.div`
   display: inline-block;
+  width: 60%;
   color: ${(props) => props.theme.secondaryColor};
   word-wrap: break-word;
   margin-left: 1rem;
 `
 
 const LogHours = styled.div`
+  display: inline-block;
+  width: 10%;
   color: ${(props) => props.theme.secondaryColor};
-  float: right;
 `
 
 const LogDate = styled.div`
-  float: left;
+  display: inline-block;
+  width: 25%;
+
   color: ${(props) => props.theme.secondaryColor};
 `
 
@@ -41,7 +45,7 @@ const LogBox = ({ log }: Props) => {
     <ItemContainer>
       <LogDate>{format(new Date(date.toDate()), 'yyyy/MM/dd')}</LogDate>
       <LogDescription>{description}</LogDescription>
-      <LogHours>{hours} Hours</LogHours>
+      <LogHours>{hours}h</LogHours>
     </ItemContainer>
   )
 }
