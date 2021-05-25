@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { useLocation } from 'react-router-dom'
 
 const FooterContainer = styled.div`
   display: flex;
@@ -34,15 +35,29 @@ const FooterItem = styled(Link)`
   :not(:last-child) {
     border-right: solid 1px ${(props) => props.theme.borderColor};
   }
+
+  ${(props: { active?: boolean }) =>
+    props.active &&
+    css`
+      color: ${(props) => props.theme.primaryColor};
+    `}
 `
 
 const Footer = () => {
+  const location = useLocation()
+  const currPath = location.pathname
   return (
     <FooterContainer>
       <FooterContent>
-        <FooterItem to={'/'}>times</FooterItem>
-        <FooterItem to={'/todos'}>todos</FooterItem>
-        <FooterItem to={'/logs'}>logs</FooterItem>
+        <FooterItem to={'/'} active={currPath === '/'}>
+          times
+        </FooterItem>
+        <FooterItem to={'/todos'} active={currPath === '/todos'}>
+          todos
+        </FooterItem>
+        <FooterItem to={'/logs'} active={/\/logs/.test(currPath)}>
+          logs
+        </FooterItem>
       </FooterContent>
     </FooterContainer>
   )
