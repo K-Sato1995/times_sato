@@ -12,8 +12,8 @@ import {
 } from 'react-icons/fa'
 import { isKSato } from 'utils'
 import { Icon, OptionItem } from 'components/atoms'
-import { MemoContent, OptionList } from 'components/molecules'
-import { EditMemoForm } from 'components/organisms'
+import { OptionList } from 'components/molecules'
+import { EditMemoForm, MemoContent } from 'components/organisms'
 
 const MemoWrapper = styled.div`
   position: relative;

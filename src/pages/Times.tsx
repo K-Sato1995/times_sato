@@ -3,8 +3,8 @@ import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { isKSato } from 'utils'
 import { ContentWrapper } from 'components/atoms'
-import { MemoSortOptions, LoadingState, NoItem } from 'components/molecules'
-import { MemoBox, NewMemoForm } from 'components/organisms'
+import { LoadingState, NoItem } from 'components/molecules'
+import { MemoBox, NewMemoForm, MemoSortOptions } from 'components/organisms'
 
 interface Props {
   currentUser: firebase.User
