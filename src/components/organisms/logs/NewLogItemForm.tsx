@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import { FaTimes } from 'react-icons/fa'
 
 const LogItemForm = styled.form`
-  padding: 0.6rem 0;
   display: flex;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
 `
@@ -17,12 +15,15 @@ const FormLeft = styled.div`
 
 const FormCenter = styled.div`
   width: 80%;
+  display: grid;
+  place-items: center;
 `
 
 const FormRight = styled.div`
   position: relative;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  padding: 0.2rem 0.5rem;
   width: 15%;
   border-left: solid ${(props) => props.theme.borderColor} 1px;
 `
@@ -44,28 +45,23 @@ const StatusIcon = styled.span`
 const LogItemInput = styled(Input)`
   border: none;
   width: 100%;
+  padding: 0;
 
   :focus {
     outline: none;
   }
 `
 
-const CreateButton = styled(Button)`
+const FormButton = styled(Button)`
+  display: inline-block;
   padding: 0rem 0.6rem;
   border-radius: 2.5px;
-`
 
-const XIcon = styled(FaTimes)`
-  font-size: 1rem;
-  color: ${(props) => props.theme.secondaryColor};
-  cursor: pointer;
-  padding-top: 2px;
-  transition: 0.2s;
-
-  :hover {
-    opacity: 0.7;
+  :first-child {
+    margin-bottom: 0.2rem;
   }
 `
+
 const NewLogItemBox = styled.div`
   text-align: center;
   font-size: 0.8rem;
@@ -122,14 +118,18 @@ const Form = ({ currentUser, categoryID, categoryColor }: Props) => {
           </FormCenter>
 
           <FormRight>
-            <CreateButton disabled={!formValue} buttonType={'primary'}>
+            <FormButton disabled={!formValue} buttonType={'primary'}>
               Save
-            </CreateButton>
-            <XIcon
+            </FormButton>
+
+            <FormButton
               onClick={() => {
                 setDisplayForm(false)
               }}
-            />
+              buttonType={'secondary'}
+            >
+              Close
+            </FormButton>
           </FormRight>
         </LogItemForm>
       ) : (
