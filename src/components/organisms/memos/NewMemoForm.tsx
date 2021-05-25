@@ -21,7 +21,7 @@ interface Props {
 }
 
 const Form = ({ currentUser }: Props) => {
-  const memosRef = firestore.collection('memos')
+  const memosRef = firestore.collection('comments')
   const [formValue, setFormValue] = useState('')
   const { uid } = currentUser
 
