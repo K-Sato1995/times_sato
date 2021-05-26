@@ -2,49 +2,40 @@ import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import { FaTimes } from 'react-icons/fa'
+import { CirclePicker } from 'react-color'
 
-const CreateButton = styled(Button)`
+const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
   border-radius: 2.5px;
+  :first-child {
+    margin-right: 0.5rem;
+  }
 `
 
 const NewCategoryForm = styled.form`
   margin: 2rem 0;
-  border: solid 1px ${(props) => props.theme.borderColor};
+  border: solid 1px
+    ${(props: { borderColor?: string; isDisplayed?: boolean }) =>
+      props.borderColor
+        ? props.borderColor
+        : (props) => props.theme.borderColor};
   background: #fff;
   border-radius: 2.5px;
   z-index: 1000;
-  min-width: 150px;
+  max-width: 280px; // Width of the Circle Picker
   overflow-y: auto;
 
-  ${(props: { isDisplayed: boolean }) =>
+  ${(props: { borderColor?: string; isDisplayed?: boolean }) =>
     !props.isDisplayed &&
     css`
       display: none;
     `}
 `
 
-const FormTop = styled.div`
-  position: relative;
-  background-color: #fafbfc;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  height: 1.5rem;
-`
-
 const FormBottom = styled.div`
   background-color: #fafbfc;
   padding: 0.3rem;
   text-align: right;
-`
-
-const CloseIcon = styled(FaTimes)`
-  position: absolute;
-  right: 1%;
-  top: 20%;
-  font-size: 1rem;
-  cursor: pointer;
-  color: ${(props) => props.theme.secondaryColor};
 `
 
 const FormMiddle = styled.div`
@@ -55,12 +46,12 @@ const FormMiddle = styled.div`
 
 const TodoInput = styled(Input)`
   border: none;
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  display: block;
   padding: 0.5rem 0;
-  width: 100%;
-
-  :first-child {
-    border-bottom: solid 1px ${(props) => props.theme.borderColor};
-  }
+  width: 252px;
+  margin: 0 auto;
+  margin-top: 0.5rem;
 
   :focus {
     outline: none;
@@ -97,6 +88,15 @@ const NewCategoryButton = styled.span`
     border-bottom: solid 1px ${(props) => props.theme.borderColor};
     flex: 1 1 auto;
     margin: 0 1rem;
+  }
+`
+
+const ColorPickerWrapper = styled.div`
+  position: relative;
+  margin: 1rem 0;
+
+  > .circle-picker {
+    margin: 0 auto !important;
   }
 `
 
@@ -145,38 +145,45 @@ const Form = ({ currentUser }: Props) => {
         New Category
       </NewCategoryButton>
 
-      <NewCategoryForm isDisplayed={displayForm} onSubmit={createCategory}>
-        <FormTop>
-          <CloseIcon
-            onClick={() => {
-              setDisplayForm(false)
-            }}
-          />
-        </FormTop>
+      <NewCategoryForm
+        isDisplayed={displayForm}
+        borderColor={formValue.color}
+        onSubmit={createCategory}
+      >
         <FormMiddle>
           <TodoInput
-            placeholder={'Name'}
+            placeholder={'Category Name'}
             value={formValue.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setFormValue({ ...formValue, name: e.target.value })
             }
           />
-          <TodoInput
-            placeholder={'Color'}
-            value={formValue.color}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setFormValue({ ...formValue, color: e.target.value })
-            }
-          />
+          <ColorPickerWrapper>
+            <CirclePicker
+              onChangeComplete={(color) =>
+                setFormValue({ ...formValue, color: color.hex })
+              }
+            />
+          </ColorPickerWrapper>
         </FormMiddle>
 
         <FormBottom>
-          <CreateButton
+          <FormButton
+            type={'button'}
+            buttonType={'secondary'}
+            onClick={() => {
+              setDisplayForm(false)
+            }}
+          >
+            Close
+          </FormButton>
+
+          <FormButton
             disabled={!formValue.name || !formValue.color}
             buttonType={'primary'}
           >
             Submit
-          </CreateButton>
+          </FormButton>
         </FormBottom>
       </NewCategoryForm>
     </>
