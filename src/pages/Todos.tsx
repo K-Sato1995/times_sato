@@ -1,8 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ContentWrapper, Badge } from 'components/atoms'
+import { ContentWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
-import { NewTodoForm, TodoBox, NewStatusForm } from 'components/organisms'
+import {
+  NewTodoForm,
+  TodoBox,
+  NewStatusForm,
+  StatusTag,
+} from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
@@ -49,6 +54,7 @@ const Todos = ({ currentUser }: Props) => {
   statuses?.forEach((status) => {
     let tmp = todos?.filter((todo) => todo.status === status.name)
     todosByStatus[status.name] = {
+      id: status.id,
       color: status.color,
       order: status.order,
       todos: tmp,
@@ -63,10 +69,11 @@ const Todos = ({ currentUser }: Props) => {
         const todos = todosByStatus[key].todos
         const tagColor = todosByStatus[key].color
         const currOrder = todosByStatus[key].order
-
+        const statusID = todosByStatus[key].id
+        const status = { id: statusID, name: key, color: tagColor }
         return (
           <StatusContiner key={idx}>
-            <Badge backgroundColor={tagColor} text={key} />
+            <StatusTag status={status} backgroundColor={tagColor} text={key} />
             <TodosConatiner key={idx}>
               {todos?.map((todo: any) => (
                 <TodoBox

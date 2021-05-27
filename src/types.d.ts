@@ -9,6 +9,7 @@ interface StyledCompsProps {
 
 type TodosByStatus = {
   [id: string]: {
+    id: string
     color?: string
     order: number
     todos?: firebase.firestore.DocumentData
