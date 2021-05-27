@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 
 const ItemContainer = styled.div`
   position: relative;
-  padding: 0.6rem 0.5rem;
+  padding: 1.5rem 0.2rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   cursor: pointer;
 
@@ -16,21 +16,23 @@ const ItemContainer = styled.div`
 
 const LogDescription = styled.div`
   display: inline-block;
-  width: 65%;
+  width: 90%;
   color: ${(props) => props.theme.secondaryColor};
   word-wrap: break-word;
-  margin-left: 1rem;
 `
 
 const LogHours = styled.div`
   display: inline-block;
-  width: 10%;
+  width: 5%;
+  vertical-align: top;
   color: ${(props) => props.theme.secondaryColor};
 `
 
 const LogDate = styled.div`
   display: inline-block;
-  width: 15%;
+  position: absolute;
+  top: 5%;
+  font-size: 0.8rem;
   color: ${(props) => props.theme.secondaryColor};
 `
 
