@@ -1,9 +1,14 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { ContentWrapper, Badge } from 'components/atoms'
+import { ContentWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
-import { LogItem, NewLogItemForm, NewCategoryForm } from 'components/organisms'
+import {
+  LogItem,
+  NewLogItemForm,
+  NewCategoryForm,
+  CategoryTag,
+} from 'components/organisms'
 import styled from 'styled-components'
 
 interface Props {
@@ -24,7 +29,6 @@ const ItemsConatiner = styled.div`
 const Logs = ({ currentUser }: Props) => {
   const logCategoriesRef = firestore.collection('logCategories')
   const logItemsRef = firestore.collection('logItems')
-
   const categoriesQuery = logCategoriesRef
   const itemsQuery = logItemsRef
 
@@ -71,9 +75,18 @@ const Logs = ({ currentUser }: Props) => {
         const items = logItemsByCateogory[key].items
         const tagColor = logItemsByCateogory[key].color
         const categoryID = logItemsByCateogory[key].categoryID
+        const category = {
+          id: categoryID,
+          name: key,
+          color: logItemsByCateogory[key].color,
+        }
         return (
           <CategoryContainer key={idx}>
-            <Badge backgroundColor={tagColor} text={key} />
+            <CategoryTag
+              logCategory={category}
+              backgroundColor={tagColor}
+              text={key}
+            />
             <ItemsConatiner>
               {items?.map((item: any) => (
                 <LogItem key={item.id} item={item} categoryColor={tagColor} />

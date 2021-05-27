@@ -6,7 +6,7 @@ interface BadgeDesign {
   backgroundColor: string
 }
 
-interface BadgeProps
+export interface BadgeProps
   extends React.HTMLAttributes<HTMLElement>,
     Partial<BadgeDesign> {
   text: string
@@ -30,3 +30,19 @@ const Badge = ({ text, ...props }: BadgeProps) => {
 }
 
 export default Badge
+
+// ${(props: Partial<BadgeDesign>) =>
+//   props.hoverEffect &&
+//   css`
+//     cursor: pointer;
+
+//     :hover {
+//       background-color: #697980;
+//       color: #fff;
+//       padding-right: 2rem;
+
+//       :after {
+//         content: 'Edit';
+//       }
+//     }
+//   `}
