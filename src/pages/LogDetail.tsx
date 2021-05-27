@@ -39,6 +39,13 @@ const LogDetail = () => {
 
   if (logLoading || logItemLoading) return <LoadingState />
 
+  let sum = 0
+
+  logs?.forEach((log) => {
+    sum += Number(log.hours)
+  })
+
+  console.log(sum)
   return (
     <ContentWrapper>
       <Heading size={'h1'}>{logItem?.name}</Heading>
@@ -48,7 +55,7 @@ const LogDetail = () => {
           <LogBox key={log.id} log={log} />
         ))}
 
-        <NewLogForm itemID={itemID} logItem={logItem} />
+        <NewLogForm itemID={itemID} logItem={logItem} currTotalHours={sum} />
       </LogsConatiner>
     </ContentWrapper>
   )

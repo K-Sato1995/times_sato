@@ -62,10 +62,11 @@ const NewLogBox = styled.div`
 
 interface Props {
   itemID: string
+  currTotalHours: number
   logItem?: firebase.firestore.DocumentData
 }
 
-const Form = ({ itemID, logItem }: Props) => {
+const Form = ({ itemID, logItem, currTotalHours }: Props) => {
   const logsRef = firestore.collection('logs')
   const logItemRef = firestore.collection('logItems').doc(itemID)
 
@@ -85,7 +86,7 @@ const Form = ({ itemID, logItem }: Props) => {
     }
 
     await logItemRef.update({
-      totalHours: logItem?.totalHours + formValue.hours,
+      totalHours: currTotalHours + formValue.hours,
     })
 
     await logsRef.add({
