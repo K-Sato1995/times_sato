@@ -87,7 +87,7 @@ const Logs = ({ currentUser }: Props) => {
         title: item.name,
         value: item.totalHours,
         percentage: Math.round((item.totalHours / sumOfTotalHours) * 100),
-        color: randomColor(),
+        color: randomColor({ luminosity: 'light' }),
       }
     })
 
