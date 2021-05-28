@@ -34,8 +34,6 @@ const ItemsConatiner = styled.div`
 `
 
 const Logs = ({ currentUser }: Props) => {
-  // const [selected, setSelected] = useState<number | undefined>(0)
-  // const [hovered, setHovered] = useState<number | undefined>(undefined)
   const logCategoriesRef = firestore.collection('logCategories')
   const logItemsRef = firestore.collection('logItems')
   const categoriesQuery = logCategoriesRef
@@ -101,13 +99,11 @@ const Logs = ({ currentUser }: Props) => {
             fontSize: '2px',
             width: '400px',
             height: '300px',
-            // border: 'solid 1px #E1E8EC',
           }}
           data={formattedData}
           radius={PieChart.defaultProps.radius - 6}
           label={() => `${sumOfTotalHours}h`}
           lineWidth={60}
-          // segmentsShift={(index) => (index === selected ? 6 : 1)}
           segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
           animate
           labelPosition={0}

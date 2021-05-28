@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const LegendContainer = styled.div`
   /* border: solid ${(props) => props.theme.borderColor} 1px; */
+  width: 50%;
 `
 
 const LegendItem = styled.div`
