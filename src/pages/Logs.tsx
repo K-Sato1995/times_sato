@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { ContentWrapper } from 'components/atoms'
