@@ -17,6 +17,7 @@ import NewLogItemForm from 'components/organisms/logs/NewLogItemForm'
 import LogBox from 'components/organisms/logs/LogBox'
 import MemoContent from 'components/organisms/memos/MemoContent'
 import MemoSortOptions from 'components/organisms/memos/MemoSortOptions'
+import ChartLegend from 'components/organisms/ChartLegend'
 
 export {
   MemoBox,
@@ -38,4 +39,5 @@ export {
   MemoSortOptions,
   MemoContent,
   StatusTag,
+  ChartLegend,
 }

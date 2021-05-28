@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { ContentWrapper } from 'components/atoms'
@@ -8,8 +8,10 @@ import {
   NewLogItemForm,
   NewCategoryForm,
   CategoryTag,
+  ChartLegend,
 } from 'components/organisms'
 import styled from 'styled-components'
+import { PieChart } from 'react-minimal-pie-chart'
 
 interface Props {
   currentUser: firebase.User
@@ -21,17 +23,24 @@ const CategoryContainer = styled.div`
   }
 `
 
+const ChartWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 const ItemsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
 `
 
 const Logs = ({ currentUser }: Props) => {
+  // const [selected, setSelected] = useState<number | undefined>(0)
+  // const [hovered, setHovered] = useState<number | undefined>(undefined)
   const logCategoriesRef = firestore.collection('logCategories')
   const logItemsRef = firestore.collection('logItems')
   const categoriesQuery = logCategoriesRef
   const itemsQuery = logItemsRef
-
+  let sumOfTotalHours = 0
   const [logCategories, categoriesLoading, categoriesError] = useCollectionData(
     categoriesQuery,
     {
@@ -69,8 +78,48 @@ const Logs = ({ currentUser }: Props) => {
 
   if (categoriesLoading || logItemsLoading) return <LoadingState />
 
+  logItems?.forEach((item) => (sumOfTotalHours += item.totalHours))
+
+  const formattedData = logItems
+    ?.filter((item) => item.totalHours)
+    .map((item) => {
+      const randomColor = require('randomcolor')
+
+      return {
+        title: item.name,
+        value: item.totalHours,
+        percentage: Math.round((item.totalHours / sumOfTotalHours) * 100),
+        color: randomColor(),
+      }
+    })
+
   return (
     <ContentWrapper>
+      <ChartWrapper>
+        <PieChart
+          style={{
+            fontSize: '2px',
+            width: '400px',
+            height: '300px',
+            // border: 'solid 1px #E1E8EC',
+          }}
+          data={formattedData}
+          radius={PieChart.defaultProps.radius - 6}
+          label={() => `${sumOfTotalHours}h`}
+          lineWidth={60}
+          // segmentsShift={(index) => (index === selected ? 6 : 1)}
+          segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+          animate
+          labelPosition={0}
+          labelStyle={{
+            fontSize: '10px',
+            fill: '#697980',
+            opacity: 0.75,
+            pointerEvents: 'none',
+          }}
+        />
+        <ChartLegend data={formattedData} />
+      </ChartWrapper>
       {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
         const items = logItemsByCateogory[key].items
         const tagColor = logItemsByCateogory[key].color
