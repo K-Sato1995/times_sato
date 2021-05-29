@@ -10,7 +10,9 @@ interface Props extends BadgeProps {
   logCategory: firebase.firestore.DocumentData
 }
 
-const CategoryTagWrapper = styled.div``
+const CategoryTagWrapper = styled.div`
+  display: inline-block;
+`
 
 const CategoryTag = ({ logCategory, ...badgeProps }: Props) => {
   const wrapperRef = useRef(null)

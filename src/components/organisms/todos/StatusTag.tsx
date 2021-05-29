@@ -10,7 +10,9 @@ interface Props extends BadgeProps {
   status: firebase.firestore.DocumentData
 }
 
-const StatusTagWrapper = styled.div``
+const StatusTagWrapper = styled.div`
+  display: inline-block;
+`
 
 const StatusTag = ({ status, ...badgeProps }: Props) => {
   const wrapperRef = useRef(null)

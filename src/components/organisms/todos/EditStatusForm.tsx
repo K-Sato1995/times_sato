@@ -12,7 +12,7 @@ const FormButton = styled(Button)`
 const EditStatusForm = styled.form`
   background: #fff;
   z-index: 1000;
-  max-width: 280px; // Width of the Circle Picker
+  max-width: 300px; // Width of the Circle Picker
   overflow-y: auto;
   display: flex;
 `
