@@ -24,6 +24,44 @@
       "purpose": "any maskable"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "Times",
+      "short_name": "Times",
+      "url": "/",
+      "icons": [
+        {
+          "src": "me.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Todos",
+      "short_name": "Todos",
+      "url": "/todos",
+      "icons": [
+        {
+          "src": "me.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Logs",
+      "short_name": "Logs",
+      "url": "/logs",
+      "icons": [
+        {
+          "src": "me.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "start_url": "/logs",
   "display": "standalone",
   "theme_color": "#000000",
