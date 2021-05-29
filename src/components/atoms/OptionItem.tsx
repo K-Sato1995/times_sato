@@ -2,8 +2,7 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 
 const StyledOptionItem = styled.div`
-  padding: 0.25rem;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  padding: 0.7rem;
   color: ${(props) => props.theme.secondaryColor};
   cursor: pointer;
 
