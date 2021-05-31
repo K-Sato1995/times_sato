@@ -11,19 +11,10 @@ import {
 } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { useDrop } from 'react-dnd'
-import {} from 'react-dnd-html5-backend'
-import { DragableItemTypes } from 'consts'
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
-`
-
-const StatusContiner = styled.div`
-  :not(: first-child) {
-    margin-top: 1rem;
-  }
 `
 
 interface Props {
@@ -37,18 +28,6 @@ const Todos = ({ currentUser }: Props) => {
   const todoQuery = todosRef.orderBy('createdAt', 'asc')
   const statusesQuery = statusesRef.orderBy('order', 'desc')
 
-  const [{ isOver }, drop] = useDrop(
-    () => ({
-      accept: DragableItemTypes.TODOITEM,
-      drop: () => {
-        console.log('Drop')
-      },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }),
-    [],
-  )
   const [todos, todoLoading, todoError] = useCollectionData(todoQuery, {
     idField: 'id',
   })
