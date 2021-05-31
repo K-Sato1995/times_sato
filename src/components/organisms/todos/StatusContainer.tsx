@@ -1,20 +1,45 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useDrop } from 'react-dnd'
-import {} from 'react-dnd-html5-backend'
+import { firestore } from 'firebaseConfig'
 import { DragableItemTypes } from 'consts'
 
 const StatusContiner = styled.div`
+  ${(props: { isOver: boolean }) =>
+    props.isOver &&
+    css`
+      opacity: 0.5;
+    `}
+
   :not(: first-child) {
     margin-top: 1rem;
   }
 `
-const StatusContainer = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  statusName: string
+  children: React.ReactNode
+}
+
+const StatusContainer = ({ statusName, children }: Props) => {
+  const updateStatus = async (todoID: string) => {
+    const todoRef = firestore.collection('todos').doc(todoID)
+    await todoRef
+      .update({
+        status: statusName,
+      })
+      .then(() => {
+        console.log('Document successfully updated!')
+      })
+      .catch((error) => {
+        console.error('Error deleting document: ', error)
+      })
+  }
+
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: DragableItemTypes.TODOITEM,
-      drop: () => {
-        console.log('Drop')
+      drop: (monitor: any) => {
+        updateStatus(monitor.itemID)
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -22,7 +47,11 @@ const StatusContainer = ({ children }: { children: React.ReactNode }) => {
     }),
     [],
   )
-  return <StatusContiner ref={drop}>{children}</StatusContiner>
+  return (
+    <StatusContiner ref={drop} isOver={isOver}>
+      {children}
+    </StatusContiner>
+  )
 }
 
 export default StatusContainer

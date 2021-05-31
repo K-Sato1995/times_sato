@@ -67,7 +67,7 @@ const Todos = ({ currentUser }: Props) => {
         const statusID = todosByStatus[key].id
         const status = { id: statusID, name: key, color: tagColor }
         return (
-          <StatusContainer key={idx}>
+          <StatusContainer key={idx} statusName={key}>
             <StatusTag status={status} backgroundColor={tagColor} text={key} />
             <TodosConatiner key={idx}>
               {todos?.map((todo: any) => (
