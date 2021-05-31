@@ -1,7 +1,7 @@
 import React from 'react'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { ContentWrapper } from 'components/atoms'
+import { ContentWrapper, Heading } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
   LogItem,
@@ -93,6 +93,7 @@ const Logs = ({ currentUser }: Props) => {
 
   return (
     <ContentWrapper>
+      <Heading size={'h2'}>Time Breakdown</Heading>
       <ChartWrapper>
         <PieChart
           style={{
