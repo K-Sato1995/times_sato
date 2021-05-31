@@ -4,6 +4,8 @@ import 'index.css'
 import App from 'App'
 import reportWebVitals from 'reportWebVitals'
 import { ThemeProvider } from 'styled-components'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 const theme = {
@@ -14,9 +16,11 @@ const theme = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <DndProvider backend={HTML5Backend}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </DndProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

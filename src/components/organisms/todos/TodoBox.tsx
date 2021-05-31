@@ -1,20 +1,28 @@
 import React, { useState } from 'react'
-import styled, { ThemeProps } from 'styled-components'
+import styled, { ThemeProps, css } from 'styled-components'
 import { OptionItem } from 'components/atoms'
 import { OptionList } from 'components/molecules'
 import { firebase, firestore } from 'firebaseConfig'
 import { isKSato } from 'utils'
+import { useDrag } from 'react-dnd'
+import { DragableItemTypes } from 'consts'
 
 const TodoContainer = styled.div`
   position: relative;
   display: flex;
   padding: 0.6rem 0;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-  cursor: pointer;
+  cursor: move;
 
   :hover {
     background-color: #f8f8f8;
   }
+
+  ${(props: { isDragging: boolean }) =>
+    props.isDragging &&
+    css`
+      display: none;
+    `}
 `
 
 const TodoLeft = styled.div`
@@ -79,6 +87,16 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
     false,
   )
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: DragableItemTypes.TODOITEM,
+    item: { type: DragableItemTypes.TODOITEM, itemID: todo.id },
+    drop: () => {
+      console.log('Droped')
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
   const { uid } = currentUser
   const todoRef = firestore.collection('todos').doc(id)
 
@@ -100,7 +118,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   }
 
   return (
-    <TodoContainer>
+    <TodoContainer ref={drag} isDragging={isDragging}>
       {displayStatusOptions && (
         <OptionListWrapper>
           <OptionList setDisplayOptionList={setDisplayStatusOptions}>

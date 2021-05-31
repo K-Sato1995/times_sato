@@ -18,6 +18,7 @@ import LogBox from 'components/organisms/logs/LogBox'
 import MemoContent from 'components/organisms/memos/MemoContent'
 import MemoSortOptions from 'components/organisms/memos/MemoSortOptions'
 import ChartLegend from 'components/organisms/ChartLegend'
+import StatusContainer from 'components/organisms/todos/StatusContainer'
 
 export {
   MemoBox,
@@ -40,4 +41,5 @@ export {
   MemoContent,
   StatusTag,
   ChartLegend,
+  StatusContainer,
 }

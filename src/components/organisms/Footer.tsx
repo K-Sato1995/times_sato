@@ -36,7 +36,7 @@ const FooterItem = styled(Link)`
     border-right: solid 1px ${(props) => props.theme.borderColor};
   }
 
-  ${(props: { active?: boolean }) =>
+  ${(props: { active: boolean }) =>
     props.active &&
     css`
       color: ${(props) => props.theme.primaryColor};

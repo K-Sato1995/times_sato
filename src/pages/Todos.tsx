@@ -7,6 +7,7 @@ import {
   TodoBox,
   NewStatusForm,
   StatusTag,
+  StatusContainer,
 } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -14,12 +15,6 @@ import { useCollectionData } from 'react-firebase-hooks/firestore'
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
-`
-
-const StatusContiner = styled.div`
-  :not(: first-child) {
-    margin-top: 1rem;
-  }
 `
 
 interface Props {
@@ -72,7 +67,7 @@ const Todos = ({ currentUser }: Props) => {
         const statusID = todosByStatus[key].id
         const status = { id: statusID, name: key, color: tagColor }
         return (
-          <StatusContiner key={idx}>
+          <StatusContainer key={idx} statusName={key}>
             <StatusTag status={status} backgroundColor={tagColor} text={key} />
             <TodosConatiner key={idx}>
               {todos?.map((todo: any) => (
@@ -97,7 +92,7 @@ const Todos = ({ currentUser }: Props) => {
               statuses={statuses}
               currOrder={currOrder}
             />
-          </StatusContiner>
+          </StatusContainer>
         )
       })}
     </ContentWrapper>
