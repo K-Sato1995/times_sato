@@ -4,6 +4,8 @@ import { OptionItem } from 'components/atoms'
 import { OptionList } from 'components/molecules'
 import { firebase, firestore } from 'firebaseConfig'
 import { isKSato } from 'utils'
+import { useDrag } from 'react-dnd'
+import { DragableItemTypes } from 'consts'
 
 const TodoContainer = styled.div`
   position: relative;
@@ -79,6 +81,15 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
     false,
   )
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: DragableItemTypes.TODOITEM,
+    drop: () => {
+      console.log('Droped')
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
   const { uid } = currentUser
   const todoRef = firestore.collection('todos').doc(id)
 
@@ -100,7 +111,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   }
 
   return (
-    <TodoContainer>
+    <TodoContainer ref={drag}>
       {displayStatusOptions && (
         <OptionListWrapper>
           <OptionList setDisplayOptionList={setDisplayStatusOptions}>
