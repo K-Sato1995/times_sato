@@ -73,11 +73,11 @@ const NewTaskBox = styled.div`
 
 interface Props {
   currentUser: firebase.User
-  status: string
+  statusID: string
   statusColor?: string
 }
 
-const Form = ({ currentUser, status, statusColor }: Props) => {
+const Form = ({ currentUser, statusID, statusColor }: Props) => {
   const todosRef = firestore.collection('todos')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const [formValue, setFormValue] = useState('')
@@ -92,7 +92,7 @@ const Form = ({ currentUser, status, statusColor }: Props) => {
     await todosRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status: status,
+      status: statusID,
       uid: uid,
     })
     setFormValue('')

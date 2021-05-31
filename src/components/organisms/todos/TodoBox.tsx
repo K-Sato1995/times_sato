@@ -100,14 +100,14 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   const { uid } = currentUser
   const todoRef = firestore.collection('todos').doc(id)
 
-  const updateStatus = async (status: string) => {
+  const updateStatus = async (statusID: string) => {
     if (!isKSato(uid)) {
       alert('YOU ARE NOT ALLOWED TO DO THIS')
       return
     }
     await todoRef
       .update({
-        status: status,
+        status: statusID,
       })
       .then(() => {
         console.log('Document successfully updated!')
@@ -133,7 +133,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
                   }
                   key={idx}
                   onClick={() => {
-                    updateStatus(status.name)
+                    updateStatus(status.id)
                   }}
                 >
                   {status.name}

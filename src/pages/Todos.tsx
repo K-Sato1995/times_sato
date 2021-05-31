@@ -47,7 +47,7 @@ const Todos = ({ currentUser }: Props) => {
   let todosByStatus: TodosByStatus = {}
 
   statuses?.forEach((status) => {
-    let tmp = todos?.filter((todo) => todo.status === status.name)
+    let tmp = todos?.filter((todo) => todo.status === status.id)
     todosByStatus[status.name] = {
       id: status.id,
       color: status.color,
@@ -67,7 +67,7 @@ const Todos = ({ currentUser }: Props) => {
         const statusID = todosByStatus[key].id
         const status = { id: statusID, name: key, color: tagColor }
         return (
-          <StatusContainer key={idx} statusName={key}>
+          <StatusContainer key={idx} statusID={statusID}>
             <StatusTag status={status} backgroundColor={tagColor} text={key} />
             <TodosConatiner key={idx}>
               {todos?.map((todo: any) => (
@@ -82,7 +82,7 @@ const Todos = ({ currentUser }: Props) => {
 
               <NewTodoForm
                 currentUser={currentUser}
-                status={key}
+                statusID={statusID}
                 statusColor={tagColor}
               />
             </TodosConatiner>

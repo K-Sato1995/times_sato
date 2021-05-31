@@ -16,16 +16,16 @@ const StatusContiner = styled.div`
   }
 `
 interface Props {
-  statusName: string
+  statusID: string
   children: React.ReactNode
 }
 
-const StatusContainer = ({ statusName, children }: Props) => {
+const StatusContainer = ({ statusID, children }: Props) => {
   const updateStatus = async (todoID: string) => {
     const todoRef = firestore.collection('todos').doc(todoID)
     await todoRef
       .update({
-        status: statusName,
+        status: statusID,
       })
       .then(() => {
         console.log('Document successfully updated!')

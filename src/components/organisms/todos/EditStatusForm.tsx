@@ -67,7 +67,7 @@ const Form = ({ setIsEditing, status }: Props) => {
         color: formValue.color,
       })
       .then(() => {
-        alert('Document successfully updated!')
+        console.log('Document successfully updated!')
         setIsEditing(false)
       })
       .catch((error) => {
