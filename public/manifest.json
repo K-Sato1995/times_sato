@@ -16,12 +16,6 @@
       "src": "me.png",
       "type": "image/png",
       "sizes": "512x512"
-    },
-    {
-      "src": "me.png",
-      "sizes": "196x196",
-      "type": "image/png",
-      "purpose": "any maskable"
     }
   ],
   "shortcuts": [
@@ -64,6 +58,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#ffffff",
   "background_color": "#ffffff"
 }
