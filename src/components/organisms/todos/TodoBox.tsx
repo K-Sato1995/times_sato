@@ -6,10 +6,15 @@ import { firebase, firestore } from 'firebaseConfig'
 import { isKSato } from 'utils'
 import { useDrag } from 'react-dnd'
 import { DragableItemTypes } from 'consts'
+import { format } from 'date-fns'
+
+interface DueDesign {
+  isOverDue: boolean
+  isDueWithinTwodays: boolean
+}
 
 const TodoContainer = styled.div`
   position: relative;
-  display: flex;
   padding: 0.6rem 0;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   cursor: move;
@@ -25,14 +30,38 @@ const TodoContainer = styled.div`
     `}
 `
 
-const TodoLeft = styled.div`
+const StatusIconContianer = styled.div`
+  display: inline-block;
   position: relative;
   width: 5%;
+  min-width: 30px;
+  vertical-align: middle;
 `
-const TodoRight = styled.div`
-  width: 95%;
-  font-size: 1rem;
+const TodoDesc = styled.div`
+  display: inline-block;
+  width: 80%;
   word-wrap: break-word;
+  vertical-align: middle;
+`
+
+const Due = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+  width: 10%;
+  text-align: center;
+  color: ${(props) => props.theme.secondaryColor};
+
+  ${(props: DueDesign) =>
+    props.isOverDue &&
+    css`
+      color: #ed4241;
+    `}
+
+  ${(props: DueDesign) =>
+    props.isDueWithinTwodays &&
+    css`
+      color: #fb916a;
+    `}
 `
 
 const StatusIcon = styled.span`
@@ -82,10 +111,19 @@ interface Props {
 }
 
 const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
-  const { text, id } = todo
+  const { text, id, due, status } = todo
   const [displayStatusOptions, setDisplayStatusOptions] = useState<boolean>(
     false,
   )
+  const now = new Date()
+  const todoDue = new Date(due?.toDate())
+  const completed = process.env.REACT_APP_TODOLAST_STATUS_ID === status
+  const isOverDue = !completed && now.getTime() > todoDue.getTime()
+
+  const isDueWithinTwodays =
+    !completed &&
+    todoDue.getTime() / 1000 - now.getTime() / 1000 >= 0 &&
+    todoDue.getTime() / 1000 - now.getTime() / 1000 <= 172800
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: DragableItemTypes.TODOITEM,
@@ -143,16 +181,18 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
         </OptionListWrapper>
       )}
 
-      <TodoLeft>
+      <StatusIconContianer>
         <StatusIcon
           color={statusColor}
           onClick={() => {
             setDisplayStatusOptions(!displayStatusOptions)
           }}
         />
-      </TodoLeft>
-
-      <TodoRight>{text}</TodoRight>
+      </StatusIconContianer>
+      <TodoDesc>{text}</TodoDesc>
+      <Due isDueWithinTwodays={isDueWithinTwodays} isOverDue={isOverDue}>
+        {due ? format(new Date(due.toDate()), 'M/dd') : '-'}
+      </Due>
     </TodoContainer>
   )
 }

@@ -80,11 +80,7 @@ const Todos = ({ currentUser }: Props) => {
                 />
               ))}
 
-              <NewTodoForm
-                currentUser={currentUser}
-                statusID={statusID}
-                statusColor={tagColor}
-              />
+              <NewTodoForm statusID={statusID} />
             </TodosConatiner>
 
             <NewStatusForm

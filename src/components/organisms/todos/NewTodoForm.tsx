@@ -1,68 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
+import DatePicker from 'react-datepicker'
+import { useDetectOutsideClick } from 'hooks'
+import 'react-datepicker/dist/react-datepicker.css'
 
-const TodoForm = styled.form`
-  display: flex;
+const TodoFormWrapper = styled.div``
+const TodoItemForm = styled.form`
+  padding: 0 1rem;
+  padding-bottom: 0.6rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+
+  .react-datepicker-wrapper {
+    display: block;
+  }
 `
 
-const FormLeft = styled.div`
-  position: relative;
-  width: 5%;
-`
-
-const FormCenter = styled.div`
-  width: 80%;
-  display: grid;
-  place-items: center;
-`
-
-const FormRight = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 15%;
-  padding: 0.2rem 0.5rem;
-  border-left: solid ${(props) => props.theme.borderColor} 1px;
-`
-
-const StatusIcon = styled.span`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: inline-block;
-  border-radius: 2.5px;
-  cursor: pointer;
-  height: 10px;
-  width: 10px;
-  margin-top: -5px;
-  margin-left: -5px;
-  background-color: ${(props: { color?: string }) =>
-    props.color ? props.color : (props) => props.theme.primaryColor};
-`
 const TodoInput = styled(Input)`
   border: none;
   padding: 0;
+  padding-bottom: 0.3rem;
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  display: block;
   width: 100%;
+  margin-top: 2rem;
 
   :focus {
     outline: none;
   }
 `
 
+const FormContent = styled.div``
+
+const FormBottom = styled.div`
+  position: relative;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+`
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
+
 const FormButton = styled(Button)`
-  display: inline-block;
-  padding: 0rem 0.6rem;
+  padding: 0.6rem 0.6rem;
   border-radius: 2.5px;
 
   :first-child {
-    margin-bottom: 0.2rem;
+    margin-right: 1rem;
   }
 `
 
-const NewTaskBox = styled.div`
+const NewTodoBox = styled.div`
   text-align: center;
   font-size: 0.8rem;
   padding: 0.6rem 0;
@@ -72,74 +64,87 @@ const NewTaskBox = styled.div`
 `
 
 interface Props {
-  currentUser: firebase.User
   statusID: string
-  statusColor?: string
 }
 
-const Form = ({ currentUser, statusID, statusColor }: Props) => {
+const Form = ({ statusID }: Props) => {
+  const wrapperRef = useRef(null)
   const todosRef = firestore.collection('todos')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
-  const [formValue, setFormValue] = useState('')
-  const { uid } = currentUser
+  const formDefaultValue = { text: '', due: null }
+  const [formValue, setFormValue] = useState<{
+    text: string
+    due: any
+  }>(formDefaultValue)
+  useDetectOutsideClick(wrapperRef, setDisplayForm)
 
-  const createTodo = async (e: React.FormEvent<HTMLFormElement>) => {
+  const createTodoItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!formValue) {
-      alert("Text can't be blank")
+    if (!formValue.text) {
+      alert("Anything can't be blank")
       return
     }
+
     await todosRef.add({
-      text: formValue,
+      text: formValue.text,
+      due: formValue.due,
+      uid: process.env.REACT_APP_MY_UID,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       status: statusID,
-      uid: uid,
     })
-    setFormValue('')
+    setFormValue({ ...formDefaultValue })
   }
 
   return (
-    <>
+    <TodoFormWrapper ref={wrapperRef}>
       {displayForm ? (
-        <TodoForm onSubmit={createTodo}>
-          <FormLeft>
-            <StatusIcon color={statusColor} />
-          </FormLeft>
-
-          <FormCenter>
+        <TodoItemForm onSubmit={createTodoItem}>
+          <FormContent>
             <TodoInput
-              placeholder={'Task Name'}
-              value={formValue}
+              placeholder={'Todo Name'}
+              value={formValue.text}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFormValue(e.target.value)
+                setFormValue({ ...formValue, text: e.target.value })
               }
             />
-          </FormCenter>
+            <DatePicker
+              selected={formValue.due}
+              placeholderText="Due Date/Time"
+              onChange={(dateTime) =>
+                setFormValue({ ...formValue, due: dateTime })
+              }
+              showTimeSelect
+              dateFormat="MMMM d, yyyy h:mm aa"
+              customInput={<TodoInput />}
+            />
+          </FormContent>
 
-          <FormRight>
-            <FormButton disabled={!formValue} buttonType={'primary'}>
-              Save
-            </FormButton>
-            <FormButton
-              onClick={() => {
-                setDisplayForm(false)
-              }}
-              buttonType={'secondary'}
-            >
-              Close
-            </FormButton>
-          </FormRight>
-        </TodoForm>
+          <FormBottom>
+            <Buttons>
+              <FormButton disabled={!formValue.text} buttonType={'primary'}>
+                Save
+              </FormButton>
+              <FormButton
+                onClick={() => {
+                  setDisplayForm(false)
+                }}
+                buttonType={'secondary'}
+              >
+                Close
+              </FormButton>
+            </Buttons>
+          </FormBottom>
+        </TodoItemForm>
       ) : (
-        <NewTaskBox
+        <NewTodoBox
           onClick={() => {
             setDisplayForm(true)
           }}
         >
-          + New Task
-        </NewTaskBox>
+          + New Todo
+        </NewTodoBox>
       )}
-    </>
+    </TodoFormWrapper>
   )
 }
 
