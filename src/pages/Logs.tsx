@@ -113,13 +113,13 @@ const Logs = ({ currentUser }: Props) => {
           <PieChart
             style={{
               fontSize: '2px',
-              width: '400px',
+              width: '350px',
               height: '300px',
             }}
             data={formattedData}
             radius={PieChart.defaultProps.radius - 6}
             label={() => `${sumOfTotalHours}h`}
-            lineWidth={60}
+            lineWidth={30}
             segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
             animate
             labelPosition={0}
