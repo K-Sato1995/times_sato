@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
+import { useDetectOutsideClick } from 'hooks'
 
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
@@ -110,6 +111,8 @@ const Form = ({ currentUser }: Props) => {
   const formInitialValue = { name: '', color: '' }
   const [formValue, setFormValue] = useState(formInitialValue)
   const { uid } = currentUser
+  const wrapperRef = useRef(null)
+  useDetectOutsideClick(wrapperRef, setDisplayForm)
 
   const createCategory = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -149,6 +152,7 @@ const Form = ({ currentUser }: Props) => {
         isDisplayed={displayForm}
         borderColor={formValue.color}
         onSubmit={createCategory}
+        ref={wrapperRef}
       >
         <FormMiddle>
           <TodoInput
