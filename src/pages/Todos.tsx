@@ -11,6 +11,11 @@ import {
 } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import FullCalendar from '@fullcalendar/react'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import listPlugin from '@fullcalendar/list'
+import { format } from 'date-fns'
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -56,10 +61,30 @@ const Todos = ({ currentUser }: Props) => {
     }
   })
 
+  const formatedTodos = todos
+    ?.filter((todo) => todo.due)
+    .map((todo) => {
+      return {
+        id: todo.id,
+        title: todo.text,
+        date: format(new Date(todo.due?.toDate()), "yyyy-MM-dd'T'HH:mm:ss"),
+      }
+    })
   if (todoLoading || statusLoading) return <LoadingState />
 
   return (
     <ContentWrapper>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+        initialView="dayGridMonth"
+        headerToolbar={{
+          left: '',
+          center: 'title',
+          right: 'prev,next',
+        }}
+        footerToolbar={{ right: 'dayGridMonth,timeGridWeek,listWeek' }}
+        events={formatedTodos}
+      />
       {Object.keys(todosByStatus).map((key: string, idx: number) => {
         const todos = todosByStatus[key].todos
         const tagColor = todosByStatus[key].color
