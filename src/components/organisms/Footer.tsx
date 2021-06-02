@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import { useLocation } from 'react-router-dom'
 
 const FooterContainer = styled.div`
+  z-index: 1000;
   display: flex;
   justify-content: center;
   position: fixed;
