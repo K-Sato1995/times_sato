@@ -7,6 +7,7 @@ const NavWrapper = styled.div`
   display: flex;
   justify-content: center;
   height: 3.125rem;
+  background-color: #212329;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
 `
 
@@ -26,15 +27,16 @@ const NavItems = styled.div`
   }
 `
 
-const Title = styled(Heading).attrs(() => ({
-  size: 'h1',
-}))``
+const Title = styled(Heading)`
+  color: #fff;
+`
 
 const SignOutLink = styled(Button)`
   font-size: 1rem;
-
+  background-color: #212329;
+  color: #fff;
   :hover {
-    color: #111;
+    color: #c7bebe;
   }
 `
 
@@ -43,7 +45,7 @@ const Header = () => {
     <NavWrapper>
       <Nav>
         <NavItems>
-          <Title>times_sato</Title>
+          <Title size={'h1'}>times_sato</Title>
           {auth.currentUser && (
             <SignOutLink buttonType="link" onClick={() => auth.signOut()}>
               Sign Out
