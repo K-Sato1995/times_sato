@@ -23,9 +23,21 @@ const CategoryContainer = styled.div`
   }
 `
 
-const ChartWrapper = styled.div`
+const ChartTitle = styled(Heading)`
+  margin-left: 1rem;
+`
+
+const ChartHeader = styled.div`
+  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+`
+
+const ChartContent = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0.5rem;
+`
+const ChartWrapper = styled.div`
+  border: solid ${(props) => props.theme.borderColor} 1px;
 `
 
 const ItemsConatiner = styled.div`
@@ -93,29 +105,33 @@ const Logs = ({ currentUser }: Props) => {
 
   return (
     <ContentWrapper>
-      <Heading size={'h2'}>Time Breakdown</Heading>
       <ChartWrapper>
-        <PieChart
-          style={{
-            fontSize: '2px',
-            width: '400px',
-            height: '300px',
-          }}
-          data={formattedData}
-          radius={PieChart.defaultProps.radius - 6}
-          label={() => `${sumOfTotalHours}h`}
-          lineWidth={60}
-          segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
-          animate
-          labelPosition={0}
-          labelStyle={{
-            fontSize: '10px',
-            fill: '#697980',
-            opacity: 0.75,
-            pointerEvents: 'none',
-          }}
-        />
-        <ChartLegend data={formattedData} />
+        <ChartHeader>
+          <ChartTitle size={'h2'}>Time Breakdown</ChartTitle>
+        </ChartHeader>
+        <ChartContent>
+          <PieChart
+            style={{
+              fontSize: '2px',
+              width: '400px',
+              height: '300px',
+            }}
+            data={formattedData}
+            radius={PieChart.defaultProps.radius - 6}
+            label={() => `${sumOfTotalHours}h`}
+            lineWidth={60}
+            segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+            animate
+            labelPosition={0}
+            labelStyle={{
+              fontSize: '10px',
+              fill: '#697980',
+              opacity: 0.75,
+              pointerEvents: 'none',
+            }}
+          />
+          <ChartLegend data={formattedData} />
+        </ChartContent>
       </ChartWrapper>
       {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
         const items = logItemsByCateogory[key].items
