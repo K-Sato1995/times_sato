@@ -10,6 +10,7 @@ Productivity App made for K-Sato by K-Sato
 - styled-components
 - Firebase Auth
 - FireStore
+- PWA
 
 ## Todos
 
