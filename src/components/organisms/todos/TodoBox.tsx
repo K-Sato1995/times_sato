@@ -161,7 +161,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
         <OptionListWrapper>
           <OptionList setDisplayOptionList={setDisplayStatusOptions}>
             {statuses
-              ?.filter((status) => status.name !== todo.status)
+              ?.filter((status) => status.id !== todo.status)
               ?.map((status, idx) => (
                 <OptionItem
                   hoverBackgroundColor={
