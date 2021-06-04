@@ -1,6 +1,6 @@
 ## What it is
 
-Productivity App made for K-Sato by K-Sato
+Productivity App made by K-Sato for K-Sato
 
 ## Tech Stack
 
@@ -11,6 +11,12 @@ Productivity App made for K-Sato by K-Sato
 - Firebase Auth
 - FireStore
 - PWA
+
+## Features
+
+- Todos
+- Study Logs
+- Memos
 
 ## Todos
 
