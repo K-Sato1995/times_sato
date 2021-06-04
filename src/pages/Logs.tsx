@@ -38,6 +38,8 @@ const ChartContent = styled.div`
 `
 const ChartWrapper = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
+  padding: 1rem;
+  border-radius: 10px;
 `
 
 const ItemsConatiner = styled.div`

@@ -12,6 +12,7 @@ const FooterContainer = styled.div`
   background-color: #fff;
   width: 100%;
   height: 3.125rem;
+  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 10%);
   border-top: solid ${(props) => props.theme.borderColor} 1px;
 `
 
@@ -33,14 +34,15 @@ const FooterItem = styled(Link)`
   width: 33%;
   color: ${(props) => props.theme.secondaryColor};
 
-  :not(:last-child) {
+  /* :not(:last-child) {
     border-right: solid 1px ${(props) => props.theme.borderColor};
-  }
+  } */
 
   ${(props: { active: boolean }) =>
     props.active &&
     css`
       color: ${(props) => props.theme.primaryColor};
+      border-top: solid 2px ${(props) => props.theme.primaryColor};
     `}
 `
 

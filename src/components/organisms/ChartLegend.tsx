@@ -11,14 +11,12 @@ const LegendItem = styled.div`
 `
 
 const LegendBar = styled.progress`
-  border: solid ${(props) => props.theme.borderColor} 1px;
   border-radius: 2.5px;
   width: 100%;
   height: 0.7rem;
 
   ::-webkit-progress-bar {
-    background-color: ${(props: { backgroundColor?: string; theme?: any }) =>
-      props.theme.borderColor};
+    background-color: #edf0f1;
   }
 
   ::-webkit-progress-value {

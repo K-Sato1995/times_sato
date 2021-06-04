@@ -11,7 +11,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 const theme = {
   primaryColor: '#2c7b7d',
   secondaryColor: '#697980',
-  borderColor: '#E1E8EC',
+  borderColor: '#e7edf0',
 }
 
 ReactDOM.render(
