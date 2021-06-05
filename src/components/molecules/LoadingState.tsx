@@ -4,8 +4,10 @@ import { SyncLoader } from 'react-spinners'
 
 const LoaderWrapper = styled.div`
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
+  margin-top: -4rem;
+  margin-left: -1.5rem;
 `
 
 const LoadingState = () => {
