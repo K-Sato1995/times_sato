@@ -7,6 +7,7 @@ import Heading from 'components/atoms/Heading'
 import OptionItem from 'components/atoms/OptionItem'
 import ContentWrapper from 'components/atoms/ContentWrapper'
 import Badge from 'components/atoms/Badge'
+import CalendarWrapper from 'components/atoms/CalendarWrapper'
 
 export {
   Button,
@@ -18,4 +19,5 @@ export {
   Heading,
   OptionItem,
   ContentWrapper,
+  CalendarWrapper,
 }

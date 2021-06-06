@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ContentWrapper } from 'components/atoms'
+import { ContentWrapper, CalendarWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
   NewTodoForm,
@@ -74,17 +74,19 @@ const Todos = ({ currentUser }: Props) => {
 
   return (
     <ContentWrapper>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          left: '',
-          center: 'title',
-          right: 'prev,next',
-        }}
-        footerToolbar={{ right: 'dayGridMonth,timeGridWeek,listWeek' }}
-        events={formatedTodos}
-      />
+      <CalendarWrapper>
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            left: 'prev',
+            center: 'title',
+            right: 'next',
+          }}
+          footerToolbar={{ right: 'dayGridMonth,timeGridWeek,listWeek' }}
+          events={formatedTodos}
+        />
+      </CalendarWrapper>
       {Object.keys(todosByStatus).map((key: string, idx: number) => {
         const todos = todosByStatus[key].todos
         const tagColor = todosByStatus[key].color
