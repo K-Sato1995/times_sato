@@ -5,6 +5,16 @@ const CalendarWrapper = styled.div`
     box-sizing: border-box;
     max-height: 600px;
 
+    th {
+      background-color: #f7f8fc;
+    }
+    .fc-daygrid-event-dot {
+      border-color: ${(props) => props.theme.primaryColor};
+    }
+    .fc-list-day-cushion {
+      background-color: #f7f8fc;
+    }
+
     .fc-toolbar.fc-header-toolbar {
       margin-bottom: 0.8rem;
     }
