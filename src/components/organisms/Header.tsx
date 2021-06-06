@@ -8,7 +8,7 @@ const NavWrapper = styled.div`
   justify-content: center;
   height: 3.125rem;
   background-color: #212329;
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 10%);
 `
 
 const Nav = styled.div`
