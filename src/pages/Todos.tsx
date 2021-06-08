@@ -31,6 +31,7 @@ const Todos = ({ currentUser }: Props) => {
   const statusesRef = firestore.collection('statuses')
 
   const todoQuery = todosRef.orderBy('createdAt', 'asc')
+  // Easier than LinkedList since the data is passed as Array.
   const statusesQuery = statusesRef.orderBy('order', 'desc')
 
   const [todos, todoLoading, todoError] = useCollectionData(todoQuery, {
