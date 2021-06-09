@@ -5,6 +5,7 @@ import Times from 'pages/Times'
 import Todos from 'pages/Todos'
 import Logs from 'pages/Logs'
 import LogDetail from 'pages/LogDetail'
+import TodoDetail from 'pages/TodoDetail'
 
 interface Props {
   currentUser: firebase.User
@@ -17,7 +18,7 @@ const Routes = ({ currentUser }: Props) => {
         <Times currentUser={currentUser} />
       </Route>
 
-      <Route path={'/todos'}>
+      <Route exact path={'/todos'}>
         <Todos currentUser={currentUser} />
       </Route>
 
@@ -27,6 +28,10 @@ const Routes = ({ currentUser }: Props) => {
 
       <Route path={'/logs/:itemID(\\w+)'}>
         <LogDetail />
+      </Route>
+
+      <Route path={'/todos/:itemID(\\w+)'}>
+        <TodoDetail />
       </Route>
     </Switch>
   )

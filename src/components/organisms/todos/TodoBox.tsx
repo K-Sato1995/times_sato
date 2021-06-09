@@ -7,6 +7,7 @@ import { isKSato } from 'utils'
 import { useDrag } from 'react-dnd'
 import { DragableItemTypes } from 'consts'
 import { format } from 'date-fns'
+import { useHistory } from 'react-router-dom'
 
 interface DueDesign {
   isOverDue: boolean
@@ -17,7 +18,7 @@ const TodoContainer = styled.div`
   position: relative;
   padding: 0.6rem 0;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-  cursor: move;
+  cursor: pointer;
 
   :hover {
     background-color: #f8f8f8;
@@ -115,6 +116,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   const [displayStatusOptions, setDisplayStatusOptions] = useState<boolean>(
     false,
   )
+  const history = useHistory()
   const now = new Date()
   const todoDue = new Date(due?.toDate())
   const completed = process.env.REACT_APP_TODOLAST_STATUS_ID === status
@@ -156,7 +158,13 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   }
 
   return (
-    <TodoContainer ref={drag} isDragging={isDragging}>
+    <TodoContainer
+      ref={drag}
+      isDragging={isDragging}
+      onClick={() => {
+        history.push(`/todos/${id}`)
+      }}
+    >
       {displayStatusOptions && (
         <OptionListWrapper>
           <OptionList setDisplayOptionList={setDisplayStatusOptions}>
