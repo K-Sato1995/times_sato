@@ -178,7 +178,8 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
                       : (props: ThemeProps<any>) => props.theme.primaryColor
                   }
                   key={idx}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     updateStatus(status.id)
                   }}
                 >
