@@ -192,7 +192,8 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
       <StatusIconContianer>
         <StatusIcon
           color={statusColor}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation()
             setDisplayStatusOptions(!displayStatusOptions)
           }}
         />
