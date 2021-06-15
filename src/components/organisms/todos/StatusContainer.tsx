@@ -15,6 +15,7 @@ const StatusContiner = styled.div`
     margin-top: 1rem;
   }
 `
+
 interface Props {
   statusID: string
   children: React.ReactNode
