@@ -75,11 +75,11 @@ const MemoContent = ({ text }: Props) => {
             showGraphic={true}
             maxLine={2}
             minLine={1}
-            proxyUrl=""
-            defaultMedia="me.png"
-            url={`https://api.allorigins.win/raw?url=${encodeURIComponent(
+            proxyUrl={`https://api.allorigins.win/raw?url=${encodeURIComponent(
               link,
             )}`}
+            defaultMedia="me.png"
+            url={link}
           />
         </div>
       ))}
