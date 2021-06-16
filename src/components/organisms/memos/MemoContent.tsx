@@ -45,6 +45,7 @@ const Content = styled.div`
     border-radius: 2.5px;
     max-height: 4.25rem;
     margin-top: 0.625rem;
+    z-index: -1;
 
     .react_tinylink_card_media {
       background-color: #fff;
@@ -60,6 +61,12 @@ const Content = styled.div`
   }
 `
 
+const OutsideLink = styled.a`
+  display: block;
+  z-index: 1;
+  text-decoration: none;
+`
+
 const MemoContent = ({ text }: Props) => {
   const extractedUrls = text.match(httpLinkMatcher)
 
@@ -68,20 +75,20 @@ const MemoContent = ({ text }: Props) => {
       <Markdown mdText={text} />
 
       {extractedUrls?.map((link: string, idx: number) => (
-        <div key={idx}>
+        <OutsideLink key={idx} href={link} target="_blank">
           <ReactTinyLink
             key={idx}
             cardSize="small"
             showGraphic={true}
             maxLine={2}
             minLine={1}
-            proxyUrl={`https://api.allorigins.win/raw?url=${encodeURIComponent(
+            proxyUrl=""
+            defaultMedia="me.png"
+            url={`https://api.allorigins.win/raw?url=${encodeURIComponent(
               link,
             )}`}
-            defaultMedia="me.png"
-            url={link}
           />
-        </div>
+        </OutsideLink>
       ))}
     </Content>
   )
