@@ -14,6 +14,6 @@ Productivity App made by K-Sato for K-Sato
 
 ## Features
 
-- Todos
-- Study Logs
 - Memos
+- Todos(Task Management)
+- Study Logs
