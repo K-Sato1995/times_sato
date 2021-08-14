@@ -27,7 +27,7 @@ const Routes = ({ currentUser }: Props) => {
       </Route>
 
       <Route path={'/logs/:itemID(\\w+)'}>
-        <LogDetail />
+        <LogDetail currentUser={currentUser} />
       </Route>
 
       <Route path={'/todos/:itemID(\\w+)'}>

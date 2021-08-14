@@ -64,9 +64,10 @@ interface Props {
   itemID: string
   currTotalHours: number
   logItem?: firebase.firestore.DocumentData
+  uid: string
 }
 
-const Form = ({ itemID, logItem, currTotalHours }: Props) => {
+const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
   const logsRef = firestore.collection('logs')
   const logItemRef = firestore.collection('logItems').doc(itemID)
 
@@ -93,7 +94,7 @@ const Form = ({ itemID, logItem, currTotalHours }: Props) => {
       description: formValue.description,
       date: formValue.date,
       hours: formValue.hours,
-      uid: process.env.REACT_APP_MY_UID,
+      uid: uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       logItemID: itemID,
     })
