@@ -46,12 +46,18 @@ const ItemsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
 `
+/*
+Really don't like how I named all the things. So confusing.....
+
+  LogCategory > LogItems > Logs
+*/
 
 const Logs = ({ currentUser }: Props) => {
+  const { uid } = currentUser
   const logCategoriesRef = firestore.collection('logCategories')
   const logItemsRef = firestore.collection('logItems')
-  const categoriesQuery = logCategoriesRef
-  const itemsQuery = logItemsRef
+  const categoriesQuery = logCategoriesRef.where('uid', '==', uid)
+  const itemsQuery = logItemsRef.where('uid', '==', uid)
   let sumOfTotalHours = 0
   const [logCategories, categoriesLoading, categoriesError] = useCollectionData(
     categoriesQuery,
