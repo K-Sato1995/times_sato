@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ContentWrapper, CalendarWrapper } from 'components/atoms'
+import { ContentWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
   NewTodoForm,
@@ -11,11 +11,6 @@ import {
 } from 'components/organisms'
 import { firestore, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import FullCalendar from '@fullcalendar/react'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import listPlugin from '@fullcalendar/list'
-import { format } from 'date-fns'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
 
 const TodosConatiner = styled.div`
@@ -64,7 +59,7 @@ interface Props {
 const Todos = ({ currentUser }: Props) => {
   const todosRef = firestore.collection('todos')
   const statusesRef = firestore.collection('statuses')
-
+  const { uid } = currentUser
   const todoQuery = todosRef.orderBy('createdAt', 'asc')
   // Easier than LinkedList since the data is passed as Array.
   const statusesQuery = statusesRef.orderBy('order', 'desc')
@@ -100,32 +95,10 @@ const Todos = ({ currentUser }: Props) => {
     }
   })
 
-  const formatedTodos = todos
-    ?.filter((todo) => todo.due)
-    .map((todo) => {
-      return {
-        id: todo.id,
-        title: todo.text,
-        date: format(new Date(todo.due?.toDate()), "yyyy-MM-dd'T'HH:mm:ss"),
-      }
-    })
   if (todoLoading || statusLoading) return <LoadingState />
 
   return (
     <ContentWrapper>
-      <CalendarWrapper>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            left: 'prev',
-            center: 'title',
-            right: 'next',
-          }}
-          footerToolbar={{ right: 'dayGridMonth,timeGridWeek,listWeek' }}
-          events={formatedTodos}
-        />
-      </CalendarWrapper>
       {Object.keys(todosByStatus).map((key: string, idx: number) => {
         const todos = todosByStatus[key].todos
         const tagColor = todosByStatus[key].color
@@ -175,7 +148,7 @@ const Todos = ({ currentUser }: Props) => {
                 />
               ))}
 
-              <NewTodoForm statusID={statusID} />
+              <NewTodoForm uid={uid} statusID={statusID} />
             </TodosConatiner>
 
             <NewStatusForm

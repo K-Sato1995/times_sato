@@ -1,6 +1,6 @@
 ## What it is
 
-Productivity App made by K-Sato for K-Sato
+Track how u spend
 
 ## Tech Stack
 

@@ -3,7 +3,6 @@ import styled, { ThemeProps, css } from 'styled-components'
 import { OptionItem } from 'components/atoms'
 import { OptionList } from 'components/molecules'
 import { firebase, firestore } from 'firebaseConfig'
-import { isKSato } from 'utils'
 import { useDrag } from 'react-dnd'
 import { DragableItemTypes } from 'consts'
 import { format } from 'date-fns'
@@ -141,7 +140,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   const todoRef = firestore.collection('todos').doc(id)
 
   const updateStatus = async (statusID: string) => {
-    if (!isKSato(uid)) {
+    if (!uid) {
       alert('YOU ARE NOT ALLOWED TO DO THIS')
       return
     }
@@ -162,7 +161,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
       ref={drag}
       isDragging={isDragging}
       onClick={() => {
-        history.push(`/todos/${id}`)
+        history.push(`/issues/${id}`)
       }}
     >
       {displayStatusOptions && (

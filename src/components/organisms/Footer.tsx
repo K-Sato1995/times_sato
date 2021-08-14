@@ -31,7 +31,7 @@ const FooterItem = styled(Link)`
   text-decoration: none;
   padding-top: 1rem;
   text-align: center;
-  width: 33%;
+  width: 50%;
   color: ${(props) => props.theme.secondaryColor};
 
   /* :not(:last-child) {
@@ -52,14 +52,12 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterContent>
-        <FooterItem to={'/'} active={currPath === '/'}>
-          times
-        </FooterItem>
-        <FooterItem to={'/todos'} active={currPath === '/todos'}>
-          todos
-        </FooterItem>
         <FooterItem to={'/logs'} active={/\/logs/.test(currPath)}>
           logs
+        </FooterItem>
+
+        <FooterItem to={'/issues'} active={currPath === '/issues'}>
+          Issues
         </FooterItem>
       </FooterContent>
     </FooterContainer>

@@ -65,9 +65,10 @@ const NewTodoBox = styled.div`
 
 interface Props {
   statusID: string
+  uid: string
 }
 
-const Form = ({ statusID }: Props) => {
+const Form = ({ statusID, uid }: Props) => {
   const wrapperRef = useRef(null)
   const todosRef = firestore.collection('todos')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
@@ -88,7 +89,7 @@ const Form = ({ statusID }: Props) => {
     await todosRef.add({
       text: formValue.text,
       due: formValue.due,
-      uid: process.env.REACT_APP_MY_UID,
+      uid: uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       status: statusID,
     })

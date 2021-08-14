@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Heading, Button } from 'components/atoms'
 import { auth } from 'firebaseConfig'
+import { useHistory } from 'react-router-dom'
 
 const NavWrapper = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ const NavItems = styled.div`
 
 const Title = styled(Heading)`
   color: #fff;
+  cursor: pointer;
 `
 
 const SignOutLink = styled(Button)`
@@ -41,11 +43,20 @@ const SignOutLink = styled(Button)`
 `
 
 const Header = () => {
+  const history = useHistory()
+
   return (
     <NavWrapper>
       <Nav>
         <NavItems>
-          <Title size={'h1'}>times_sato</Title>
+          <Title
+            size={'h1'}
+            onClick={() => {
+              history.push('/')
+            }}
+          >
+            Study Log
+          </Title>
           {auth.currentUser && (
             <SignOutLink buttonType="link" onClick={() => auth.signOut()}>
               Sign Out

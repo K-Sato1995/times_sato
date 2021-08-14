@@ -12,6 +12,7 @@ import { NewLogForm, LogBox } from 'components/organisms'
 import { format } from 'date-fns'
 import ReactTooltip from 'react-tooltip'
 import CalendarHeatmap from 'react-calendar-heatmap'
+import { firebase } from 'firebaseConfig'
 import 'react-calendar-heatmap/dist/styles.css'
 
 const LogsConatiner = styled.div`
@@ -19,11 +20,15 @@ const LogsConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
 `
+interface Props {
+  currentUser: firebase.User
+}
 
-const LogDetail = () => {
+const LogDetail = ({ currentUser }: Props) => {
   const { itemID } = useParams<{ itemID: string }>()
   const logsRef = firestore.collection('logs')
   const logItemRef = firestore.doc(`logItems/${itemID}`)
+  const { uid } = currentUser
 
   const logQuery = logsRef
     .where('logItemID', '==', itemID)
@@ -83,7 +88,12 @@ const LogDetail = () => {
           <LogBox key={log.id} log={log} />
         ))}
 
-        <NewLogForm itemID={itemID} logItem={logItem} currTotalHours={sum} />
+        <NewLogForm
+          itemID={itemID}
+          logItem={logItem}
+          currTotalHours={sum}
+          uid={uid}
+        />
       </LogsConatiner>
     </ContentWrapper>
   )
