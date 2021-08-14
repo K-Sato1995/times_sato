@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Footer } from 'components/organisms'
+import { Header } from 'components/organisms'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from 'firebaseConfig'
 import SignIn from 'pages/SignIn'
