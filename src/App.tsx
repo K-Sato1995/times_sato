@@ -22,15 +22,17 @@ function App() {
   if (!user) return <SignIn />
 
   return (
-    <Router>
+    <>
       <Header />
 
-      <MainContainer>
-        <Routes currentUser={user} />
-      </MainContainer>
+      <Router>
+        <MainContainer>
+          <Routes currentUser={user} />
+        </MainContainer>
 
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </>
   )
 }
 
