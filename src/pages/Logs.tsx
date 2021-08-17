@@ -35,6 +35,11 @@ const ChartContent = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
+
+  @media screen and (max-width: 29.9999em) {
+    padding: 0;
+    display: block;
+  }
 `
 const ChartWrapper = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -121,7 +126,7 @@ const Logs = ({ currentUser }: Props) => {
           <PieChart
             style={{
               fontSize: '2px',
-              width: '350px',
+              // width: '350px',
               height: '300px',
             }}
             data={formattedData}
