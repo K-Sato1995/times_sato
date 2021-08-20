@@ -142,7 +142,7 @@ const Form = ({ statusID, uid }: Props) => {
             setDisplayForm(true)
           }}
         >
-          + New Todo
+          + New Issue
         </NewTodoBox>
       )}
     </TodoFormWrapper>
