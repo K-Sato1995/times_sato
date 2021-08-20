@@ -52,11 +52,14 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterContent>
-        <FooterItem to={'/logs'} active={/\/logs/.test(currPath)}>
-          logs
+        <FooterItem
+          to={'/logs'}
+          active={currPath === '/' || /\/logs/.test(currPath)}
+        >
+          Logs
         </FooterItem>
 
-        <FooterItem to={'/issues'} active={currPath === '/issues'}>
+        <FooterItem to={'/issues'} active={/\/issues/.test(currPath)}>
           Issues
         </FooterItem>
       </FooterContent>

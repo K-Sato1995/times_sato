@@ -17,12 +17,12 @@ const Routes = ({ currentUser }: Props) => {
         <Logs currentUser={currentUser} />
       </Route>
 
-      <Route exact path={'/issues'}>
-        <Todos currentUser={currentUser} />
-      </Route>
-
       <Route path={'/logs/:itemID(\\w+)'}>
         <LogDetail currentUser={currentUser} />
+      </Route>
+
+      <Route exact path={'/issues'}>
+        <Todos currentUser={currentUser} />
       </Route>
 
       <Route path={'/issues/:itemID(\\w+)'}>
