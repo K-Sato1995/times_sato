@@ -23,9 +23,9 @@ function App() {
 
   return (
     <>
-      <Header />
-
       <Router>
+        <Header />
+
         <MainContainer>
           <Routes currentUser={user} />
         </MainContainer>
