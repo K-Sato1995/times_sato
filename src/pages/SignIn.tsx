@@ -31,7 +31,7 @@ const SignIn = () => {
 
   return (
     <Container>
-      <Title>times_sato</Title>
+      <Title>Study Log</Title>
       <SignInButton buttonType="secondary" onClick={signInWithGoogle}>
         Sign in with Google
       </SignInButton>
