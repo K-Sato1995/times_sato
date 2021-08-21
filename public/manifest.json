@@ -1,6 +1,6 @@
 {
-  "short_name": "times_sato",
-  "name": "times_sato",
+  "short_name": "Study Log",
+  "name": "Study Log",
   "icons": [
     {"src": "favicon.ico","sizes": "64x64 32x32 24x24 16x16","type": "image/x-icon"},
     {"src":"icons/icon-48x48.png?v=e0bdf9b358b6990799f7be1329d58314","sizes":"48x48","type":"image/png"},
