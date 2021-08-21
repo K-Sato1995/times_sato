@@ -1,21 +1,21 @@
 import React from 'react'
-import styled from 'styled-components'
-import { SyncLoader } from 'react-spinners'
+import { SyncLoader, ClipLoader } from 'react-spinners'
 
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -4rem;
-  margin-left: -1.5rem;
-`
+type LoaderType = 'sync' | 'clip'
 
-const LoadingState = () => {
-  return (
-    <LoaderWrapper>
-      <SyncLoader color={'#e0e0e0'} />
-    </LoaderWrapper>
-  )
+interface Props {
+  loaderType?: LoaderType
+}
+
+const LoadingState = ({ loaderType }: Props) => {
+  switch (loaderType) {
+    case 'sync':
+      return <SyncLoader color={'#e0e0e0'} />
+    case 'clip':
+      return <ClipLoader color={'#e0e0e0'} />
+    default:
+      return <SyncLoader color={'#e0e0e0'} />
+  }
 }
 
 export default LoadingState

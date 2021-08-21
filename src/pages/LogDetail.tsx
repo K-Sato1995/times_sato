@@ -6,7 +6,7 @@ import {
   useCollectionData,
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
-import { Heading, ContentWrapper } from 'components/atoms'
+import { Heading, ContentWrapper, LoaderWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewLogForm, LogBox } from 'components/organisms'
 import { format } from 'date-fns'
@@ -47,7 +47,12 @@ const LogDetail = ({ currentUser }: Props) => {
     logItemError && console.log(logItemError.message)
   }
 
-  if (logLoading || logItemLoading) return <LoadingState />
+  if (logLoading || logItemLoading)
+    return (
+      <LoaderWrapper>
+        <LoadingState />
+      </LoaderWrapper>
+    )
 
   let sum = 0
 
