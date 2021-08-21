@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ContentWrapper } from 'components/atoms'
+import { ContentWrapper, LoaderWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
   NewTodoForm,
@@ -95,7 +95,12 @@ const Todos = ({ currentUser }: Props) => {
     }
   })
 
-  if (todoLoading || statusLoading) return <LoadingState />
+  if (todoLoading || statusLoading)
+    return (
+      <LoaderWrapper>
+        <LoadingState />
+      </LoaderWrapper>
+    )
 
   return (
     <ContentWrapper>

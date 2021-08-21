@@ -8,6 +8,7 @@ import OptionItem from 'components/atoms/OptionItem'
 import ContentWrapper from 'components/atoms/ContentWrapper'
 import Badge from 'components/atoms/Badge'
 import CalendarWrapper from 'components/atoms/CalendarWrapper'
+import LoaderWrapper from 'components/atoms/LoaderWrapper'
 
 export {
   Button,
@@ -20,4 +21,5 @@ export {
   OptionItem,
   ContentWrapper,
   CalendarWrapper,
+  LoaderWrapper,
 }

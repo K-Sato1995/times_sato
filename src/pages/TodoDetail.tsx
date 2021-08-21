@@ -3,7 +3,12 @@ import styled from 'styled-components'
 import { firestore } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
-import { Input, Textarea, ContentWrapper } from 'components/atoms'
+import {
+  Input,
+  Textarea,
+  ContentWrapper,
+  LoaderWrapper,
+} from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -71,7 +76,12 @@ const TodoDetail = () => {
     console.log(error.message)
   }
 
-  if (loading) return <LoadingState />
+  if (loading)
+    return (
+      <LoaderWrapper>
+        <LoadingState />
+      </LoaderWrapper>
+    )
 
   return (
     <ContentWrapper>
