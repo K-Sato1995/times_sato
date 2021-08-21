@@ -16,7 +16,7 @@ import { firebase } from 'firebaseConfig'
 import 'react-calendar-heatmap/dist/styles.css'
 
 const LogsConatiner = styled.div`
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
 `
@@ -87,18 +87,16 @@ const LogDetail = ({ currentUser }: Props) => {
         values={formattedLogs}
         tooltipDataAttrs={getTooltipDataAttrs}
       />
-
+      <NewLogForm
+        itemID={itemID}
+        logItem={logItem}
+        currTotalHours={sum}
+        uid={uid}
+      />
       <LogsConatiner>
         {logs?.map((log) => (
           <LogBox key={log.id} log={log} />
         ))}
-
-        <NewLogForm
-          itemID={itemID}
-          logItem={logItem}
-          currTotalHours={sum}
-          uid={uid}
-        />
       </LogsConatiner>
     </ContentWrapper>
   )

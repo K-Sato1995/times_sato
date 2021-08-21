@@ -7,8 +7,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-
+  margin-top: 1rem;
+  border: solid ${(props) => props.theme.borderColor} 1px;
+  border-bottom: none;
   .react-datepicker-wrapper {
     display: block;
   }
@@ -52,11 +53,13 @@ const FormButton = styled(Button)`
 `
 
 const NewLogBox = styled.div`
+  margin-top: 1rem;
   text-align: center;
   font-size: 0.8rem;
   padding: 0.6rem 0;
   color: ${(props) => props.theme.secondaryColor};
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+  border: solid ${(props) => props.theme.borderColor} 1px;
+  border-bottom: none;
   cursor: pointer;
 `
 
