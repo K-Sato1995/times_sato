@@ -57,7 +57,8 @@
     "lint": "eslint --ext=ts,tsx,js,jsx src",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "node analyse.js"
   },
   "eslintConfig": {
     "extends": [
