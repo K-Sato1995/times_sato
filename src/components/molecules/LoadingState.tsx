@@ -1,5 +1,6 @@
 import React from 'react'
-import { SyncLoader, ClipLoader } from 'react-spinners'
+import SyncLoader from 'react-spinners/SyncLoader'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 type LoaderType = 'sync' | 'clip'
 
