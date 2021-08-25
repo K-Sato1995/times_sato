@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom'
 import { firebase } from 'firebaseConfig'
 import { LoadingState } from 'components/molecules'
 import { LoaderWrapper } from 'components/atoms'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const Todos = lazy(() => import('pages/Todos'))
 const TodoDetail = lazy(() => import('pages/TodoDetail'))
@@ -32,7 +34,9 @@ const Routes = ({ currentUser }: Props) => {
         </Route>
 
         <Route exact path={'/issues'}>
-          <Todos currentUser={currentUser} />
+          <DndProvider backend={HTML5Backend}>
+            <Todos currentUser={currentUser} />
+          </DndProvider>
         </Route>
 
         <Route path={'/issues/:itemID(\\w+)'}>
