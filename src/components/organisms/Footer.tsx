@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { useLocation } from 'react-router-dom'
+import { firebase } from 'firebaseConfig'
 
 const FooterContainer = styled.div`
   z-index: 1000;
@@ -46,22 +47,30 @@ const FooterItem = styled(Link)`
     `}
 `
 
-const Footer = () => {
+interface Props {
+  currentUser?: firebase.User | null
+}
+
+const Footer = ({ currentUser }: Props) => {
   const location = useLocation()
   const currPath = location.pathname
   return (
     <FooterContainer>
       <FooterContent>
-        <FooterItem
-          to={'/logs'}
-          active={currPath === '/' || /\/logs/.test(currPath)}
-        >
-          Logs
-        </FooterItem>
+        {currentUser && (
+          <>
+            <FooterItem
+              to={'/logs'}
+              active={currPath === '/' || /\/logs/.test(currPath)}
+            >
+              Logs
+            </FooterItem>
 
-        <FooterItem to={'/issues'} active={/\/issues/.test(currPath)}>
-          Issues
-        </FooterItem>
+            <FooterItem to={'/issues'} active={/\/issues/.test(currPath)}>
+              Issues
+            </FooterItem>
+          </>
+        )}
       </FooterContent>
     </FooterContainer>
   )
