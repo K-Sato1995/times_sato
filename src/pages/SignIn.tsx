@@ -1,19 +1,11 @@
 import React from 'react'
 import { auth, firebase } from 'firebaseConfig'
 import styled from 'styled-components'
-import { Button, Heading } from 'components/atoms'
+import { Button } from 'components/atoms'
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
-`
-
-const Title = styled(Heading).attrs(() => ({
-  size: 'h1',
-}))`
-  display: block;
-  position: absolute;
-  left: 5%;
 `
 
 const SignInButton = styled(Button)`
@@ -31,7 +23,6 @@ const SignIn = () => {
 
   return (
     <Container>
-      <Title>Study Log</Title>
       <SignInButton buttonType="secondary" onClick={signInWithGoogle}>
         Sign in with Google
       </SignInButton>

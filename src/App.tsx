@@ -18,27 +18,28 @@ const MainContainer = styled.div`
 function App() {
   const [user, loading] = useAuthState(auth)
 
-  if (loading)
-    return (
-      <LoaderWrapper>
-        <LoadingState />
-      </LoaderWrapper>
-    )
+  const renderMainComponents = () => {
+    if (!user) return <SignIn />
 
-  if (!user) return <SignIn />
+    return <Routes currentUser={user} />
+  }
 
   return (
-    <>
-      <Router>
-        <Header />
+    <Router>
+      <Header />
 
-        <MainContainer>
-          <Routes currentUser={user} />
-        </MainContainer>
+      <MainContainer>
+        {loading ? (
+          <LoaderWrapper>
+            <LoadingState />
+          </LoaderWrapper>
+        ) : (
+          renderMainComponents()
+        )}
+      </MainContainer>
 
-        <Footer />
-      </Router>
-    </>
+      <Footer currentUser={user} />
+    </Router>
   )
 }
 
