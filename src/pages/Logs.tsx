@@ -46,7 +46,7 @@ const ChartWrapper = styled.div`
   padding: 1rem;
   border-radius: 10px;
   position: relative;
-  min-height: 300px;
+  min-height: 370px;
 `
 
 const ItemsConatiner = styled.div`
