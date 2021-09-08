@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { db, firebase } from 'firebaseConfig'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { ContentWrapper, Heading } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
@@ -75,31 +74,46 @@ const Logs = ({ currentUser }: Props) => {
   const categoriesQuery = query(logCategoriesRef, where('uid', '==', uid))
   const itemsQuery = query(logItemsRef, where('uid', '==', uid))
   let sumOfTotalHours = 0
-  const [logCategories, categoriesLoading, categoriesError] = useCollectionData(
-    categoriesQuery,
-    {
-      idField: 'id',
-    },
-  )
 
-  const [logItems, logItemsLoading, logItemsError] = useCollectionData(
-    itemsQuery,
-    {
-      idField: 'id',
-    },
-  )
+  const [categories, setCategories] = useState<any[]>([])
 
-  if (categoriesError || logItemsError) {
-    categoriesError && console.log(categoriesError.message)
-    logItemsError && console.log(logItemsError.message)
-  }
+  const [logs, setLogs] = useState<any[]>([])
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const querySnapshot = await getDocs(categoriesQuery)
+
+      let categoryDocs: any[] = []
+      querySnapshot.forEach((doc) => {
+        categoryDocs.push({ ...doc.data(), id: doc.id })
+      })
+
+      await setCategories(categoryDocs)
+    }
+
+    const getLogs = async () => {
+      const querySnapshot = await getDocs(itemsQuery)
+
+      let logDocs: any[] = []
+      querySnapshot.forEach((doc) => {
+        logDocs.push({ ...doc.data(), id: doc.id })
+      })
+
+      setLogs(logDocs)
+    }
+
+    getCategories()
+    getLogs()
+  }, [setCategories, setLogs, categoriesQuery, itemsQuery])
 
   let logItemsByCateogory: LogItemsByCategory = {}
 
-  logCategories
+  console.log(categories)
+  console.log(logs)
+  categories
     ?.sort((a, b) => a.createdAt - b.createdAt)
     .forEach((category) => {
-      let items = logItems
+      let items = logs
         ?.filter((item) => item.categoryID === category.id)
         .sort((a, b) => a.createdAt - b.createdAt)
 
@@ -110,9 +124,9 @@ const Logs = ({ currentUser }: Props) => {
       }
     })
 
-  logItems?.forEach((item) => (sumOfTotalHours += item.totalHours))
+  logs?.forEach((item) => (sumOfTotalHours += item.totalHours))
 
-  const formattedData = logItems
+  const formattedData = logs
     ?.filter((item) => item.totalHours)
     .map((item) => {
       const randomColor = require('randomcolor')
@@ -132,34 +146,28 @@ const Logs = ({ currentUser }: Props) => {
           <ChartTitle size={'h2'}>Time Breakdown</ChartTitle>
         </ChartHeader>
 
-        {logItemsLoading || categoriesLoading ? (
-          <LocalLoaderWrapper>
-            <LoadingState loaderType={'clip'} />
-          </LocalLoaderWrapper>
-        ) : (
-          <ChartContent>
-            <PieChart
-              style={{
-                fontSize: '2px',
-                height: '300px',
-              }}
-              data={formattedData}
-              radius={PieChart.defaultProps.radius - 6}
-              label={() => `${sumOfTotalHours}h`}
-              lineWidth={30}
-              segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
-              animate
-              labelPosition={0}
-              labelStyle={{
-                fontSize: '10px',
-                fill: '#697980',
-                opacity: 0.75,
-                pointerEvents: 'none',
-              }}
-            />
-            <ChartLegend data={formattedData} />
-          </ChartContent>
-        )}
+        <ChartContent>
+          <PieChart
+            style={{
+              fontSize: '2px',
+              height: '300px',
+            }}
+            data={formattedData}
+            radius={PieChart.defaultProps.radius - 6}
+            label={() => `${sumOfTotalHours}h`}
+            lineWidth={30}
+            segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+            animate
+            labelPosition={0}
+            labelStyle={{
+              fontSize: '10px',
+              fill: '#697980',
+              opacity: 0.75,
+              pointerEvents: 'none',
+            }}
+          />
+          <ChartLegend data={formattedData} />
+        </ChartContent>
       </ChartWrapper>
 
       {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {
