@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { db, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { updateDoc, addDoc, doc, collection } from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;
@@ -71,8 +72,8 @@ interface Props {
 }
 
 const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
-  const logsRef = firestore.collection('logs')
-  const logItemRef = firestore.collection('logItems').doc(itemID)
+  const logsRef = collection(db, 'logs')
+  const logItemRef = doc(db, 'logItems', itemID)
 
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { description: '', date: null, hours: null }
@@ -89,11 +90,11 @@ const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
       return
     }
 
-    await logItemRef.update({
+    await updateDoc(logItemRef, {
       totalHours: currTotalHours + formValue.hours,
     })
 
-    await logsRef.add({
+    await addDoc(logsRef, {
       description: formValue.description,
       date: formValue.date,
       hours: formValue.hours,

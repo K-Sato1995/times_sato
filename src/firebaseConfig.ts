@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
-import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseApp = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -11,6 +11,6 @@ const firebaseApp = firebase.initializeApp({
 })
 
 const auth = getAuth(firebaseApp)
-const firestore = firebase.firestore()
+const db = getFirestore(firebaseApp)
 
-export { auth, firebase, firestore }
+export { auth, firebase, db }

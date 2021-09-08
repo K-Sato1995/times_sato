@@ -1,5 +1,5 @@
 import React from 'react'
-import { firestore, firebase } from 'firebaseConfig'
+import { db, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { ContentWrapper, Heading } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
@@ -12,6 +12,7 @@ import {
 } from 'components/organisms'
 import styled from 'styled-components'
 import { PieChart } from 'react-minimal-pie-chart'
+import { where, query, collection, getDocs } from 'firebase/firestore'
 
 interface Props {
   currentUser: firebase.User
@@ -68,10 +69,11 @@ Really don't like how I named all the things. So confusing.....
 
 const Logs = ({ currentUser }: Props) => {
   const { uid } = currentUser
-  const logCategoriesRef = firestore.collection('logCategories')
-  const logItemsRef = firestore.collection('logItems')
-  const categoriesQuery = logCategoriesRef.where('uid', '==', uid)
-  const itemsQuery = logItemsRef.where('uid', '==', uid)
+  const logCategoriesRef = collection(db, 'logCategories')
+  const logItemsRef = collection(db, 'logItems')
+
+  const categoriesQuery = query(logCategoriesRef, where('uid', '==', uid))
+  const itemsQuery = query(logItemsRef, where('uid', '==', uid))
   let sumOfTotalHours = 0
   const [logCategories, categoriesLoading, categoriesError] = useCollectionData(
     categoriesQuery,

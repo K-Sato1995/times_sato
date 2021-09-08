@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { firebase, db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
 import { useDetectOutsideClick } from 'hooks'
+import { updateDoc, addDoc, doc, collection } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
@@ -110,7 +111,8 @@ interface Props {
 
 const Form = ({ currentUser, statuses, currOrder }: Props) => {
   const [displayForm, setDisplayForm] = useState<boolean>(false)
-  const statusesRef = firestore.collection('statuses')
+  const statusesRef = collection(db, 'statuses')
+
   const formInitialValue = { name: '', color: '' }
   const [formValue, setFormValue] = useState(formInitialValue)
   const { uid } = currentUser
@@ -135,14 +137,14 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
 
     previousStatuses?.forEach((status) => {
       const { id } = status
-      const statusRef = firestore.collection('statuses').doc(id)
+      const statusRef = doc(db, 'statuses', id)
 
-      statusRef.update({
+      updateDoc(statusRef, {
         order: status.order + 1,
       })
     })
 
-    await statusesRef.add({
+    await addDoc(statusesRef, {
       name: formValue.name,
       color: formValue.color,
       order: currOrder,

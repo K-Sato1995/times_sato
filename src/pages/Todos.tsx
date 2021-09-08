@@ -9,9 +9,10 @@ import {
   StatusTag,
   StatusContainer,
 } from 'components/organisms'
-import { firestore, firebase } from 'firebaseConfig'
+import { db, firebase } from 'firebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
+import { query, orderBy, collection } from 'firebase/firestore'
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -57,12 +58,14 @@ interface Props {
 }
 
 const Todos = ({ currentUser }: Props) => {
-  const todosRef = firestore.collection('todos')
-  const statusesRef = firestore.collection('statuses')
+  const todosRef = collection(db, 'todos')
+  const statusesRef = collection(db, 'statuses')
+
   const { uid } = currentUser
-  const todoQuery = todosRef.orderBy('createdAt', 'asc')
-  // Easier than LinkedList since the data is passed as Array.
-  const statusesQuery = statusesRef.orderBy('order', 'desc')
+  // const todoQuery = todosRef.orderBy('createdAt', 'asc')
+
+  const todoQuery = query(todosRef, orderBy('order', 'desc'))
+  const statusesQuery = query(statusesRef, orderBy('order', 'desc'))
 
   const [displayCompletedTodos, setDisplayCompletedTodos] = useState<boolean>(
     false,

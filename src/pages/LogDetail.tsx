@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firestore } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
 import {
   useCollectionData,
@@ -14,6 +14,7 @@ import ReactTooltip from 'react-tooltip'
 import CalendarHeatmap from 'react-calendar-heatmap'
 import { firebase } from 'firebaseConfig'
 import 'react-calendar-heatmap/dist/styles.css'
+import { query, orderBy, where, doc, collection } from 'firebase/firestore'
 
 const LogsConatiner = styled.div`
   /* margin-top: 1rem; */
@@ -26,13 +27,16 @@ interface Props {
 
 const LogDetail = ({ currentUser }: Props) => {
   const { itemID } = useParams<{ itemID: string }>()
-  const logsRef = firestore.collection('logs')
-  const logItemRef = firestore.doc(`logItems/${itemID}`)
+  const logsRef = collection(db, 'logs')
+  const logItemRef = doc(db, 'logItems', itemID)
+
   const { uid } = currentUser
 
-  const logQuery = logsRef
-    .where('logItemID', '==', itemID)
-    .orderBy('date', 'desc')
+  const logQuery = query(
+    logsRef,
+    orderBy('date', 'desc'),
+    where('logItemID', '==', itemID),
+  )
 
   const [logs, logLoading, logError] = useCollectionData(logQuery, {
     idField: 'id',

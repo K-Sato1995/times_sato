@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firestore } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import {
@@ -12,6 +12,7 @@ import {
 import { LoadingState } from 'components/molecules'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { updateDoc, doc } from 'firebase/firestore'
 
 const DetailFormWrapper = styled.div`
   display: flex;
@@ -55,11 +56,11 @@ type TodoObj = {
 
 const TodoDetail = () => {
   const { itemID } = useParams<{ itemID: string }>()
-  const todoRef = firestore.doc(`todos/${itemID}`)
+
+  const todoRef = doc(db, 'todos', itemID)
 
   const updateTodo = async (todoObj: TodoObj) => {
-    await todoRef
-      .update(todoObj)
+    await updateDoc(todoRef, todoObj)
       .then(() => {
         console.log('Document successfully updated!')
       })
