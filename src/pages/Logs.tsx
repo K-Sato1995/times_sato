@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components'
 import { PieChart } from 'react-minimal-pie-chart'
 import { where, query, collection, getDocs } from 'firebase/firestore'
-
+import { useCollectionData } from 'hooks/useCollection'
 interface Props {
   currentUser: firebase.User
 }
@@ -79,6 +79,8 @@ const Logs = ({ currentUser }: Props) => {
 
   const [logs, setLogs] = useState<any[]>([])
 
+  const cats = useCollectionData(categoriesQuery)
+
   useEffect(() => {
     const getCategories = async () => {
       const querySnapshot = await getDocs(categoriesQuery)
@@ -104,10 +106,11 @@ const Logs = ({ currentUser }: Props) => {
 
     getCategories()
     getLogs()
-  }, [setCategories, setLogs, categoriesQuery, itemsQuery])
+  }, [])
 
   let logItemsByCateogory: LogItemsByCategory = {}
 
+  console.log(cats)
   console.log(categories)
   console.log(logs)
   categories
