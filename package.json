@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.3.0",
     "@fullcalendar/react": "^5.7.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -46,7 +47,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
     "lint": "eslint --ext=ts,tsx,js,jsx src",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -85,6 +86,7 @@
     ]
   },
   "devDependencies": {
+    "@welldone-software/why-did-you-render": "^6.2.1",
     "progress-bar-webpack-plugin": "^2.1.0",
     "webpack-bundle-analyzer": "^4.4.2"
   }

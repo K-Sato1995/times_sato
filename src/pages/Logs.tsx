@@ -12,7 +12,7 @@ import {
 } from 'components/organisms'
 import styled from 'styled-components'
 import { PieChart } from 'react-minimal-pie-chart'
-
+const randomColor = require('randomcolor')
 interface Props {
   currentUser: firebase.User
 }
@@ -113,8 +113,6 @@ const Logs = ({ currentUser }: Props) => {
   const formattedData = logItems
     ?.filter((item) => item.totalHours)
     .map((item) => {
-      const randomColor = require('randomcolor')
-
       return {
         title: item.name,
         value: item.totalHours,
