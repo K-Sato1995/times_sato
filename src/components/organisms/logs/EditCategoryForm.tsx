@@ -104,4 +104,4 @@ const Form = ({ setIsEditing, logCategory }: Props) => {
   )
 }
 
-export default Form
+export default React.memo(Form)

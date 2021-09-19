@@ -211,4 +211,4 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
   )
 }
 
-export default Form
+export default React.memo(Form)
