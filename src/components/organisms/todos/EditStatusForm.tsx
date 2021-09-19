@@ -104,4 +104,4 @@ const Form = ({ setIsEditing, status }: Props) => {
   )
 }
 
-export default Form
+export default React.memo(Form)
