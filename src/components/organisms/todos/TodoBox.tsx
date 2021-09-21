@@ -7,6 +7,7 @@ import { useDrag } from 'react-dnd'
 import { DragableItemTypes } from 'consts'
 import { format } from 'date-fns'
 import { useHistory } from 'react-router-dom'
+import { User } from 'firebase/auth'
 
 interface DueDesign {
   isOverDue: boolean
@@ -105,7 +106,7 @@ const OptionListWrapper = styled.div`
 
 interface Props {
   todo: firebase.firestore.DocumentData
-  currentUser: firebase.User
+  currentUser: User
   statusColor?: string
   statuses?: firebase.firestore.DocumentData[]
 }

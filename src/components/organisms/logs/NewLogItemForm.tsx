@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
+import { User } from 'firebase/auth'
 
 const LogItemForm = styled.form`
   display: flex;
@@ -72,7 +73,7 @@ const NewLogItemBox = styled.div`
 `
 
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
   categoryID: string
   categoryColor?: string
 }

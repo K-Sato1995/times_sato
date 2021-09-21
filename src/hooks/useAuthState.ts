@@ -1,36 +1,26 @@
 import { useState, useEffect } from 'react'
-import {
-  DocumentReference,
-  DocumentData,
-  FirestoreError,
-  onSnapshot,
-} from 'firebase/firestore'
+import { auth } from 'firebaseConfig'
+import { onAuthStateChanged, User } from 'firebase/auth'
 
-function useAuthState(
-  query: DocumentReference<DocumentData>,
-): [DocumentData | null, boolean, FirestoreError | null] {
-  const [result, setResult] = useState<DocumentData | null>(null)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState<boolean>(false)
+export const useAuthState = (): [User | null, boolean] => {
+  const [state, setState] = useState(() => {
+    const user = auth.currentUser
+
+    return {
+      initializing: !user,
+      user,
+    }
+  })
 
   useEffect(() => {
-    const unsbscribe = onSnapshot(query, (doc: DocumentData) => {
-      try {
-        setLoading(true)
-        setResult(doc.data())
-        setLoading(false)
-      } catch (err) {
-        setLoading(false)
-        setError(err)
-      }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setState({ initializing: false, user })
     })
 
-    return () => {
-      unsbscribe()
-    }
+    // unsubscribe to the listener when unmounting
+    return () => unsubscribe()
   }, [])
 
-  return [result, loading, error]
+  return [state.user, state.initializing]
 }
-
 export default useAuthState

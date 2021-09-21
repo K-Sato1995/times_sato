@@ -1,5 +1,5 @@
 import React from 'react'
-import { firebase, db } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { ContentWrapper, Heading } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
@@ -13,10 +13,11 @@ import styled from 'styled-components'
 import useCollectionData from 'hooks/useCollectionData'
 import { PieChart } from 'react-minimal-pie-chart'
 import { collection, query, where } from 'firebase/firestore'
+import { User } from 'firebase/auth'
 
 const randomColor = require('randomcolor')
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
 }
 
 const CategoryContainer = styled.div`

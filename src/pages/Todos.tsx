@@ -9,10 +9,11 @@ import {
   StatusTag,
   StatusContainer,
 } from 'components/organisms'
-import { db, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { collection, query, orderBy } from 'firebase/firestore'
 import useCollectionData from 'hooks/useCollectionData'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
+import { User } from 'firebase/auth'
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -54,7 +55,7 @@ const UndisplayedStatusTag = styled(StatusTag)`
 `
 
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
 }
 
 const Todos = ({ currentUser }: Props) => {

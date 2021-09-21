@@ -4,6 +4,7 @@ import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
 import { useDetectOutsideClick } from 'hooks'
+import { User } from 'firebase/auth'
 
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
@@ -103,7 +104,7 @@ const ColorPickerWrapper = styled.div`
 `
 
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
   statuses?: firebase.firestore.DocumentData[]
   currOrder: number
 }
