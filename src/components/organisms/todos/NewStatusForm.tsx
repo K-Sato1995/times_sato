@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
 import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import { CirclePicker } from 'react-color'
 import { useDetectOutsideClick } from 'hooks'
 import { User } from 'firebase/auth'
 import {
@@ -14,6 +13,11 @@ import {
   DocumentData,
 } from 'firebase/firestore'
 
+const CirclePicker = React.lazy(() =>
+  import('react-color').then((module) => ({
+    default: module.CirclePicker,
+  })),
+)
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
   border-radius: 2.5px;
