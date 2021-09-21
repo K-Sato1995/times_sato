@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firebase } from 'firebaseConfig'
+
 import { useHistory } from 'react-router-dom'
+import { DocumentData } from 'firebase/firestore'
 
 const ItemContainer = styled.div`
   position: relative;
@@ -54,7 +55,7 @@ const TotalHours = styled.span`
 `
 
 interface Props {
-  item: firebase.firestore.DocumentData
+  item: DocumentData
   categoryColor?: string
 }
 

@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { ListTag } from 'components/molecules'
-import { firebase } from 'firebaseConfig'
 import { EditStatusForm } from 'components/organisms'
 import { BadgeProps } from 'components/atoms/Badge'
 import { useDetectOutsideClick } from 'hooks'
+import { DocumentData } from 'firebase/firestore'
 
 interface Props extends BadgeProps {
-  status: firebase.firestore.DocumentData
+  status: DocumentData
 }
 
 const StatusTagWrapper = styled.div`

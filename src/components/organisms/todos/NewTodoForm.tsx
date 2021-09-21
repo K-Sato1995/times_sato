@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import { firebase, db } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import DatePicker from 'react-datepicker'
 import { useDetectOutsideClick } from 'hooks'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const TodoFormWrapper = styled.div``
@@ -91,7 +91,7 @@ const Form = ({ statusID, uid }: Props) => {
       text: formValue.text,
       due: formValue.due,
       uid: uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       status: statusID,
     })
     setFormValue({ ...formDefaultValue })

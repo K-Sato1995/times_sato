@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import styled, { ThemeProps, css } from 'styled-components'
 import { OptionItem } from 'components/atoms'
 import { OptionList } from 'components/molecules'
-import { firebase, db } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { useDrag } from 'react-dnd'
 import { DragableItemTypes } from 'consts'
 import { format } from 'date-fns'
 import { useHistory } from 'react-router-dom'
 import { User } from 'firebase/auth'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc, DocumentData } from 'firebase/firestore'
 
 interface DueDesign {
   isOverDue: boolean
@@ -106,10 +106,10 @@ const OptionListWrapper = styled.div`
 `
 
 interface Props {
-  todo: firebase.firestore.DocumentData
+  todo: DocumentData
   currentUser: User
   statusColor?: string
-  statuses?: firebase.firestore.DocumentData[]
+  statuses?: DocumentData[]
 }
 
 const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {

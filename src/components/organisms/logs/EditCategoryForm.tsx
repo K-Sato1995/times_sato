@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { db, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc, DocumentData } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.2rem 0.5rem;
@@ -51,7 +51,7 @@ const ColorPickerWrapper = styled.div`
 `
 
 interface Props {
-  logCategory: firebase.firestore.DocumentData
+  logCategory: DocumentData
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 

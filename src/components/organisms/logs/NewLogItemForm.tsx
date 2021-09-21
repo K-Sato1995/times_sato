@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { firebase, db } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { User } from 'firebase/auth'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   display: flex;
@@ -93,7 +93,7 @@ const Form = ({ currentUser, categoryID, categoryColor }: Props) => {
     }
     await addDoc(itemsRef, {
       name: formValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       totalHours: 0,
       uid: uid,
       categoryID,

@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { firestore, firebase, db } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DocumentData } from 'firebase/firestore'
-import { collection, addDoc, doc, updateDoc } from 'firebase/firestore'
+import {
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+} from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;
@@ -100,7 +106,7 @@ const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
       date: formValue.date,
       hours: formValue.hours,
       uid: uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       logItemID: itemID,
     })
     setFormValue({ ...formDefaultValue, hours: 0 })

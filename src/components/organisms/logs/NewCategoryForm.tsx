@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { db, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
 import { useDetectOutsideClick } from 'hooks'
 import { User } from 'firebase/auth'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
@@ -131,7 +131,7 @@ const Form = ({ currentUser }: Props) => {
     await addDoc(categoryesRef, {
       name: formValue.name,
       color: formValue.color,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       uid: uid,
     })
 
