@@ -1,7 +1,6 @@
 import React from 'react'
 import { Header, Footer } from 'components/organisms'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from 'firebaseConfig'
+import { useAuthState } from 'hooks'
 import SignIn from 'pages/SignIn'
 import styled from 'styled-components'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -16,7 +15,7 @@ const MainContainer = styled.div`
 `
 
 function App() {
-  const [user, loading] = useAuthState(auth)
+  const [user, loading] = useAuthState()
 
   const renderMainComponents = () => {
     if (!user) return <SignIn />

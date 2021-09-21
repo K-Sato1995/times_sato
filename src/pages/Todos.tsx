@@ -9,9 +9,11 @@ import {
   StatusTag,
   StatusContainer,
 } from 'components/organisms'
-import { firestore, firebase } from 'firebaseConfig'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { db } from 'firebaseConfig'
+import { collection, query, orderBy } from 'firebase/firestore'
+import useCollectionData from 'hooks/useCollectionData'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
+import { User } from 'firebase/auth'
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -53,29 +55,26 @@ const UndisplayedStatusTag = styled(StatusTag)`
 `
 
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
 }
 
 const Todos = ({ currentUser }: Props) => {
-  const todosRef = firestore.collection('todos')
-  const statusesRef = firestore.collection('statuses')
+  const todosQuery = query(collection(db, 'todos'), orderBy('createdAt', 'asc'))
+
+  const statusesQuery = query(
+    collection(db, 'statuses'),
+    orderBy('order', 'desc'),
+  )
+
   const { uid } = currentUser
-  const todoQuery = todosRef.orderBy('createdAt', 'asc')
-  // Easier than LinkedList since the data is passed as Array.
-  const statusesQuery = statusesRef.orderBy('order', 'desc')
 
   const [displayCompletedTodos, setDisplayCompletedTodos] = useState<boolean>(
     false,
   )
-  const [todos, todoLoading, todoError] = useCollectionData(todoQuery, {
-    idField: 'id',
-  })
+  const [todos, todoLoading, todoError] = useCollectionData(todosQuery)
 
   const [statuses, statusLoading, statusError] = useCollectionData(
     statusesQuery,
-    {
-      idField: 'id',
-    },
   )
 
   if (statusError || todoError) {

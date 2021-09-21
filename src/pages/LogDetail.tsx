@@ -1,19 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firestore } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
-import {
-  useCollectionData,
-  useDocumentData,
-} from 'react-firebase-hooks/firestore'
+import { useCollectionData, useDocumentData } from 'hooks'
 import { Heading, ContentWrapper, LoaderWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewLogForm, LogBox } from 'components/organisms'
 import { format } from 'date-fns'
 import ReactTooltip from 'react-tooltip'
 import CalendarHeatmap from 'react-calendar-heatmap'
-import { firebase } from 'firebaseConfig'
+import { collection, query, where, orderBy, doc } from 'firebase/firestore'
 import 'react-calendar-heatmap/dist/styles.css'
+import { User } from 'firebase/auth'
 
 const LogsConatiner = styled.div`
   /* margin-top: 1rem; */
@@ -21,26 +19,22 @@ const LogsConatiner = styled.div`
   border-bottom: 0;
 `
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
 }
 
 const LogDetail = ({ currentUser }: Props) => {
   const { itemID } = useParams<{ itemID: string }>()
-  const logsRef = firestore.collection('logs')
-  const logItemRef = firestore.doc(`logItems/${itemID}`)
   const { uid } = currentUser
+  const logItemQuery = doc(db, `logItems`, itemID)
 
-  const logQuery = logsRef
-    .where('logItemID', '==', itemID)
-    .orderBy('date', 'desc')
+  const logQuery = query(
+    collection(db, 'logs'),
+    where('logItemID', '==', itemID),
+    orderBy('date', 'desc'),
+  )
 
-  const [logs, logLoading, logError] = useCollectionData(logQuery, {
-    idField: 'id',
-  })
-
-  const [logItem, logItemLoading, logItemError] = useDocumentData(logItemRef, {
-    idField: 'id',
-  })
+  const [logs, logLoading, logError] = useCollectionData(logQuery)
+  const [logItem, logItemLoading, logItemError] = useDocumentData(logItemQuery)
 
   if (logError || logItemError) {
     logError && console.log(logError.message)

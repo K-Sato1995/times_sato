@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import DatePicker from 'react-datepicker'
 import { useDetectOutsideClick } from 'hooks'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
+const DatePicker = React.lazy(() => import('react-datepicker'))
 
 const TodoFormWrapper = styled.div``
 const TodoItemForm = styled.form`
@@ -70,7 +71,7 @@ interface Props {
 
 const Form = ({ statusID, uid }: Props) => {
   const wrapperRef = useRef(null)
-  const todosRef = firestore.collection('todos')
+  const todosRef = collection(db, 'todos')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { text: '', due: null }
   const [formValue, setFormValue] = useState<{
@@ -86,11 +87,11 @@ const Form = ({ statusID, uid }: Props) => {
       return
     }
 
-    await todosRef.add({
+    await addDoc(todosRef, {
       text: formValue.text,
       due: formValue.due,
       uid: uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       status: statusID,
     })
     setFormValue({ ...formDefaultValue })

@@ -9,7 +9,7 @@ type TodosByStatus = {
     id: string
     color?: string
     order: number
-    todos?: firebase.firestore.DocumentData
+    todos?: DocumentData
   }
 }
 
@@ -17,6 +17,6 @@ type LogItemsByCategory = {
   [id: string]: {
     color?: string
     categoryID: string
-    items?: firebase.firestore.DocumentData
+    items?: DocumentData
   }
 }

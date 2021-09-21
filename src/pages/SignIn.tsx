@@ -1,5 +1,6 @@
 import React from 'react'
-import { auth, firebase } from 'firebaseConfig'
+import { auth } from 'firebaseConfig'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import styled from 'styled-components'
 import { Button } from 'components/atoms'
 
@@ -17,8 +18,8 @@ const SignInButton = styled(Button)`
 
 const SignIn = () => {
   const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    auth.signInWithPopup(provider)
+    const provider = new GoogleAuthProvider()
+    signInWithPopup(auth, provider)
   }
 
   return (

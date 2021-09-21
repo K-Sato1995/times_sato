@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
+import { doc, updateDoc, DocumentData } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.2rem 0.5rem;
@@ -50,22 +51,21 @@ const ColorPickerWrapper = styled.div`
 `
 
 interface Props {
-  logCategory: firebase.firestore.DocumentData
+  logCategory: DocumentData
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Form = ({ setIsEditing, logCategory }: Props) => {
   const { id, name, color } = logCategory
-  const categoryRef = firestore.collection('logCategories').doc(id)
+  const categoryRef = doc(db, 'logCategories', id)
   const [formValue, setFormValue] = useState({ name: name, color: color })
 
   const updateCategory = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await categoryRef
-      .update({
-        name: formValue.name,
-        color: formValue.color,
-      })
+    await updateDoc(categoryRef, {
+      name: formValue.name,
+      color: formValue.color,
+    })
       .then(() => {
         // alert('Document successfully updated!')
         setIsEditing(false)

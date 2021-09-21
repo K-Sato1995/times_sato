@@ -1,6 +1,5 @@
 import React from 'react'
-import { firestore, firebase } from 'firebaseConfig'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { db } from 'firebaseConfig'
 import { ContentWrapper, Heading } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import {
@@ -11,10 +10,14 @@ import {
   ChartLegend,
 } from 'components/organisms'
 import styled from 'styled-components'
+import useCollectionData from 'hooks/useCollectionData'
 import { PieChart } from 'react-minimal-pie-chart'
+import { collection, query, where } from 'firebase/firestore'
+import { User } from 'firebase/auth'
+
 const randomColor = require('randomcolor')
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
 }
 
 const CategoryContainer = styled.div`
@@ -68,33 +71,34 @@ Really don't like how I named all the things. So confusing.....
 
 const Logs = ({ currentUser }: Props) => {
   const { uid } = currentUser
-  const logCategoriesRef = firestore.collection('logCategories')
-  const logItemsRef = firestore.collection('logItems')
-  const categoriesQuery = logCategoriesRef.where('uid', '==', uid)
-  const itemsQuery = logItemsRef.where('uid', '==', uid)
-  let sumOfTotalHours = 0
-  const [logCategories, categoriesLoading, categoriesError] = useCollectionData(
-    categoriesQuery,
-    {
-      idField: 'id',
-    },
+  const categoriesQuery = query(
+    collection(db, 'logCategories'),
+    where('uid', '==', uid),
   )
 
+  const logItemsQuery = query(
+    collection(db, 'logItems'),
+    where('uid', '==', uid),
+  )
+
+  const [categories, categoriesLoading, categoriesError] = useCollectionData(
+    categoriesQuery,
+  )
+
+  let sumOfTotalHours = 0
+
   const [logItems, logItemsLoading, logItemsError] = useCollectionData(
-    itemsQuery,
-    {
-      idField: 'id',
-    },
+    logItemsQuery,
   )
 
   if (categoriesError || logItemsError) {
-    categoriesError && console.log(categoriesError.message)
-    logItemsError && console.log(logItemsError.message)
+    categoriesError && console.log(categoriesError)
+    logItemsError && console.log(logItemsError)
   }
 
   let logItemsByCateogory: LogItemsByCategory = {}
 
-  logCategories
+  categories
     ?.sort((a, b) => a.createdAt - b.createdAt)
     .forEach((category) => {
       let items = logItems

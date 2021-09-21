@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firebase } from 'firebaseConfig'
 import { format } from 'date-fns'
+import { DocumentData } from 'firebase/firestore'
 
 const ItemContainer = styled.div`
   position: relative;
@@ -37,7 +37,7 @@ const LogDate = styled.div`
 `
 
 interface Props {
-  log: firebase.firestore.DocumentData
+  log: DocumentData
 }
 
 const LogBox = ({ log }: Props) => {

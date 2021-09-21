@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
 import { useDetectOutsideClick } from 'hooks'
+import { User } from 'firebase/auth'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
@@ -102,12 +104,12 @@ const ColorPickerWrapper = styled.div`
 `
 
 interface Props {
-  currentUser: firebase.User
+  currentUser: User
 }
 
 const Form = ({ currentUser }: Props) => {
   const [displayForm, setDisplayForm] = useState<boolean>(false)
-  const categoryesRef = firestore.collection('logCategories')
+  const categoryesRef = collection(db, 'logCategories')
   const formInitialValue = { name: '', color: '' }
   const [formValue, setFormValue] = useState(formInitialValue)
   const { uid } = currentUser
@@ -126,10 +128,10 @@ const Form = ({ currentUser }: Props) => {
       return
     }
 
-    await categoryesRef.add({
+    await addDoc(categoryesRef, {
       name: formValue.name,
       color: formValue.color,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       uid: uid,
     })
 

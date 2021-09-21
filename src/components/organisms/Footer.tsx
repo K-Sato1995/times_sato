@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { useLocation } from 'react-router-dom'
-import { firebase } from 'firebaseConfig'
+import { User } from 'firebase/auth'
 
 const FooterContainer = styled.div`
   z-index: 1000;
@@ -48,7 +48,7 @@ const FooterItem = styled(Link)`
 `
 
 interface Props {
-  currentUser?: firebase.User | null
+  currentUser?: User | null
 }
 
 const Footer = ({ currentUser }: Props) => {

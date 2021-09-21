@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
+import { doc, updateDoc, DocumentData } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.2rem 0.5rem;
@@ -50,22 +51,21 @@ const ColorPickerWrapper = styled.div`
 `
 
 interface Props {
-  status: firebase.firestore.DocumentData
+  status: DocumentData
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Form = ({ setIsEditing, status }: Props) => {
   const { id, name, color } = status
-  const statusRef = firestore.collection('statuses').doc(id)
+  const statusRef = doc(db, 'statuses', id)
   const [formValue, setFormValue] = useState({ name: name, color: color })
 
   const updateStatus = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await statusRef
-      .update({
-        name: formValue.name,
-        color: formValue.color,
-      })
+    await updateDoc(statusRef, {
+      name: formValue.name,
+      color: formValue.color,
+    })
       .then(() => {
         console.log('Document successfully updated!')
         setIsEditing(false)

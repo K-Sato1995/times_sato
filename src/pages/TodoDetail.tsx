@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firestore } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { useDocumentData } from 'hooks'
 import {
   Input,
   Textarea,
@@ -10,8 +10,9 @@ import {
   LoaderWrapper,
 } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
-import DatePicker from 'react-datepicker'
+import { doc, updateDoc } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
+const DatePicker = React.lazy(() => import('react-datepicker'))
 
 const DetailFormWrapper = styled.div`
   display: flex;
@@ -55,11 +56,12 @@ type TodoObj = {
 
 const TodoDetail = () => {
   const { itemID } = useParams<{ itemID: string }>()
-  const todoRef = firestore.doc(`todos/${itemID}`)
+  const todoRef = doc(db, 'todos', itemID)
+
+  const todoQuery = doc(db, `todos`, itemID)
 
   const updateTodo = async (todoObj: TodoObj) => {
-    await todoRef
-      .update(todoObj)
+    await updateDoc(todoRef, todoObj)
       .then(() => {
         console.log('Document successfully updated!')
       })
@@ -68,9 +70,7 @@ const TodoDetail = () => {
       })
   }
 
-  const [todo, loading, error] = useDocumentData(todoRef, {
-    idField: 'id',
-  })
+  const [todo, loading, error] = useDocumentData(todoQuery)
 
   if (error) {
     console.log(error.message)
