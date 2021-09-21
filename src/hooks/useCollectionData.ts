@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import {
-  getDocs,
   Query,
   DocumentData,
   FirestoreError,
+  onSnapshot,
 } from 'firebase/firestore'
 
+// onSnapshot
 function useCollectionData(
   query: Query<DocumentData>,
 ): [DocumentData[], boolean, FirestoreError | null] {
@@ -14,10 +15,9 @@ function useCollectionData(
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    const fetchData = async () => {
+    const unsbscribe = onSnapshot(query, (fbData) => {
       try {
         setLoading(true)
-        const fbData = await getDocs(query)
         const data: DocumentData[] = []
 
         fbData.forEach((doc) => {
@@ -30,9 +30,11 @@ function useCollectionData(
         setLoading(false)
         setError(err)
       }
-    }
+    })
 
-    fetchData()
+    return () => {
+      unsbscribe()
+    }
   }, [])
 
   return [result, loading, error]
