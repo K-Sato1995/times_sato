@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import { CirclePicker } from 'react-color'
 import { doc, updateDoc, DocumentData } from 'firebase/firestore'
+
+const CirclePicker = React.lazy(() =>
+  import('react-color').then((module) => ({
+    default: module.CirclePicker,
+  })),
+)
 
 const FormButton = styled(Button)`
   padding: 0.2rem 0.5rem;

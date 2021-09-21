@@ -7,11 +7,12 @@ import { Heading, ContentWrapper, LoaderWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewLogForm, LogBox } from 'components/organisms'
 import { format } from 'date-fns'
-import ReactTooltip from 'react-tooltip'
 import CalendarHeatmap from 'react-calendar-heatmap'
 import { collection, query, where, orderBy, doc } from 'firebase/firestore'
 import 'react-calendar-heatmap/dist/styles.css'
 import { User } from 'firebase/auth'
+
+const ReactTooltip = React.lazy(() => import('react-tooltip'))
 
 const LogsConatiner = styled.div`
   /* margin-top: 1rem; */
