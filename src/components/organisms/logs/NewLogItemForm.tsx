@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { firestore, firebase } from 'firebaseConfig'
+import { firebase, db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { User } from 'firebase/auth'
+import { collection, addDoc } from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   display: flex;
@@ -79,7 +80,7 @@ interface Props {
 }
 
 const Form = ({ currentUser, categoryID, categoryColor }: Props) => {
-  const itemsRef = firestore.collection('logItems')
+  const itemsRef = collection(db, 'logItems')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const [formValue, setFormValue] = useState('')
   const { uid } = currentUser
@@ -90,7 +91,7 @@ const Form = ({ currentUser, categoryID, categoryColor }: Props) => {
       alert("Text can't be blank")
       return
     }
-    await itemsRef.add({
+    await addDoc(itemsRef, {
       name: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       totalHours: 0,
