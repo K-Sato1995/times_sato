@@ -14,8 +14,8 @@ import useCollectionData from 'hooks/useCollectionData'
 import { PieChart } from 'react-minimal-pie-chart'
 import { collection, query, where } from 'firebase/firestore'
 import { User } from 'firebase/auth'
+import randomColor from 'randomcolor'
 
-const randomColor = require('randomcolor')
 interface Props {
   currentUser: User
 }
