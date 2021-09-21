@@ -26,4 +26,3 @@ ReactDOM.render(
 )
 
 serviceWorkerRegistration.register()
-reportWebVitals()
