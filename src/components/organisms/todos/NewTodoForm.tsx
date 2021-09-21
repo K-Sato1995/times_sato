@@ -2,10 +2,10 @@ import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import DatePicker from 'react-datepicker'
 import { useDetectOutsideClick } from 'hooks'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
+const DatePicker = React.lazy(() => import('react-datepicker'))
 
 const TodoFormWrapper = styled.div``
 const TodoItemForm = styled.form`

@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { DocumentData } from 'firebase/firestore'
 import {
   collection,
@@ -12,6 +10,9 @@ import {
   updateDoc,
   serverTimestamp,
 } from 'firebase/firestore'
+import 'react-datepicker/dist/react-datepicker.css'
+
+const DatePicker = React.lazy(() => import('react-datepicker'))
 
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;

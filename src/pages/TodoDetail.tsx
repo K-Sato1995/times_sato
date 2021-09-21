@@ -10,9 +10,9 @@ import {
   LoaderWrapper,
 } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
-import DatePicker from 'react-datepicker'
 import { doc, updateDoc } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
+const DatePicker = React.lazy(() => import('react-datepicker'))
 
 const DetailFormWrapper = styled.div`
   display: flex;
