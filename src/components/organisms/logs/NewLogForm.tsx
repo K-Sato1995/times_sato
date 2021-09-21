@@ -5,7 +5,7 @@ import { Input, Button } from 'components/atoms'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DocumentData } from 'firebase/firestore'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, doc, updateDoc } from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;
@@ -74,7 +74,7 @@ interface Props {
 
 const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
   const logsRef = collection(db, 'logs')
-  const logItemRef = firestore.collection('logItems').doc(itemID)
+  const logItemRef = doc(db, 'logItems', itemID)
 
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { description: '', date: null, hours: null }
@@ -91,7 +91,7 @@ const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
       return
     }
 
-    await logItemRef.update({
+    await updateDoc(logItemRef, {
       totalHours: currTotalHours + formValue.hours,
     })
 

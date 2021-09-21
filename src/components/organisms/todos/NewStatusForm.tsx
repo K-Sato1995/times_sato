@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { firestore, firebase, db } from 'firebaseConfig'
+import { firebase, db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import { CirclePicker } from 'react-color'
 import { useDetectOutsideClick } from 'hooks'
 import { User } from 'firebase/auth'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, doc, updateDoc } from 'firebase/firestore'
 
 const FormButton = styled(Button)`
   padding: 0.3rem 0.6rem;
@@ -137,9 +137,9 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
 
     previousStatuses?.forEach((status) => {
       const { id } = status
-      const statusRef = firestore.collection('statuses').doc(id)
+      const statusRef = doc(db, 'statuses', id)
 
-      statusRef.update({
+      updateDoc(statusRef, {
         order: status.order + 1,
       })
     })

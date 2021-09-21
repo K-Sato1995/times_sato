@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import styled, { ThemeProps, css } from 'styled-components'
 import { OptionItem } from 'components/atoms'
 import { OptionList } from 'components/molecules'
-import { firebase, firestore } from 'firebaseConfig'
+import { firebase, db } from 'firebaseConfig'
 import { useDrag } from 'react-dnd'
 import { DragableItemTypes } from 'consts'
 import { format } from 'date-fns'
 import { useHistory } from 'react-router-dom'
 import { User } from 'firebase/auth'
+import { doc, updateDoc } from 'firebase/firestore'
 
 interface DueDesign {
   isOverDue: boolean
@@ -138,17 +139,16 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
     }),
   }))
   const { uid } = currentUser
-  const todoRef = firestore.collection('todos').doc(id)
+  const todoRef = doc(db, 'todos', id)
 
   const updateStatus = async (statusID: string) => {
     if (!uid) {
       alert('YOU ARE NOT ALLOWED TO DO THIS')
       return
     }
-    await todoRef
-      .update({
-        status: statusID,
-      })
+    await updateDoc(todoRef, {
+      status: statusID,
+    })
       .then(() => {
         console.log('Document successfully updated!')
       })

@@ -1,8 +1,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { useDrop } from 'react-dnd'
-import { firestore } from 'firebaseConfig'
+import { db } from 'firebaseConfig'
 import { DragableItemTypes } from 'consts'
+import { doc, updateDoc } from 'firebase/firestore'
 
 const StatusContiner = styled.div`
   ${(props: { isOver: boolean }) =>
@@ -23,11 +24,10 @@ interface Props {
 
 const StatusContainer = ({ statusID, children }: Props) => {
   const updateStatus = async (todoID: string) => {
-    const todoRef = firestore.collection('todos').doc(todoID)
-    await todoRef
-      .update({
-        status: statusID,
-      })
+    const todoRef = doc(db, 'todos', todoID)
+    await updateDoc(todoRef, {
+      status: statusID,
+    })
       .then(() => {
         console.log('Document successfully updated!')
       })
