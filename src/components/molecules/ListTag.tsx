@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Badge } from 'components/atoms'
 import { BadgeProps } from 'components/atoms/Badge'
-import ReactTooltip from 'react-tooltip'
+const ReactTooltip = React.lazy(() => import('react-tooltip'))
 
 const ListTagWrapper = styled.a`
   cursor: pointer;
