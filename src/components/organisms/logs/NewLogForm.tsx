@@ -4,6 +4,7 @@ import { firestore, firebase } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { DocumentData } from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;
@@ -66,7 +67,7 @@ const NewLogBox = styled.div`
 interface Props {
   itemID: string
   currTotalHours: number
-  logItem?: firebase.firestore.DocumentData
+  logItem: DocumentData | null
   uid: string
 }
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firestore } from 'firebaseConfig'
+import { db, firestore } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { useDocumentData } from 'hooks'
 import {
   Input,
   Textarea,
@@ -11,6 +11,7 @@ import {
 } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import DatePicker from 'react-datepicker'
+import { doc } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const DetailFormWrapper = styled.div`
@@ -57,6 +58,8 @@ const TodoDetail = () => {
   const { itemID } = useParams<{ itemID: string }>()
   const todoRef = firestore.doc(`todos/${itemID}`)
 
+  const todoQuery = doc(db, `todos`, itemID)
+
   const updateTodo = async (todoObj: TodoObj) => {
     await todoRef
       .update(todoObj)
@@ -68,9 +71,7 @@ const TodoDetail = () => {
       })
   }
 
-  const [todo, loading, error] = useDocumentData(todoRef, {
-    idField: 'id',
-  })
+  const [todo, loading, error] = useDocumentData(todoQuery)
 
   if (error) {
     console.log(error.message)

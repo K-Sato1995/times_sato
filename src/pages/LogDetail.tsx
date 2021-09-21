@@ -1,17 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { firestore, db } from 'firebaseConfig'
+import { db, firebase } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
-import useCollectionData from 'hooks/useCollectionData'
+import { useCollectionData, useDocumentData } from 'hooks'
 import { Heading, ContentWrapper, LoaderWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import { NewLogForm, LogBox } from 'components/organisms'
 import { format } from 'date-fns'
 import ReactTooltip from 'react-tooltip'
 import CalendarHeatmap from 'react-calendar-heatmap'
-import { firebase } from 'firebaseConfig'
-import { collection, query, where, orderBy } from 'firebase/firestore'
+import { collection, query, where, orderBy, doc } from 'firebase/firestore'
 import 'react-calendar-heatmap/dist/styles.css'
 
 const LogsConatiner = styled.div`
@@ -25,8 +23,8 @@ interface Props {
 
 const LogDetail = ({ currentUser }: Props) => {
   const { itemID } = useParams<{ itemID: string }>()
-  const logItemRef = firestore.doc(`logItems/${itemID}`)
   const { uid } = currentUser
+  const logItemQuery = doc(db, `logItems`, itemID)
 
   const logQuery = query(
     collection(db, 'logs'),
@@ -35,10 +33,7 @@ const LogDetail = ({ currentUser }: Props) => {
   )
 
   const [logs, logLoading, logError] = useCollectionData(logQuery)
-
-  const [logItem, logItemLoading, logItemError] = useDocumentData(logItemRef, {
-    idField: 'id',
-  })
+  const [logItem, logItemLoading, logItemError] = useDocumentData(logItemQuery)
 
   if (logError || logItemError) {
     logError && console.log(logError.message)

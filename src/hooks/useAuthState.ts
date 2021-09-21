@@ -1,29 +1,23 @@
 import { useState, useEffect } from 'react'
 import {
-  Query,
+  DocumentReference,
   DocumentData,
   FirestoreError,
   onSnapshot,
 } from 'firebase/firestore'
 
-function useCollectionData(
-  query: Query<DocumentData>,
-): [DocumentData[], boolean, FirestoreError | null] {
-  const [result, setResult] = useState<DocumentData[]>([])
+function useAuthState(
+  query: DocumentReference<DocumentData>,
+): [DocumentData | null, boolean, FirestoreError | null] {
+  const [result, setResult] = useState<DocumentData | null>(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    const unsbscribe = onSnapshot(query, (fbData) => {
+    const unsbscribe = onSnapshot(query, (doc: DocumentData) => {
       try {
         setLoading(true)
-        const data: DocumentData[] = []
-
-        fbData.forEach((doc) => {
-          data.push({ ...doc.data(), id: doc.id })
-        })
-
-        setResult(data)
+        setResult(doc.data())
         setLoading(false)
       } catch (err) {
         setLoading(false)
@@ -39,4 +33,4 @@ function useCollectionData(
   return [result, loading, error]
 }
 
-export default useCollectionData
+export default useAuthState
