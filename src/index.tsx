@@ -1,6 +1,6 @@
 import './wdyr'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import 'index.css'
 import App from 'App'
@@ -15,7 +15,11 @@ const theme = {
 
 const renderWV = () => {
   const WebVitals = React.lazy(() => import('webVitals'))
-  return <WebVitals />
+  return (
+    <Suspense fallback={<div>Something horrible happed...</div>}>
+      <WebVitals />
+    </Suspense>
+  )
 }
 
 ReactDOM.render(
