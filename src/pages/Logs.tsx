@@ -81,15 +81,13 @@ const Logs = ({ currentUser }: Props) => {
     where('uid', '==', uid),
   )
 
-  const [categories, categoriesLoading, categoriesError] = useCollectionData(
-    categoriesQuery,
-  )
+  const [categories, categoriesLoading, categoriesError] =
+    useCollectionData(categoriesQuery)
 
   let sumOfTotalHours = 0
 
-  const [logItems, logItemsLoading, logItemsError] = useCollectionData(
-    logItemsQuery,
-  )
+  const [logItems, logItemsLoading, logItemsError] =
+    useCollectionData(logItemsQuery)
 
   if (categoriesError || logItemsError) {
     categoriesError && console.log(categoriesError)

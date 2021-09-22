@@ -14,6 +14,8 @@ import { collection, query, orderBy } from 'firebase/firestore'
 import useCollectionData from 'hooks/useCollectionData'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
 import { User } from 'firebase/auth'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const TodosConatiner = styled.div`
   border: solid ${(props) => props.theme.borderColor} 1px;
@@ -68,14 +70,12 @@ const Todos = ({ currentUser }: Props) => {
 
   const { uid } = currentUser
 
-  const [displayCompletedTodos, setDisplayCompletedTodos] = useState<boolean>(
-    false,
-  )
+  const [displayCompletedTodos, setDisplayCompletedTodos] =
+    useState<boolean>(false)
   const [todos, todoLoading, todoError] = useCollectionData(todosQuery)
 
-  const [statuses, statusLoading, statusError] = useCollectionData(
-    statusesQuery,
-  )
+  const [statuses, statusLoading, statusError] =
+    useCollectionData(statusesQuery)
 
   if (statusError || todoError) {
     statusError && console.log(statusError.message)
@@ -102,68 +102,74 @@ const Todos = ({ currentUser }: Props) => {
     )
 
   return (
-    <ContentWrapper>
-      {Object.keys(todosByStatus).map((key: string, idx: number) => {
-        const todos = todosByStatus[key].todos
-        const tagColor = todosByStatus[key].color
-        const currOrder = todosByStatus[key].order
-        const statusID = todosByStatus[key].id
-        const status = { id: statusID, name: key, color: tagColor }
+    <DndProvider backend={HTML5Backend}>
+      <ContentWrapper>
+        {Object.keys(todosByStatus).map((key: string, idx: number) => {
+          const todos = todosByStatus[key].todos
+          const tagColor = todosByStatus[key].color
+          const currOrder = todosByStatus[key].order
+          const statusID = todosByStatus[key].id
+          const status = { id: statusID, name: key, color: tagColor }
 
-        if (
-          !displayCompletedTodos &&
-          statusID === process.env.REACT_APP_TODOLAST_STATUS_ID
-        )
+          if (
+            !displayCompletedTodos &&
+            statusID === process.env.REACT_APP_TODOLAST_STATUS_ID
+          )
+            return (
+              <StatusContainer key={idx} statusID={statusID}>
+                <UndisplayedStatusTag
+                  status={status}
+                  backgroundColor={tagColor}
+                  text={`${key}  ${todos.length}Todos`}
+                />
+                <RightArrowIcon
+                  iconColor={tagColor}
+                  onClick={() => {
+                    setDisplayCompletedTodos(true)
+                  }}
+                />
+              </StatusContainer>
+            )
+
           return (
             <StatusContainer key={idx} statusID={statusID}>
-              <UndisplayedStatusTag
+              <StatusTag
                 status={status}
                 backgroundColor={tagColor}
-                text={`${key}  ${todos.length}Todos`}
+                text={key}
               />
-              <RightArrowIcon
-                iconColor={tagColor}
-                onClick={() => {
-                  setDisplayCompletedTodos(true)
-                }}
+              {statusID === process.env.REACT_APP_TODOLAST_STATUS_ID && (
+                <DownArrowIcon
+                  iconColor={tagColor}
+                  onClick={() => {
+                    setDisplayCompletedTodos(false)
+                  }}
+                />
+              )}
+              <TodosConatiner key={idx}>
+                {todos?.map((todo: any) => (
+                  <TodoBox
+                    key={todo.id}
+                    todo={todo}
+                    statusColor={tagColor}
+                    statuses={statuses}
+                    currentUser={currentUser}
+                  />
+                ))}
+
+                <NewTodoForm uid={uid} statusID={statusID} />
+              </TodosConatiner>
+
+              <NewStatusForm
+                currentUser={currentUser}
+                statuses={statuses}
+                currOrder={currOrder}
               />
             </StatusContainer>
           )
-
-        return (
-          <StatusContainer key={idx} statusID={statusID}>
-            <StatusTag status={status} backgroundColor={tagColor} text={key} />
-            {statusID === process.env.REACT_APP_TODOLAST_STATUS_ID && (
-              <DownArrowIcon
-                iconColor={tagColor}
-                onClick={() => {
-                  setDisplayCompletedTodos(false)
-                }}
-              />
-            )}
-            <TodosConatiner key={idx}>
-              {todos?.map((todo: any) => (
-                <TodoBox
-                  key={todo.id}
-                  todo={todo}
-                  statusColor={tagColor}
-                  statuses={statuses}
-                  currentUser={currentUser}
-                />
-              ))}
-
-              <NewTodoForm uid={uid} statusID={statusID} />
-            </TodosConatiner>
-
-            <NewStatusForm
-              currentUser={currentUser}
-              statuses={statuses}
-              currOrder={currOrder}
-            />
-          </StatusContainer>
-        )
-      })}
-    </ContentWrapper>
+        })}
+      </ContentWrapper>
+    </DndProvider>
   )
 }
 

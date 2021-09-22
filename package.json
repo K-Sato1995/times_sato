@@ -6,7 +6,6 @@
     "@fullcalendar/react": "^5.7.0",
     "date-fns": "^2.21.1",
     "firebase": "^9.0.2",
-    "prettier": "^2.2.1",
     "randomcolor": "^0.6.2",
     "react": "^17.0.2",
     "react-calendar-heatmap": "^1.8.1",
@@ -23,6 +22,7 @@
     "react-spinners": "^0.10.6",
     "react-textarea-autosize": "^8.3.3",
     "react-tooltip": "^4.2.19",
+    "recoil": "^0.4.1",
     "styled-components": "^5.2.3",
     "typescript": "^4.1.2"
   },
@@ -67,21 +67,22 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.3.0",
-    "@types/react-dom": "^17.0.9",
-    "@welldone-software/why-did-you-render": "^6.2.1",
-    "eslint-config-prettier": "^8.2.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "progress-bar-webpack-plugin": "^2.1.0",
-    "webpack-bundle-analyzer": "^4.4.2",
     "@types/node": "^12.0.0",
     "@types/randomcolor": "^0.5.5",
     "@types/react": "^17.0.0",
     "@types/react-calendar-heatmap": "^1.6.2",
     "@types/react-color": "^3.0.4",
     "@types/react-datepicker": "^3.1.8",
+    "@types/react-dom": "^17.0.9",
     "@types/react-router": "^5.1.14",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9",
-    "web-vitals": "^2.1.0"
+    "@welldone-software/why-did-you-render": "^6.2.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "progress-bar-webpack-plugin": "^2.1.0",
+    "web-vitals": "^2.1.0",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "prettier": "^2.2.1"
   }
 }

@@ -114,9 +114,8 @@ interface Props {
 
 const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   const { text, id, due, status } = todo
-  const [displayStatusOptions, setDisplayStatusOptions] = useState<boolean>(
-    false,
-  )
+  const [displayStatusOptions, setDisplayStatusOptions] =
+    useState<boolean>(false)
   const history = useHistory()
   const now = new Date()
   const todoDue = new Date(due?.toDate())
