@@ -10,8 +10,12 @@ import {
   ChartLegend,
 } from 'components/organisms'
 import styled from 'styled-components'
-import { useCollectionData, useCollectionDataWithRecoil } from 'hooks'
-import { logCategoriesState, sortedCategoriesState } from 'recoil/logs'
+import { useCollectionDataWithRecoil } from 'hooks'
+import {
+  logCategoriesState,
+  logItemsState,
+  logItemsByCategoryState,
+} from 'recoil/logs'
 import { useRecoilValue } from 'recoil'
 import { PieChart } from 'react-minimal-pie-chart'
 import { collection, query, where } from 'firebase/firestore'
@@ -67,6 +71,7 @@ const LocalLoaderWrapper = styled.div`
 
 const Logs = ({ currentUser }: Props) => {
   const { uid } = currentUser
+
   const categoriesQuery = query(
     collection(db, 'logCategories'),
     where('uid', '==', uid),
@@ -77,46 +82,28 @@ const Logs = ({ currentUser }: Props) => {
     where('uid', '==', uid),
   )
 
-  const [
-    categories,
-    categoriesLoading,
-    categoriesError,
-  ] = useCollectionDataWithRecoil<LogCategory>(
+  const {
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = useCollectionDataWithRecoil<LogCategory>(
     categoriesQuery,
     logCategoriesState,
   )
 
-  const [logItems, logItemsLoading, logItemsError] = useCollectionData(
-    logItemsQuery,
-  )
+  const {
+    result: logItems,
+    loading: logItemsLoading,
+    error: logItemsError,
+  } = useCollectionDataWithRecoil<LogItem>(logItemsQuery, logItemsState)
 
-  if (categoriesError || logItemsError) {
-    categoriesError && console.log(categoriesError)
-    logItemsError && console.log(logItemsError)
-  }
-
-  const sortedCategories = useRecoilValue(sortedCategoriesState)
-
-  let logItemsByCateogory: LogItemsByCategory = {}
-
-  sortedCategories.forEach((category) => {
-    let items = logItems
-      ?.filter((item) => item.categoryID === category.id)
-      .sort((a, b) => a.createdAt - b.createdAt)
-
-    logItemsByCateogory[category.name] = {
-      color: category.color,
-      categoryID: category.id,
-      items,
-    }
-  })
+  const logItemsByCateogory = useRecoilValue(logItemsByCategoryState)
 
   const sumOfTotalHours = logItems?.reduce(
     (acc, obj) => acc + obj.totalHours,
     0,
   )
 
-  const formattedData = logItems
+  const formattedDataForChart = logItems
     ?.filter((item) => item.totalHours)
     .map((item) => {
       return {
@@ -126,6 +113,11 @@ const Logs = ({ currentUser }: Props) => {
         color: randomColor({ luminosity: 'light' }),
       }
     })
+
+  if (categoriesError || logItemsError) {
+    categoriesError && console.log(categoriesError)
+    logItemsError && console.log(logItemsError)
+  }
 
   return (
     <ContentWrapper>
@@ -145,7 +137,7 @@ const Logs = ({ currentUser }: Props) => {
                 fontSize: '2px',
                 height: '300px',
               }}
-              data={formattedData}
+              data={formattedDataForChart}
               radius={PieChart.defaultProps.radius - 6}
               label={() => `${sumOfTotalHours}h`}
               lineWidth={30}
@@ -159,7 +151,7 @@ const Logs = ({ currentUser }: Props) => {
                 pointerEvents: 'none',
               }}
             />
-            <ChartLegend data={formattedData} />
+            <ChartLegend data={formattedDataForChart} />
           </ChartContent>
         )}
       </ChartWrapper>

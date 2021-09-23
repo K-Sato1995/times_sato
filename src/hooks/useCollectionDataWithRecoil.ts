@@ -15,7 +15,7 @@ interface IState {
 function useCollectionDataWithRecoil<State extends IState>(
   query: Query<DocumentData>,
   recoilState: RecoilState<State[]>,
-): [DocumentData[], boolean, FirestoreError | null] {
+): { result: DocumentData[]; loading: boolean; error: FirestoreError | null } {
   const [result, setResult] = useRecoilState<State[]>(recoilState)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -44,9 +44,7 @@ function useCollectionDataWithRecoil<State extends IState>(
     }
   }, [])
 
-  console.log(result)
-
-  return [result, loading, error]
+  return { result, loading, error }
 }
 
 export default useCollectionDataWithRecoil

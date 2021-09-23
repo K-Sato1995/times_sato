@@ -1,2 +1,7 @@
-export { logCategoriesState, categoriesSortState } from 'recoil/logs/atoms'
-export { sortedCategoriesState } from 'recoil/logs/selectors'
+export {
+  logCategoriesState,
+  categoriesSortState,
+  logItemsState,
+} from 'recoil/logs/atoms'
+
+export { logItemsByCategoryState } from 'recoil/logs/selectors'

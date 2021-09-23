@@ -12,11 +12,3 @@ type TodosByStatus = {
     todos?: DocumentData
   }
 }
-
-type LogItemsByCategory = {
-  [id: string]: {
-    color?: string
-    categoryID: string
-    items?: DocumentData
-  }
-}

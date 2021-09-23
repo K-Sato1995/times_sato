@@ -1,19 +1,29 @@
 import { selector } from 'recoil'
-import { logCategoriesState, categoriesSortState } from 'recoil/logs'
+import { logCategoriesState, logItemsState } from 'recoil/logs'
 
-export const sortedCategoriesState = selector({
-  key: 'sortedCategoriesState',
+export const logItemsByCategoryState = selector({
+  key: 'logItemsByCategoryState',
   get: ({ get }) => {
-    const sort = get(categoriesSortState)
-    const list = get(logCategoriesState)
+    const categories = get(logCategoriesState)
+    const logItems = get(logItemsState)
 
-    switch (sort) {
-      case 'Sorted':
-        return [...list].sort((a, b) => a.createdAt - b.createdAt)
-      case 'UnSorted':
-        return list
-      default:
-        return list
-    }
+    const sortedCategories = [...categories].sort(
+      (a, b) => a.createdAt - b.createdAt,
+    )
+    const logItemsByCateogory: LogItemsByCategory = {}
+
+    sortedCategories.forEach((category) => {
+      let items = logItems
+        ?.filter((item) => item.categoryID === category.id)
+        .sort((a, b) => a.createdAt - b.createdAt)
+
+      logItemsByCateogory[category.name] = {
+        color: category.color,
+        categoryID: category.id,
+        items,
+      }
+    })
+
+    return logItemsByCateogory
   },
 })
