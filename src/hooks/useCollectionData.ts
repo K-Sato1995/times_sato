@@ -26,7 +26,7 @@ function useCollectionData(
 
         setResult(data)
         setLoading(false)
-      } catch (err: any) {
+      } catch (err) {
         setLoading(false)
         setError(err)
       }

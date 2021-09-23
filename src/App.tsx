@@ -7,7 +7,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { LoaderWrapper } from 'components/atoms'
 import { LoadingState } from 'components/molecules'
 import Routes from 'routes'
-import { RecoilRoot } from 'recoil'
 
 const MainContainer = styled.div`
   max-width: 860px;
@@ -21,11 +20,7 @@ function App() {
   const renderMainComponents = () => {
     if (!user) return <SignIn />
 
-    return (
-      <RecoilRoot>
-        <Routes currentUser={user} />
-      </RecoilRoot>
-    )
+    return <Routes currentUser={user} />
   }
 
   return (
