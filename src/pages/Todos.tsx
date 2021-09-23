@@ -70,12 +70,14 @@ const Todos = ({ currentUser }: Props) => {
 
   const { uid } = currentUser
 
-  const [displayCompletedTodos, setDisplayCompletedTodos] =
-    useState<boolean>(false)
+  const [displayCompletedTodos, setDisplayCompletedTodos] = useState<boolean>(
+    false,
+  )
   const [todos, todoLoading, todoError] = useCollectionData(todosQuery)
 
-  const [statuses, statusLoading, statusError] =
-    useCollectionData(statusesQuery)
+  const [statuses, statusLoading, statusError] = useCollectionData(
+    statusesQuery,
+  )
 
   if (statusError || todoError) {
     statusError && console.log(statusError.message)

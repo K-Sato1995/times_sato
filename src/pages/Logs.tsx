@@ -10,7 +10,9 @@ import {
   ChartLegend,
 } from 'components/organisms'
 import styled from 'styled-components'
-import useCollectionData from 'hooks/useCollectionData'
+import { useCollectionData, useCollectionDataWithRecoil } from 'hooks'
+import { logCategoriesState, sortedCategoriesState } from 'recoil/logs'
+import { useRecoilValue } from 'recoil'
 import { PieChart } from 'react-minimal-pie-chart'
 import { collection, query, where } from 'firebase/firestore'
 import { User } from 'firebase/auth'
@@ -63,12 +65,6 @@ const LocalLoaderWrapper = styled.div`
   left: 50%;
 `
 
-/*
-Really don't like how I named all the things. So confusing.....
-
-  LogCategory > LogItems > Logs
-*/
-
 const Logs = ({ currentUser }: Props) => {
   const { uid } = currentUser
   const categoriesQuery = query(
@@ -81,36 +77,44 @@ const Logs = ({ currentUser }: Props) => {
     where('uid', '==', uid),
   )
 
-  const [categories, categoriesLoading, categoriesError] =
-    useCollectionData(categoriesQuery)
+  const [
+    categories,
+    categoriesLoading,
+    categoriesError,
+  ] = useCollectionDataWithRecoil<LogCategory>(
+    categoriesQuery,
+    logCategoriesState,
+  )
 
-  let sumOfTotalHours = 0
-
-  const [logItems, logItemsLoading, logItemsError] =
-    useCollectionData(logItemsQuery)
+  const [logItems, logItemsLoading, logItemsError] = useCollectionData(
+    logItemsQuery,
+  )
 
   if (categoriesError || logItemsError) {
     categoriesError && console.log(categoriesError)
     logItemsError && console.log(logItemsError)
   }
 
+  const sortedCategories = useRecoilValue(sortedCategoriesState)
+
   let logItemsByCateogory: LogItemsByCategory = {}
 
-  categories
-    ?.sort((a, b) => a.createdAt - b.createdAt)
-    .forEach((category) => {
-      let items = logItems
-        ?.filter((item) => item.categoryID === category.id)
-        .sort((a, b) => a.createdAt - b.createdAt)
+  sortedCategories.forEach((category) => {
+    let items = logItems
+      ?.filter((item) => item.categoryID === category.id)
+      .sort((a, b) => a.createdAt - b.createdAt)
 
-      logItemsByCateogory[category.name] = {
-        color: category.color,
-        categoryID: category.id,
-        items,
-      }
-    })
+    logItemsByCateogory[category.name] = {
+      color: category.color,
+      categoryID: category.id,
+      items,
+    }
+  })
 
-  logItems?.forEach((item) => (sumOfTotalHours += item.totalHours))
+  const sumOfTotalHours = logItems?.reduce(
+    (acc, obj) => acc + obj.totalHours,
+    0,
+  )
 
   const formattedData = logItems
     ?.filter((item) => item.totalHours)

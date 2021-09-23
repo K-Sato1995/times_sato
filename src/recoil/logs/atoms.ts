@@ -3,6 +3,18 @@
   https://wes-rast.medium.com/recoil-project-structure-best-practices-79e74a475caa
 */
 
+import { atom } from 'recoil'
+
 // LogCategory > LogItems > Logs
 
-export {}
+const logCategoriesState = atom<LogCategory[]>({
+  key: 'logCategory',
+  default: [],
+})
+
+const categoriesSortState = atom({
+  key: 'categoriesSortState',
+  default: 'Sorted',
+})
+
+export { logCategoriesState, categoriesSortState }
