@@ -20,7 +20,7 @@ function useDocumentData(
         setLoading(true)
         setResult(doc.data())
         setLoading(false)
-      } catch (err) {
+      } catch (err: any) {
         setLoading(false)
         setError(err)
       }

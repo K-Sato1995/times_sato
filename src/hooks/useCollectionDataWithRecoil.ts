@@ -6,11 +6,17 @@ import {
   FirestoreError,
   onSnapshot,
 } from 'firebase/firestore'
+import { useRecoilState, RecoilState } from 'recoil'
 
-function useCollectionData(
+interface IState {
+  id: string
+}
+
+function useCollectionDataWithRecoil<State extends IState>(
   query: Query<DocumentData>,
-): [DocumentData[], boolean, FirestoreError | null] {
-  const [result, setResult] = useState<DocumentData[]>([])
+  recoilState: RecoilState<State[]>,
+): { result: DocumentData[]; loading: boolean; error: FirestoreError | null } {
+  const [result, setResult] = useRecoilState<State[]>(recoilState)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -18,10 +24,11 @@ function useCollectionData(
     const unsbscribe = onSnapshot(query, (fbData) => {
       try {
         setLoading(true)
-        const data: DocumentData[] = []
+        const data: State[] = []
 
         fbData.forEach((doc) => {
-          data.push({ ...doc.data(), id: doc.id })
+          const item = { ...doc.data(), id: doc.id } as State
+          data.push(item)
         })
 
         setResult(data)
@@ -37,7 +44,7 @@ function useCollectionData(
     }
   }, [])
 
-  return [result, loading, error]
+  return { result, loading, error }
 }
 
-export default useCollectionData
+export default useCollectionDataWithRecoil
