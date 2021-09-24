@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import { DocumentData } from 'firebase/firestore'
 import {
-  collection,
-  addDoc,
   doc,
-  updateDoc,
   serverTimestamp,
+  runTransaction,
+  DocumentData,
 } from 'firebase/firestore'
+import { firestoreAutoId } from 'firebaseConfig'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const DatePicker = React.lazy(() => import('react-datepicker'))
@@ -80,9 +79,6 @@ interface Props {
 }
 
 const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
-  const logsRef = collection(db, 'logs')
-  const logItemRef = doc(db, 'logItems', itemID)
-
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { description: '', date: null, hours: null }
   const [formValue, setFormValue] = useState<{
@@ -93,23 +89,33 @@ const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
 
   const createLogItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const logsRef = doc(db, 'logs', firestoreAutoId())
+    const logItemRef = doc(db, 'logItems', itemID)
+
     if (!formValue.date || !formValue.description || !formValue.hours) {
       alert("Anything can't be blank")
       return
     }
 
-    await updateDoc(logItemRef, {
-      totalHours: currTotalHours + formValue.hours,
-    })
+    try {
+      await runTransaction(db, async (transaction) => {
+        await transaction.set(logsRef, {
+          description: formValue.description,
+          date: formValue.date,
+          hours: formValue.hours,
+          uid: uid,
+          createdAt: serverTimestamp(),
+          logItemID: itemID,
+        })
 
-    await addDoc(logsRef, {
-      description: formValue.description,
-      date: formValue.date,
-      hours: formValue.hours,
-      uid: uid,
-      createdAt: serverTimestamp(),
-      logItemID: itemID,
-    })
+        await transaction.update(logItemRef, {
+          totalHours: currTotalHours + formValue.hours!,
+        })
+      })
+    } catch (e) {
+      alert('Something went wrong.....')
+    }
+
     setFormValue({ ...formDefaultValue, hours: 0 })
   }
 
