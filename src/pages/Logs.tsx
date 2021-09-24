@@ -20,7 +20,6 @@ const Logs = ({ currentUser }: Props) => {
   const { uid } = currentUser
   const {
     loading: categoriesLoading,
-    error: categoriesError,
   } = useCollectionDataWithRecoil<LogCategory>(
     query(collection(db, 'logCategories'), where('uid', '==', uid)),
     logCategoriesState,
@@ -29,14 +28,12 @@ const Logs = ({ currentUser }: Props) => {
   const {
     result: logItems,
     loading: logItemsLoading,
-    error: logItemsError,
   } = useCollectionDataWithRecoil<LogItem>(
     query(collection(db, 'logItems'), where('uid', '==', uid)),
     logItemsState,
   )
 
   const logItemsByCateogory = useRecoilValue(logItemsByCategoryState)
-
   const sumOfTotalHours = logItems.reduce((acc, obj) => acc + obj.totalHours, 0)
 
   const formattedDataForChart = logItems
@@ -49,11 +46,6 @@ const Logs = ({ currentUser }: Props) => {
         color: randomColor({ luminosity: 'light' }),
       }
     })
-
-  if (categoriesError || logItemsError) {
-    categoriesError && console.log(categoriesError)
-    logItemsError && console.log(logItemsError)
-  }
 
   return (
     <LogsTemplate

@@ -34,6 +34,7 @@ function useCollectionDataWithRecoil<State extends IState>(
         setResult(data)
         setLoading(false)
       } catch (err: any) {
+        console.log(err)
         setLoading(false)
         setError(err)
       }
