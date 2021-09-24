@@ -17,4 +17,14 @@ const logItemsState = atom<LogItem[]>({
   default: [],
 })
 
-export { logCategoriesState, logItemsState }
+const logItemState = atom<LogItem | null>({
+  key: 'logItem',
+  default: null,
+})
+
+const logsState = atom<Log[]>({
+  key: 'logs',
+  default: [],
+})
+
+export { logCategoriesState, logItemsState, logItemState, logsState }

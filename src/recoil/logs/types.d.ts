@@ -15,6 +15,16 @@ interface LogItem {
   createdAt: any
 }
 
+interface Log {
+  id: string
+  description: string
+  logItemID: string
+  hours: number
+  uid: string
+  date: any
+  createdAt: any
+}
+
 interface LogItemsByCategory {
   [id: string]: {
     color?: string
