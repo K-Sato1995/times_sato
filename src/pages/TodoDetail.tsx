@@ -3,17 +3,12 @@ import styled from 'styled-components'
 import { db } from 'firebaseConfig'
 import { useParams } from 'react-router-dom'
 import { useDocumentData } from 'hooks'
-import {
-  Input,
-  Textarea,
-  ContentWrapper,
-  LoaderWrapper,
-} from 'components/atoms'
-import { LoadingState } from 'components/molecules'
+import { Input, Textarea, ContentWrapper } from 'components/atoms'
 import { doc, updateDoc } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
-const DatePicker = React.lazy(() => import('react-datepicker'))
+import { IssueDetailLoadingSkeleton } from 'components/organisms'
 
+const DatePicker = React.lazy(() => import('react-datepicker'))
 const DetailFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,12 +71,7 @@ const TodoDetail = () => {
     console.log(error.message)
   }
 
-  if (loading)
-    return (
-      <LoaderWrapper>
-        <LoadingState />
-      </LoaderWrapper>
-    )
+  if (loading) return <IssueDetailLoadingSkeleton />
 
   return (
     <ContentWrapper>

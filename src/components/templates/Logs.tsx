@@ -1,6 +1,6 @@
 import React from 'react'
 import { ContentWrapper, Heading } from 'components/atoms'
-import { LoadingState } from 'components/molecules'
+
 import {
   LogItem,
   NewLogItemForm,
@@ -49,12 +49,6 @@ const ItemsConatiner = styled.div`
   border-bottom: 0;
 `
 
-const LocalLoaderWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-`
-
 type formattedDataForChart = {
   title: string
   value: number
@@ -67,7 +61,6 @@ interface Props {
   formattedDataForChart: formattedDataForChart[]
   sumOfTotalHours: number
   logItemsByCateogory: LogItemsByCategory
-  loading: boolean
 }
 
 export const LogsTemplate = ({
@@ -75,7 +68,6 @@ export const LogsTemplate = ({
   logItemsByCateogory,
   formattedDataForChart,
   sumOfTotalHours,
-  loading,
 }: Props) => {
   return (
     <ContentWrapper>
@@ -83,34 +75,29 @@ export const LogsTemplate = ({
         <ChartHeader>
           <ChartTitle size={'h2'}>Time Breakdown</ChartTitle>
         </ChartHeader>
-        {loading ? (
-          <LocalLoaderWrapper>
-            <LoadingState loaderType={'clip'} />
-          </LocalLoaderWrapper>
-        ) : (
-          <ChartContent>
-            <PieChart
-              style={{
-                fontSize: '2px',
-                height: '300px',
-              }}
-              data={formattedDataForChart}
-              radius={PieChart.defaultProps.radius - 6}
-              label={() => `${sumOfTotalHours}h`}
-              lineWidth={30}
-              segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
-              animate
-              labelPosition={0}
-              labelStyle={{
-                fontSize: '10px',
-                fill: '#697980',
-                opacity: 0.75,
-                pointerEvents: 'none',
-              }}
-            />
-            <ChartLegend data={formattedDataForChart} />
-          </ChartContent>
-        )}
+
+        <ChartContent>
+          <PieChart
+            style={{
+              fontSize: '2px',
+              height: '300px',
+            }}
+            data={formattedDataForChart}
+            radius={PieChart.defaultProps.radius - 6}
+            label={() => `${sumOfTotalHours}h`}
+            lineWidth={30}
+            segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+            animate
+            labelPosition={0}
+            labelStyle={{
+              fontSize: '10px',
+              fill: '#697980',
+              opacity: 0.75,
+              pointerEvents: 'none',
+            }}
+          />
+          <ChartLegend data={formattedDataForChart} />
+        </ChartContent>
       </ChartWrapper>
 
       {Object.keys(logItemsByCateogory).map((key: string, idx: number) => {

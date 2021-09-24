@@ -1,5 +1,6 @@
 import React from 'react'
 import { db } from 'firebaseConfig'
+import { LogsLoadingSkeleton } from 'components/organisms'
 import { useCollectionDataWithRecoil } from 'hooks'
 import {
   logCategoriesState,
@@ -47,13 +48,14 @@ const Logs = ({ currentUser }: Props) => {
       }
     })
 
+  if (categoriesLoading || logItemsLoading) return <LogsLoadingSkeleton />
+
   return (
     <LogsTemplate
       currentUser={currentUser}
       formattedDataForChart={formattedDataForChart}
       logItemsByCateogory={logItemsByCateogory}
       sumOfTotalHours={sumOfTotalHours}
-      loading={categoriesLoading || logItemsLoading}
     />
   )
 }

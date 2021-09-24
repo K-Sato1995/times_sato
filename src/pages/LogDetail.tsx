@@ -4,13 +4,12 @@ import { useParams } from 'react-router-dom'
 import { useCollectionDataWithRecoil, useDocumentDataWithRecoil } from 'hooks'
 
 import { logsState, logItemState } from 'recoil/logs'
-import { LoaderWrapper } from 'components/atoms'
-import { LoadingState } from 'components/molecules'
 import { format } from 'date-fns'
 import { collection, query, where, orderBy, doc } from 'firebase/firestore'
 import 'react-calendar-heatmap/dist/styles.css'
 import { User } from 'firebase/auth'
 import { LogDetailTemplate } from 'components/templates'
+import { LogDetailLoadingSkeleton } from 'components/organisms'
 
 interface Props {
   currentUser: User
@@ -32,12 +31,7 @@ const LogDetail = ({ currentUser }: Props) => {
     loading: logItemLoading,
   } = useDocumentDataWithRecoil(doc(db, `logItems`, itemID), logItemState)
 
-  if (logLoading || logItemLoading)
-    return (
-      <LoaderWrapper>
-        <LoadingState />
-      </LoaderWrapper>
-    )
+  if (logLoading || logItemLoading) return <LogDetailLoadingSkeleton />
 
   const currTotalHours = logs.reduce((acc, obj) => acc + obj.hours, 0)
 
