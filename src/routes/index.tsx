@@ -32,7 +32,7 @@ const Routes = ({ currentUser }: Props) => {
         </Route>
 
         <Route exact path={'/issues'}>
-          <Todos currentUser={currentUser} />\
+          <Todos currentUser={currentUser} />
         </Route>
 
         <Route path={'/issues/:itemID(\\w+)'}>
