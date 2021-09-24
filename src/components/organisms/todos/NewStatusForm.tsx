@@ -5,13 +5,12 @@ import { Input, Button } from 'components/atoms'
 import { useDetectOutsideClick } from 'hooks'
 import { User } from 'firebase/auth'
 import {
-  collection,
-  addDoc,
   doc,
-  updateDoc,
   serverTimestamp,
   DocumentData,
+  runTransaction,
 } from 'firebase/firestore'
+import { firestoreAutoId } from 'firebaseConfig'
 
 const CirclePicker = React.lazy(() =>
   import('react-color').then((module) => ({
@@ -123,7 +122,6 @@ interface Props {
 
 const Form = ({ currentUser, statuses, currOrder }: Props) => {
   const [displayForm, setDisplayForm] = useState<boolean>(false)
-  const statusesRef = collection(db, 'statuses')
   const formInitialValue = { name: '', color: '' }
   const [formValue, setFormValue] = useState(formInitialValue)
   const { uid } = currentUser
@@ -132,6 +130,8 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
 
   const createStatus = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const statusesRef = doc(db, 'statuses', firestoreAutoId())
 
     if (!formValue.name) {
       alert("StatusName can't be blank")
@@ -142,26 +142,32 @@ const Form = ({ currentUser, statuses, currOrder }: Props) => {
       return
     }
 
-    const previousStatuses = statuses?.filter(
-      (status) => currOrder <= status.order,
-    )
+    try {
+      await runTransaction(db, async (transaction) => {
+        const previousStatuses = statuses?.filter(
+          (status) => currOrder <= status.order,
+        )
 
-    previousStatuses?.forEach((status) => {
-      const { id } = status
-      const statusRef = doc(db, 'statuses', id)
+        previousStatuses?.forEach(async (status) => {
+          const { id } = status
+          const statusRef = doc(db, 'statuses', id)
 
-      updateDoc(statusRef, {
-        order: status.order + 1,
+          await transaction.update(statusRef, {
+            order: status.order + 1,
+          })
+        })
+
+        await transaction.set(statusesRef, {
+          name: formValue.name,
+          color: formValue.color,
+          order: currOrder,
+          createdAt: serverTimestamp(),
+          uid: uid,
+        })
       })
-    })
-
-    await addDoc(statusesRef, {
-      name: formValue.name,
-      color: formValue.color,
-      order: currOrder,
-      createdAt: serverTimestamp(),
-      uid: uid,
-    })
+    } catch {
+      alert('Something went wrong.....')
+    }
 
     setFormValue(formInitialValue)
     setDisplayForm(false)
