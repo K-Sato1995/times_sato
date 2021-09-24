@@ -16,6 +16,11 @@ interface Issue {
   createdAt: any
 }
 
+type FormattedLog = {
+  date: string
+  count: number
+}
+
 type IssuesByStatus = {
   [id: string]: {
     id: string

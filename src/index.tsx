@@ -24,7 +24,7 @@ const renderWV = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-    {process.env.NODE_ENV && renderWV()}
+    {process.env.NODE_ENV === 'development' && renderWV()}
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>

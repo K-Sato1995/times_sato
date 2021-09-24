@@ -15,11 +15,6 @@ const LogsConatiner = styled.div`
   border-bottom: 0;
 `
 
-type FormattedLog = {
-  data: any
-  count: number
-}
-
 interface Props {
   currentUser: User
   itemID: string

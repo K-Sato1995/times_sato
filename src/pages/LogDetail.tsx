@@ -41,7 +41,7 @@ const LogDetail = ({ currentUser }: Props) => {
 
   const currTotalHours = logs.reduce((acc, obj) => acc + obj.hours, 0)
 
-  const formattedLogs: any = logs?.map((log) => {
+  const formattedLogs: FormattedLog[] = logs.map((log) => {
     const date = format(new Date(log.date.toDate()), 'yyyy-MM-dd')
     return { date: date, count: log.hours }
   })
