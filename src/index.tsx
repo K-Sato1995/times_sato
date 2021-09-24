@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom'
 import 'index.css'
 import App from 'App'
 import { ThemeProvider } from 'styled-components'
+import { BrowserRouter as Router } from 'react-router-dom'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 const theme = {
@@ -26,7 +27,9 @@ ReactDOM.render(
   <React.StrictMode>
     {process.env.NODE_ENV === 'development' && renderWV()}
     <ThemeProvider theme={theme}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),

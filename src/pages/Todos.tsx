@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { LoaderWrapper } from 'components/atoms'
-import { LoadingState } from 'components/molecules'
+import { IssuesLoadingSkeleton } from 'components/organisms'
 import { db } from 'firebaseConfig'
 import { collection, query, orderBy } from 'firebase/firestore'
 import { useCollectionDataWithRecoil } from 'hooks'
@@ -36,12 +35,7 @@ const Issues = ({ currentUser }: Props) => {
 
   let issuesByStatus = useRecoilValue(issuesByStatusState)
 
-  if (issueLoading || statusLoading)
-    return (
-      <LoaderWrapper>
-        <LoadingState />
-      </LoaderWrapper>
-    )
+  if (issueLoading || statusLoading) return <IssuesLoadingSkeleton />
 
   return (
     <IssuesTemplate

@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { LoadingState } from 'components/molecules'
-import { LoaderWrapper } from 'components/atoms'
 import { User } from 'firebase/auth'
+
+import { LoadingSkeleton } from 'components/organisms'
 
 const Todos = lazy(() => import('pages/Todos'))
 const TodoDetail = lazy(() => import('pages/TodoDetail'))
@@ -16,13 +16,7 @@ interface Props {
 const Routes = ({ currentUser }: Props) => {
   return (
     <Switch>
-      <Suspense
-        fallback={
-          <LoaderWrapper>
-            <LoadingState />
-          </LoaderWrapper>
-        }
-      >
+      <Suspense fallback={<LoadingSkeleton />}>
         <Route exact path={['/', '/logs']}>
           <Logs currentUser={currentUser} />
         </Route>

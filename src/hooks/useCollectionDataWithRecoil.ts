@@ -18,12 +18,11 @@ function useCollectionDataWithRecoil<State extends IState>(
 ): { result: DocumentData[]; loading: boolean; error: FirestoreError | null } {
   const [result, setResult] = useRecoilState<State[]>(recoilState)
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const unsbscribe = onSnapshot(query, (fbData) => {
       try {
-        setLoading(true)
         const data: State[] = []
 
         fbData.forEach((doc) => {

@@ -22,12 +22,11 @@ function useDocumentDataWithRecoil<State extends IState>(
 } {
   const [result, setResult] = useRecoilState<State | null>(recoilState)
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const unsbscribe = onSnapshot(query, (doc: DocumentData) => {
       try {
-        setLoading(true)
         setResult(doc.data())
         setLoading(false)
       } catch (err: any) {
