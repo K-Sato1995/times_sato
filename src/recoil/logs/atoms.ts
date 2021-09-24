@@ -17,19 +17,9 @@ const logItemsState = atom<LogItem[]>({
   default: [],
 })
 
-// const logItemsByCategoryState = atom<LogItemsByCategory>({
-//   key: 'logItemsByCategory',
-//   default: {},
-// })
-
 const categoriesSortState = atom({
   key: 'categoriesSortState',
   default: 'Sorted',
 })
 
-export {
-  logCategoriesState,
-  categoriesSortState,
-  logItemsState,
-  //   logItemsByCategoryState,
-}
+export { logCategoriesState, categoriesSortState, logItemsState }

@@ -71,22 +71,11 @@ const LocalLoaderWrapper = styled.div`
 
 const Logs = ({ currentUser }: Props) => {
   const { uid } = currentUser
-
-  const categoriesQuery = query(
-    collection(db, 'logCategories'),
-    where('uid', '==', uid),
-  )
-
-  const logItemsQuery = query(
-    collection(db, 'logItems'),
-    where('uid', '==', uid),
-  )
-
   const {
     loading: categoriesLoading,
     error: categoriesError,
   } = useCollectionDataWithRecoil<LogCategory>(
-    categoriesQuery,
+    query(collection(db, 'logCategories'), where('uid', '==', uid)),
     logCategoriesState,
   )
 
@@ -94,14 +83,14 @@ const Logs = ({ currentUser }: Props) => {
     result: logItems,
     loading: logItemsLoading,
     error: logItemsError,
-  } = useCollectionDataWithRecoil<LogItem>(logItemsQuery, logItemsState)
+  } = useCollectionDataWithRecoil<LogItem>(
+    query(collection(db, 'logItems'), where('uid', '==', uid)),
+    logItemsState,
+  )
 
   const logItemsByCateogory = useRecoilValue(logItemsByCategoryState)
 
-  const sumOfTotalHours = logItems?.reduce(
-    (acc, obj) => acc + obj.totalHours,
-    0,
-  )
+  const sumOfTotalHours = logItems.reduce((acc, obj) => acc + obj.totalHours, 0)
 
   const formattedDataForChart = logItems
     ?.filter((item) => item.totalHours)
