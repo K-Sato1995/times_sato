@@ -71,7 +71,7 @@ interface Props {
 
 const Form = ({ statusID, uid }: Props) => {
   const wrapperRef = useRef(null)
-  const issuesRef = collection(db, 'issues')
+  const issuesRef = collection(db, 'todos')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { text: '', due: null }
   const [formValue, setFormValue] = useState<{
