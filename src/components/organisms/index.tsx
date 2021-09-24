@@ -1,7 +1,7 @@
-import TodoBox from 'components/organisms/todos/TodoBox'
+import IssueBox from 'components/organisms/todos/IssueBox'
 import Header from 'components/organisms/Header'
 import Footer from 'components/organisms/Footer'
-import NewTodoForm from 'components/organisms/todos/NewTodoForm'
+import NewIssueForm from 'components/organisms/todos/NewIssueForm'
 import NewStatusForm from 'components/organisms/todos/NewStatusForm'
 import EditStatusForm from 'components/organisms/todos/EditStatusForm'
 import StatusTag from 'components/organisms/todos/StatusTag'
@@ -17,10 +17,10 @@ import ChartLegend from 'components/organisms/ChartLegend'
 import StatusContainer from 'components/organisms/todos/StatusContainer'
 
 export {
-  TodoBox,
+  IssueBox,
   LogItem,
   NewLogItemForm,
-  NewTodoForm,
+  NewIssueForm,
   NewStatusForm,
   EditStatusForm,
   NewCategoryForm,

@@ -7,8 +7,8 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import 'react-datepicker/dist/react-datepicker.css'
 const DatePicker = React.lazy(() => import('react-datepicker'))
 
-const TodoFormWrapper = styled.div``
-const TodoItemForm = styled.form`
+const IssueFormWrapper = styled.div``
+const IssueItemForm = styled.form`
   padding: 0 1rem;
   padding-bottom: 0.6rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
@@ -18,7 +18,7 @@ const TodoItemForm = styled.form`
   }
 `
 
-const TodoInput = styled(Input)`
+const IssueInput = styled(Input)`
   border: none;
   padding: 0;
   padding-bottom: 0.3rem;
@@ -55,7 +55,7 @@ const FormButton = styled(Button)`
   }
 `
 
-const NewTodoBox = styled.div`
+const NewIssueBox = styled.div`
   text-align: center;
   font-size: 0.8rem;
   padding: 0.6rem 0;
@@ -71,7 +71,7 @@ interface Props {
 
 const Form = ({ statusID, uid }: Props) => {
   const wrapperRef = useRef(null)
-  const todosRef = collection(db, 'todos')
+  const issuesRef = collection(db, 'todos')
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { text: '', due: null }
   const [formValue, setFormValue] = useState<{
@@ -80,14 +80,14 @@ const Form = ({ statusID, uid }: Props) => {
   }>(formDefaultValue)
   useDetectOutsideClick(wrapperRef, setDisplayForm)
 
-  const createTodoItem = async (e: React.FormEvent<HTMLFormElement>) => {
+  const createIssueItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!formValue.text) {
       alert("Anything can't be blank")
       return
     }
 
-    await addDoc(todosRef, {
+    await addDoc(issuesRef, {
       text: formValue.text,
       due: formValue.due,
       uid: uid,
@@ -98,12 +98,12 @@ const Form = ({ statusID, uid }: Props) => {
   }
 
   return (
-    <TodoFormWrapper ref={wrapperRef}>
+    <IssueFormWrapper ref={wrapperRef}>
       {displayForm ? (
-        <TodoItemForm onSubmit={createTodoItem}>
+        <IssueItemForm onSubmit={createIssueItem}>
           <FormContent>
-            <TodoInput
-              placeholder={'Todo Name'}
+            <IssueInput
+              placeholder={'Issue Name'}
               value={formValue.text}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setFormValue({ ...formValue, text: e.target.value })
@@ -117,7 +117,7 @@ const Form = ({ statusID, uid }: Props) => {
               }
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
-              customInput={<TodoInput />}
+              customInput={<IssueInput />}
             />
           </FormContent>
 
@@ -136,17 +136,17 @@ const Form = ({ statusID, uid }: Props) => {
               </FormButton>
             </Buttons>
           </FormBottom>
-        </TodoItemForm>
+        </IssueItemForm>
       ) : (
-        <NewTodoBox
+        <NewIssueBox
           onClick={() => {
             setDisplayForm(true)
           }}
         >
           + New Issue
-        </NewTodoBox>
+        </NewIssueBox>
       )}
-    </TodoFormWrapper>
+    </IssueFormWrapper>
   )
 }
 

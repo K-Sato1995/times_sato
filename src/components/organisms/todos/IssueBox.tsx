@@ -15,7 +15,7 @@ interface DueDesign {
   isDueWithinTwodays: boolean
 }
 
-const TodoContainer = styled.div`
+const IssueContainer = styled.div`
   position: relative;
   padding: 0.6rem 0;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
@@ -39,7 +39,7 @@ const StatusIconContianer = styled.div`
   min-width: 30px;
   vertical-align: middle;
 `
-const TodoDesc = styled.div`
+const IssueDesc = styled.div`
   display: inline-block;
   width: 80%;
   word-wrap: break-word;
@@ -106,31 +106,31 @@ const OptionListWrapper = styled.div`
 `
 
 interface Props {
-  todo: DocumentData
+  issue: DocumentData
   currentUser: User
   statusColor?: string
   statuses?: DocumentData[]
 }
 
-const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
-  const { text, id, due, status } = todo
+const IssueBox = ({ issue, currentUser, statusColor, statuses }: Props) => {
+  const { text, id, due, status } = issue
   const [displayStatusOptions, setDisplayStatusOptions] = useState<boolean>(
     false,
   )
   const history = useHistory()
   const now = new Date()
-  const todoDue = new Date(due?.toDate())
+  const issueDue = new Date(due?.toDate())
   const completed = process.env.REACT_APP_TODOLAST_STATUS_ID === status
-  const isOverDue = !completed && now.getTime() > todoDue.getTime()
+  const isOverDue = !completed && now.getTime() > issueDue.getTime()
 
   const isDueWithinTwodays =
     !completed &&
-    todoDue.getTime() / 1000 - now.getTime() / 1000 >= 0 &&
-    todoDue.getTime() / 1000 - now.getTime() / 1000 <= 172800
+    issueDue.getTime() / 1000 - now.getTime() / 1000 >= 0 &&
+    issueDue.getTime() / 1000 - now.getTime() / 1000 <= 172800
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: DragableItemTypes.TODOITEM,
-    item: { type: DragableItemTypes.TODOITEM, itemID: todo.id },
+    item: { type: DragableItemTypes.TODOITEM, itemID: issue.id },
     drop: () => {
       console.log('Droped')
     },
@@ -139,14 +139,14 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
     }),
   }))
   const { uid } = currentUser
-  const todoRef = doc(db, 'todos', id)
+  const issueRef = doc(db, 'issues', id)
 
   const updateStatus = async (statusID: string) => {
     if (!uid) {
       alert('YOU ARE NOT ALLOWED TO DO THIS')
       return
     }
-    await updateDoc(todoRef, {
+    await updateDoc(issueRef, {
       status: statusID,
     })
       .then(() => {
@@ -158,7 +158,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
   }
 
   return (
-    <TodoContainer
+    <IssueContainer
       ref={drag}
       isDragging={isDragging}
       onClick={() => {
@@ -169,7 +169,7 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
         <OptionListWrapper>
           <OptionList setDisplayOptionList={setDisplayStatusOptions}>
             {statuses
-              ?.filter((status) => status.id !== todo.status)
+              ?.filter((status) => status.id !== issue.status)
               ?.map((status, idx) => (
                 <OptionItem
                   hoverBackgroundColor={
@@ -199,12 +199,12 @@ const TodoBox = ({ todo, currentUser, statusColor, statuses }: Props) => {
           }}
         />
       </StatusIconContianer>
-      <TodoDesc>{text}</TodoDesc>
+      <IssueDesc>{text}</IssueDesc>
       <Due isDueWithinTwodays={isDueWithinTwodays} isOverDue={isOverDue}>
         {due ? format(new Date(due.toDate()), 'M/dd') : '-'}
       </Due>
-    </TodoContainer>
+    </IssueContainer>
   )
 }
 
-export default TodoBox
+export default IssueBox
