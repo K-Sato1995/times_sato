@@ -4,11 +4,11 @@ interface StyledCompsProps {
   isVisible?: string
 }
 
-type TodosByStatus = {
+type IssuesByStatus = {
   [id: string]: {
     id: string
     color?: string
     order: number
-    todos?: DocumentData
+    issues?: DocumentData
   }
 }

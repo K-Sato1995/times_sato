@@ -1,2 +1,2 @@
 export { LogsTemplate } from 'components/templates/Logs'
-export { TodosTemplate } from 'components/templates/Todos'
+export { IssuesTemplate } from 'components/templates/Issues'

@@ -5,47 +5,50 @@ import { db } from 'firebaseConfig'
 import { collection, query, orderBy } from 'firebase/firestore'
 import useCollectionData from 'hooks/useCollectionData'
 import { User } from 'firebase/auth'
-import { TodosTemplate } from 'components/templates'
+import { IssuesTemplate } from 'components/templates'
 
 interface Props {
   currentUser: User
 }
 
-const Todos = ({ currentUser }: Props) => {
-  const todosQuery = query(collection(db, 'todos'), orderBy('createdAt', 'asc'))
+const Issues = ({ currentUser }: Props) => {
+  const issuesQuery = query(
+    collection(db, 'todos'),
+    orderBy('createdAt', 'asc'),
+  )
 
   const statusesQuery = query(
     collection(db, 'statuses'),
     orderBy('order', 'desc'),
   )
 
-  const [displayCompletedTodos, setDisplayCompletedTodos] = useState<boolean>(
+  const [displayCompletedIssues, setDisplayCompletedIssues] = useState<boolean>(
     false,
   )
-  const [todos, todoLoading, todoError] = useCollectionData(todosQuery)
+  const [issues, issueLoading, issueError] = useCollectionData(issuesQuery)
 
   const [statuses, statusLoading, statusError] = useCollectionData(
     statusesQuery,
   )
 
-  if (statusError || todoError) {
+  if (statusError || issueError) {
     statusError && console.log(statusError.message)
-    todoError && console.log(todoError.message)
+    issueError && console.log(issueError.message)
   }
 
-  let todosByStatus: TodosByStatus = {}
+  let issuesByStatus: IssuesByStatus = {}
 
   statuses?.forEach((status) => {
-    let tmp = todos?.filter((todo) => todo.status === status.id)
-    todosByStatus[status.name] = {
+    let tmp = issues?.filter((issue) => issue.status === status.id)
+    issuesByStatus[status.name] = {
       id: status.id,
       color: status.color,
       order: status.order,
-      todos: tmp,
+      issues: tmp,
     }
   })
 
-  if (todoLoading || statusLoading)
+  if (issueLoading || statusLoading)
     return (
       <LoaderWrapper>
         <LoadingState />
@@ -53,14 +56,14 @@ const Todos = ({ currentUser }: Props) => {
     )
 
   return (
-    <TodosTemplate
+    <IssuesTemplate
       currentUser={currentUser}
-      todosByStatus={todosByStatus}
+      issuesByStatus={issuesByStatus}
       statuses={statuses}
-      displayCompletedTodos={displayCompletedTodos}
-      setDisplayCompletedTodos={setDisplayCompletedTodos}
+      displayCompletedIssues={displayCompletedIssues}
+      setDisplayCompletedIssues={setDisplayCompletedIssues}
     />
   )
 }
 
-export default Todos
+export default Issues
