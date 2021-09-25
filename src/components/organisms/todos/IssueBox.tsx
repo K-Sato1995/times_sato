@@ -139,7 +139,7 @@ const IssueBox = ({ issue, currentUser, statusColor, statuses }: Props) => {
     }),
   }))
   const { uid } = currentUser
-  const issueRef = doc(db, 'issues', id)
+  const issueRef = doc(db, 'todos', id)
 
   const updateStatus = async (statusID: string) => {
     if (!uid) {
