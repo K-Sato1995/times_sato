@@ -64,7 +64,12 @@ export const LogDetailTemplate = ({
       />
       <LogsConatiner>
         {logs?.map((log) => (
-          <LogBox key={log.id} log={log} />
+          <LogBox
+            key={log.id}
+            currTotalHours={currTotalHours}
+            logItemID={itemID}
+            log={log}
+          />
         ))}
       </LogsConatiner>
     </ContentWrapper>
