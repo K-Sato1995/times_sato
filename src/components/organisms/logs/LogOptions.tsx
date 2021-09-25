@@ -25,7 +25,7 @@ const OptionItem = styled.li`
   width: 100%;
   border-bottom: solid 1px ${(props) => props.theme.borderColor};
   color: ${(props) => props.theme.secondaryColor};
-
+  cursor: pointer;
   :hover {
     color: ${(props) => props.theme.primaryColor};
   }
