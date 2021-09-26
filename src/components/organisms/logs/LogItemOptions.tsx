@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const OptionsContainer = styled.form`
   position: absolute;
-  top: 20%;
+  top: 30%;
   right: 0;
   background: #fff;
   z-index: 1000;
