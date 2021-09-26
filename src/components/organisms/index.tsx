@@ -41,3 +41,5 @@ export { IssuesLoadingSkeleton } from 'components/organisms/todos/IssuesLoadingS
 export { LogDetailLoadingSkeleton } from 'components/organisms/logs/LogDetailLoadingSkeleton'
 export { IssueDetailLoadingSkeleton } from 'components/organisms/todos/IssueDetailLoadingSkeleton'
 export { LogOptions } from 'components/organisms/logs/LogOptions'
+export { LogItemOptions } from 'components/organisms/logs/LogItemOptions'
+export { EditLogItemForm } from 'components/organisms/logs/EditLogItemForm'

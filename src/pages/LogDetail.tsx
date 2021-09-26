@@ -5,7 +5,15 @@ import { useCollectionDataWithRecoil, useDocumentDataWithRecoil } from 'hooks'
 
 import { logsState, logItemState } from 'recoil/logs'
 import { format } from 'date-fns'
-import { collection, query, where, orderBy, doc } from 'firebase/firestore'
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from 'firebase/firestore'
 import 'react-calendar-heatmap/dist/styles.css'
 import { User } from 'firebase/auth'
 import { LogDetailTemplate } from 'components/templates'
@@ -40,6 +48,26 @@ const LogDetail = ({ currentUser }: Props) => {
     return { date: date, count: log.hours }
   })
 
+  const deleteLogItem = async () => {
+    try {
+      await deleteDoc(doc(db, 'logItems', itemID))
+    } catch (err) {
+      alert('Something went wrong....')
+    }
+  }
+
+  const updateLogItem = async (
+    name: string,
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault()
+    try {
+      await updateDoc(doc(db, 'logItems', itemID), { name: name })
+    } catch (err) {
+      alert('Something went wrong....')
+    }
+  }
+
   return (
     <LogDetailTemplate
       currentUser={currentUser}
@@ -48,6 +76,8 @@ const LogDetail = ({ currentUser }: Props) => {
       logs={logs}
       formattedLogs={formattedLogs}
       currTotalHours={currTotalHours}
+      deleteLogItem={deleteLogItem}
+      updateLogItem={updateLogItem}
     />
   )
 }
