@@ -2,12 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { db } from 'firebaseConfig'
 import { Input, Button } from 'components/atoms'
-import {
-  doc,
-  serverTimestamp,
-  runTransaction,
-  DocumentData,
-} from 'firebase/firestore'
+import { doc, serverTimestamp, runTransaction } from 'firebase/firestore'
 import { firestoreAutoId } from 'firebaseConfig'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -74,11 +69,10 @@ const NewLogBox = styled.div`
 interface Props {
   itemID: string
   currTotalHours: number
-  logItem: DocumentData | null
   uid: string
 }
 
-const Form = ({ itemID, logItem, uid, currTotalHours }: Props) => {
+const Form = ({ itemID, uid, currTotalHours }: Props) => {
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const formDefaultValue = { description: '', date: null, hours: null }
   const [formValue, setFormValue] = useState<{

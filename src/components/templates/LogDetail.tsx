@@ -1,18 +1,42 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Heading, ContentWrapper } from 'components/atoms'
-import { NewLogForm, LogBox } from 'components/organisms'
+import {
+  NewLogForm,
+  LogBox,
+  LogItemOptions,
+  EditLogItemForm,
+} from 'components/organisms'
 import CalendarHeatmap from 'react-calendar-heatmap'
 import { DocumentData } from 'firebase/firestore'
 import 'react-calendar-heatmap/dist/styles.css'
 import { User } from 'firebase/auth'
+import { FaEllipsisH } from 'react-icons/fa'
+import { useDetectOutsideClick } from 'hooks'
+import { Redirect } from 'react-router'
 
 const ReactTooltip = React.lazy(() => import('react-tooltip'))
 
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 0;
+`
+
 const LogsConatiner = styled.div`
-  /* margin-top: 1rem; */
   border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
+`
+
+const OptionIcon = styled(FaEllipsisH)`
+  color: ${(props) => props.theme.secondaryColor};
+  cursor: pointer;
+  margin: 1rem 0;
+
+  :hover {
+    color: ${(props) => props.theme.primaryColor};
+  }
 `
 
 interface Props {
@@ -22,6 +46,11 @@ interface Props {
   logs: DocumentData[]
   formattedLogs: FormattedLog[]
   currTotalHours: number
+  deleteLogItem: () => Promise<void>
+  updateLogItem: (
+    name: string,
+    e: React.FormEvent<HTMLFormElement>,
+  ) => Promise<void>
 }
 
 export const LogDetailTemplate = ({
@@ -31,8 +60,19 @@ export const LogDetailTemplate = ({
   logs,
   formattedLogs,
   currTotalHours,
+  deleteLogItem,
+  updateLogItem,
 }: Props) => {
   const { uid } = currentUser
+  const wrapperRef = React.useRef(null)
+  const [
+    isOptionListDisplayed,
+    setIsOptionListDisplayed,
+  ] = React.useState<boolean>(false)
+
+  const [isEditing, setIsEditing] = React.useState<boolean>(false)
+
+  useDetectOutsideClick(wrapperRef, setIsOptionListDisplayed)
 
   const getTooltipDataAttrs = (value: { date: string; count: number }) => {
     // Temporary hack around null value.date issue
@@ -45,9 +85,49 @@ export const LogDetailTemplate = ({
     }
   }
 
+  const renderOptionList = () => {
+    if (isEditing) return <></>
+    return (
+      <>
+        {isOptionListDisplayed ? (
+          <LogItemOptions
+            setIsEditing={setIsEditing}
+            handleDelete={() => {
+              if (
+                window.confirm('Are you sure you wish to delete this item?')
+              ) {
+                deleteLogItem()
+              }
+            }}
+          />
+        ) : (
+          <OptionIcon
+            onClick={() => {
+              setIsOptionListDisplayed(true)
+            }}
+          />
+        )}
+      </>
+    )
+  }
+  if (!logItem) return <Redirect to="/" />
+
   return (
     <ContentWrapper>
-      <Heading size={'h1'}>{logItem?.name}</Heading>
+      <TopContainer ref={wrapperRef}>
+        {isEditing ? (
+          <EditLogItemForm
+            logItem={logItem}
+            updateLogItem={updateLogItem}
+            setIsEditing={setIsEditing}
+            setIsOptionListDisplayed={setIsOptionListDisplayed}
+          />
+        ) : (
+          <Heading size={'h1'}>{logItem.name}</Heading>
+        )}
+
+        {renderOptionList()}
+      </TopContainer>
 
       <ReactTooltip />
       <CalendarHeatmap
@@ -56,12 +136,7 @@ export const LogDetailTemplate = ({
         values={formattedLogs}
         tooltipDataAttrs={getTooltipDataAttrs}
       />
-      <NewLogForm
-        itemID={itemID}
-        logItem={logItem}
-        currTotalHours={currTotalHours}
-        uid={uid}
-      />
+      <NewLogForm itemID={itemID} currTotalHours={currTotalHours} uid={uid} />
       <LogsConatiner>
         {logs?.map((log) => (
           <LogBox
