@@ -39,8 +39,16 @@ export const LogOptions = ({ handleDelete }: Props) => {
   return (
     <OptionsContainer>
       <OptionsList>
-        {/* <OptionItem>Edit(NotAvailable)</OptionItem> */}
-        <OptionItem onClick={handleDelete}>Delete</OptionItem>
+        <OptionItem>Edit(NotAvailable)</OptionItem>
+        <OptionItem
+          onClick={() => {
+            if (window.confirm('Are you sure you wish to delete this item?')) {
+              handleDelete()
+            }
+          }}
+        >
+          Delete
+        </OptionItem>
       </OptionsList>
     </OptionsContainer>
   )
