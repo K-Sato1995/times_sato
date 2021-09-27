@@ -32,14 +32,27 @@ const OptionItem = styled.li`
 `
 
 interface Props {
-  handleDelete: any
+  handleDelete: () => void
+  setIsModalDisplayed: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOptionListDisplayed: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const LogOptions = ({ handleDelete }: Props) => {
+export const LogOptions = ({
+  setIsOptionListDisplayed,
+  setIsModalDisplayed,
+  handleDelete,
+}: Props) => {
   return (
     <OptionsContainer>
       <OptionsList>
-        <OptionItem>Edit(NotAvailable)</OptionItem>
+        <OptionItem
+          onClick={() => {
+            setIsOptionListDisplayed(false)
+            setIsModalDisplayed(true)
+          }}
+        >
+          Edit(NotAvailable)
+        </OptionItem>
         <OptionItem
           onClick={() => {
             if (window.confirm('Are you sure you wish to delete this item?')) {

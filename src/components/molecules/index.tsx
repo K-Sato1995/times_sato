@@ -4,3 +4,4 @@ import NoItem from 'components/molecules/NoItem'
 import ListTag from 'components/molecules/ListTag'
 
 export { TextAreaForm, OptionList, NoItem, ListTag }
+export { Modal } from 'components/molecules/Modal'

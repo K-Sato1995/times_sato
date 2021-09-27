@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom'
 import { User } from 'firebase/auth'
 
 const FooterContainer = styled.div`
-  z-index: 1000;
+  z-index: 2;
   display: flex;
   justify-content: center;
   position: fixed;

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LogOptions } from 'components/organisms'
+import { LogOptions, EditLogModal } from 'components/organisms'
 import { format } from 'date-fns'
 import { FaEllipsisH } from 'react-icons/fa'
 import { useDetectOutsideClick } from 'hooks'
@@ -81,6 +81,7 @@ const deleteLog = async (
 const LogBox = ({ currTotalHours, logItemID, log }: Props) => {
   const { description, hours, date } = log
   const wrapperRef = React.useRef(null)
+  const [isModalDisplayed, setIsModalDisplayed] = React.useState<boolean>(false)
   const [
     isOptionListDisplayed,
     setIsOptionListDisplayed,
@@ -89,11 +90,18 @@ const LogBox = ({ currTotalHours, logItemID, log }: Props) => {
   useDetectOutsideClick(wrapperRef, setIsOptionListDisplayed)
   return (
     <ItemContainer ref={wrapperRef}>
+      <EditLogModal
+        isModalDisplayed={isModalDisplayed}
+        setIsModalDisplayed={setIsModalDisplayed}
+        log={log}
+      />
       {isOptionListDisplayed ? (
         <LogOptions
           handleDelete={() => {
             deleteLog(currTotalHours, logItemID, log)
           }}
+          setIsModalDisplayed={setIsModalDisplayed}
+          setIsOptionListDisplayed={setIsOptionListDisplayed}
         />
       ) : (
         <OptionIcon
