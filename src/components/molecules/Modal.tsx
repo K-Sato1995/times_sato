@@ -20,7 +20,7 @@ const ModalWrapper = styled.div`
 const ModalContainer = styled.div`
   background: #fff;
   border-radius: 2.5px;
-  margin: 10% auto;
+  margin: 20% auto;
   z-index: 4;
   width: 350px;
 `
