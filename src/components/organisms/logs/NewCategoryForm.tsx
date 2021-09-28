@@ -24,14 +24,13 @@ const NewCategoryForm = styled.form`
   margin: 2rem 0;
   border: solid 1px
     ${(props: { borderColor?: string; isDisplayed?: boolean }) =>
-      props.borderColor
-        ? props.borderColor
-        : (props) => props.theme.borderColor};
+      props.borderColor ? props.borderColor : '#fff'};
   background: #fff;
   border-radius: 2.5px;
   z-index: 1000;
   max-width: 280px; // Width of the Circle Picker
   overflow-y: auto;
+  box-shadow: ${(props) => props.theme.boxShadow};
 
   ${(props: { borderColor?: string; isDisplayed?: boolean }) =>
     !props.isDisplayed &&

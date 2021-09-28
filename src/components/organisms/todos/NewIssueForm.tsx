@@ -9,10 +9,9 @@ const DatePicker = React.lazy(() => import('react-datepicker'))
 
 const IssueFormWrapper = styled.div``
 const IssueItemForm = styled.form`
-  padding: 0 1rem;
+  padding: 1rem 1rem;
   padding-bottom: 0.6rem;
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-
+  background-color: #fff;
   .react-datepicker-wrapper {
     display: block;
   }
