@@ -105,7 +105,7 @@ export const LogsTemplate = ({
             }}
             data={formattedDataForChart}
             radius={PieChart.defaultProps.radius - 6}
-            label={() => `${sumOfTotalHours}h`}
+            label={() => `${sumOfTotalHours.toFixed(1)}h`}
             lineWidth={30}
             segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
             animate
