@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LogOptions, EditLogModal } from 'components/organisms'
+import { EditLogModal } from 'components/organisms'
 import { format } from 'date-fns'
-import { FaEllipsisH } from 'react-icons/fa'
-import { useDetectOutsideClick } from 'hooks'
 import { db } from 'firebaseConfig'
 import { doc, DocumentData, runTransaction } from 'firebase/firestore'
 
@@ -11,22 +9,10 @@ const ItemContainer = styled.div`
   position: relative;
   padding: 1.5rem 0.2rem;
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
-  /* cursor: pointer; */
-
-  /* :hover {
-    background-color: #f8f8f8;
-  } */
-`
-
-const OptionIcon = styled(FaEllipsisH)`
-  position: absolute;
-  right: 2%;
-  top: 2%;
-  color: ${(props) => props.theme.secondaryColor};
   cursor: pointer;
 
   :hover {
-    color: ${(props) => props.theme.primaryColor};
+    background-color: #f8f8f8;
   }
 `
 
@@ -78,38 +64,72 @@ const deleteLog = async (
   }
 }
 
+const updateLog = async (
+  currentLog: DocumentData,
+  logItemID: string,
+  currTotalHours: number,
+  formValue: {
+    description: string
+    date: any
+    hours: number | null
+  },
+  e: React.FormEvent<HTMLFormElement>,
+) => {
+  e.preventDefault()
+  if (!formValue.date || !formValue.description || !formValue.hours) {
+    alert("Anything can't be blank")
+    return
+  }
+
+  const { id: logID, hours: currentLogHours } = currentLog
+  const logItemRef = doc(db, 'logItems', logItemID)
+  const logRef = doc(db, 'logs', logID)
+
+  try {
+    await runTransaction(db, async (transaction) => {
+      if (currentLogHours !== formValue.hours) {
+        const sum = currentLogHours - formValue.hours!
+
+        if (sum > 0) {
+          await transaction.update(logItemRef, {
+            totalHours: currTotalHours - Math.abs(sum),
+          })
+        } else if (sum < 0) {
+          await transaction.update(logItemRef, {
+            totalHours: currTotalHours + Math.abs(sum),
+          })
+        } else {
+          new Error('Something is just not adding up')
+        }
+      }
+      await transaction.update(logRef, formValue)
+    })
+  } catch (err) {
+    alert('Something went wrong....')
+  }
+}
+
 const LogBox = ({ currTotalHours, logItemID, log }: Props) => {
   const { description, hours, date } = log
-  const wrapperRef = React.useRef(null)
   const [isModalDisplayed, setIsModalDisplayed] = React.useState<boolean>(false)
-  const [
-    isOptionListDisplayed,
-    setIsOptionListDisplayed,
-  ] = React.useState<boolean>(false)
 
-  useDetectOutsideClick(wrapperRef, setIsOptionListDisplayed)
   return (
-    <ItemContainer ref={wrapperRef}>
+    <ItemContainer
+      onClick={() => {
+        setIsModalDisplayed(true)
+      }}
+    >
       <EditLogModal
         isModalDisplayed={isModalDisplayed}
         setIsModalDisplayed={setIsModalDisplayed}
         log={log}
+        logItemID={logItemID}
+        currTotalHours={currTotalHours}
+        updateLog={updateLog}
+        handleDelete={() => {
+          deleteLog(currTotalHours, logItemID, log)
+        }}
       />
-      {isOptionListDisplayed ? (
-        <LogOptions
-          handleDelete={() => {
-            deleteLog(currTotalHours, logItemID, log)
-          }}
-          setIsModalDisplayed={setIsModalDisplayed}
-          setIsOptionListDisplayed={setIsOptionListDisplayed}
-        />
-      ) : (
-        <OptionIcon
-          onClick={() => {
-            setIsOptionListDisplayed(true)
-          }}
-        />
-      )}
       <LogDate>{format(new Date(date.toDate()), 'yy/MM/dd')}</LogDate>
       <LogDescription>{description}</LogDescription>
       <LogHours>{hours}h</LogHours>

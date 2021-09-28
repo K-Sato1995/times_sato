@@ -22,8 +22,7 @@ const ModalContainer = styled.div`
   border-radius: 2.5px;
   margin: 10% auto;
   z-index: 4;
-  max-width: 360px;
-  height: 500px;
+  width: 350px;
 `
 
 interface Props {

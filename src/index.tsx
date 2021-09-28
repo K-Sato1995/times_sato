@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 const theme = {
-  primaryColor: '#2c7b7d',
+  primaryColor: 'rgb(7, 160, 146)',
   secondaryColor: '#697980',
   borderColor: '#e7edf0',
 }
