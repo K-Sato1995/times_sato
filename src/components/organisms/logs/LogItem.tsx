@@ -8,7 +8,7 @@ const ItemContainer = styled.div`
   position: relative;
   display: flex;
   padding: 0.6rem 0;
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+  /* border-bottom: solid ${(props) => props.theme.borderColor} 1px; */
   cursor: pointer;
 
   :hover {

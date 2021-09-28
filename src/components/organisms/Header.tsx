@@ -33,14 +33,14 @@ const Title = styled(Heading)`
   cursor: pointer;
 `
 
-const SignOutLink = styled(Button)`
-  font-size: 1rem;
-  background-color: #212329;
-  color: #fff;
-  :hover {
-    color: #c7bebe;
-  }
-`
+// const SignOutLink = styled(Button)`
+//   font-size: 1rem;
+//   background-color: #212329;
+//   color: #fff;
+//   :hover {
+//     color: #c7bebe;
+//   }
+// `
 
 const Header = () => {
   const history = useHistory()
@@ -57,11 +57,9 @@ const Header = () => {
           >
             Study Log
           </Title>
-          {auth.currentUser && (
-            <SignOutLink buttonType="link" onClick={() => auth.signOut()}>
-              Sign Out
-            </SignOutLink>
-          )}
+          {/* <SignOutLink buttonType="link" onClick={() => auth.signOut()}>
+            Sign Out
+          </SignOutLink> */}
         </NavItems>
       </Nav>
     </NavWrapper>

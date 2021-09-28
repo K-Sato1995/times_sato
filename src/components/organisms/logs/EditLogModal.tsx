@@ -28,7 +28,6 @@ interface Props {
 }
 
 const Form = styled.form`
-  border-radius: 2.5px;
   padding: 1rem;
   position: relative;
 
@@ -43,7 +42,13 @@ const Form = styled.form`
     position: absolute;
     top: 0;
     left: 0;
-    background: linear-gradient(242.72deg, #49ccf9, #8930fd 101.2%);
+    background: linear-gradient(
+      242.72deg,
+      #5ad1f8,
+      ${(props) => props.theme.primaryColor} 101.2%
+    );
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
     position: absolute;
   }
 `

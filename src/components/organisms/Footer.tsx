@@ -13,7 +13,7 @@ const FooterContainer = styled.div`
   background-color: #fff;
   width: 100%;
   height: 3.125rem;
-  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 10%);
+  box-shadow: ${(props) => props.theme.boxShadow};
   border-top: solid ${(props) => props.theme.borderColor} 1px;
 `
 

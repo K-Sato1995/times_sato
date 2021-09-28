@@ -12,6 +12,7 @@ const theme = {
   primaryColor: 'rgb(7, 160, 146)',
   secondaryColor: '#697980',
   borderColor: '#e7edf0',
+  boxShadow: `rgba(0, 0, 0, 0.05) 0px 1px 2px 0px`,
 }
 
 const renderWV = () => {
