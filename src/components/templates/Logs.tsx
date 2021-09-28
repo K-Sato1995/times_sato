@@ -37,16 +37,37 @@ const ChartContent = styled.div`
   }
 `
 const ChartWrapper = styled.div`
-  border: solid ${(props) => props.theme.borderColor} 1px;
   padding: 1rem;
   border-radius: 10px;
   position: relative;
   min-height: 300px;
+  background-color: #fff;
+  box-shadow: ${(props) => props.theme.boxShadow};
+
+  &:before {
+    content: '';
+    height: 8px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+      242.72deg,
+      #5ad1f8,
+      ${(props) => props.theme.primaryColor} 101.2%
+    );
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    position: absolute;
+  }
 `
 
 const ItemsConatiner = styled.div`
-  border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: 0;
+  background-color: #fff;
+  border: 1px solid #fff;
+
+  box-shadow: ${(props) => props.theme.boxShadow};
 `
 
 type formattedDataForChart = {
@@ -84,7 +105,7 @@ export const LogsTemplate = ({
             }}
             data={formattedDataForChart}
             radius={PieChart.defaultProps.radius - 6}
-            label={() => `${sumOfTotalHours}h`}
+            label={() => `${sumOfTotalHours.toFixed(1)}h`}
             lineWidth={30}
             segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
             animate

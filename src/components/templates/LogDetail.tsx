@@ -22,11 +22,45 @@ const TopContainer = styled.div`
   justify-content: space-between;
   position: relative;
   padding: 0;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
 `
 
 const LogsConatiner = styled.div`
-  border: solid ${(props) => props.theme.borderColor} 1px;
-  border-bottom: 0;
+  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: #fff;
+`
+
+const HeatMapConatiner = styled.div`
+  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: #fff;
+  padding: 0.5rem 1rem 2rem 1rem;
+  border-radius: 10px;
+  position: relative;
+
+  &:before {
+    content: '';
+    height: 8px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+      242.72deg,
+      #5ad1f8,
+      ${(props) => props.theme.primaryColor} 101.2%
+    );
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    position: absolute;
+  }
+`
+
+const HeatMapTitle = styled(Heading)``
+
+const HeatMapHeader = styled.div`
+  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+  margin-bottom: 1rem;
 `
 
 const OptionIcon = styled(FaEllipsisH)`
@@ -128,14 +162,18 @@ export const LogDetailTemplate = ({
 
         {renderOptionList()}
       </TopContainer>
-
-      <ReactTooltip />
-      <CalendarHeatmap
-        startDate={new Date('2021-05-01')}
-        endDate={new Date('2022-05-01')}
-        values={formattedLogs}
-        tooltipDataAttrs={getTooltipDataAttrs}
-      />
+      <HeatMapConatiner>
+        <HeatMapHeader>
+          <HeatMapTitle size={'h2'}>Progress Calendar</HeatMapTitle>
+        </HeatMapHeader>
+        <ReactTooltip />
+        <CalendarHeatmap
+          startDate={new Date('2021-05-01')}
+          endDate={new Date('2022-05-01')}
+          values={formattedLogs}
+          tooltipDataAttrs={getTooltipDataAttrs}
+        />
+      </HeatMapConatiner>
       <NewLogForm itemID={itemID} currTotalHours={currTotalHours} uid={uid} />
       <LogsConatiner>
         {logs?.map((log) => (

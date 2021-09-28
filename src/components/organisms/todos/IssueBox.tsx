@@ -18,7 +18,6 @@ interface DueDesign {
 const IssueContainer = styled.div`
   position: relative;
   padding: 0.6rem 0;
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   cursor: pointer;
 
   :hover {

@@ -15,8 +15,8 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const IssuesConatiner = styled.div`
-  border: solid ${(props) => props.theme.borderColor} 1px;
-  border-bottom: 0;
+  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: #fff;
 `
 
 const RightArrowIcon = styled(FaAngleRight)`
