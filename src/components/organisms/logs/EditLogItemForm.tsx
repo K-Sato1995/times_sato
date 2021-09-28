@@ -17,7 +17,6 @@ const FormRight = styled.div``
 
 const NameInput = styled(Input)`
   border: none;
-  border-bottom: solid 1px ${(props) => props.theme.borderColor};
   padding-bottom: 0.2rem;
   display: block;
   width: 100%;

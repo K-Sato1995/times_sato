@@ -17,18 +17,13 @@ import { Redirect } from 'react-router'
 
 const ReactTooltip = React.lazy(() => import('react-tooltip'))
 
-const TopContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  padding: 0;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-`
-
 const LogsConatiner = styled.div`
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: #fff;
+  border-radius: 2.5px;
+
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 `
 
 const HeatMapConatiner = styled.div`
@@ -56,11 +51,13 @@ const HeatMapConatiner = styled.div`
   }
 `
 
-const HeatMapTitle = styled(Heading)``
-
 const HeatMapHeader = styled.div`
   border-bottom: solid ${(props) => props.theme.borderColor} 1px;
   margin-bottom: 1rem;
+
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 `
 
 const OptionIcon = styled(FaEllipsisH)`
@@ -148,23 +145,20 @@ export const LogDetailTemplate = ({
 
   return (
     <ContentWrapper>
-      <TopContainer ref={wrapperRef}>
-        {isEditing ? (
-          <EditLogItemForm
-            logItem={logItem}
-            updateLogItem={updateLogItem}
-            setIsEditing={setIsEditing}
-            setIsOptionListDisplayed={setIsOptionListDisplayed}
-          />
-        ) : (
-          <Heading size={'h1'}>{logItem.name}</Heading>
-        )}
-
-        {renderOptionList()}
-      </TopContainer>
       <HeatMapConatiner>
         <HeatMapHeader>
-          <HeatMapTitle size={'h2'}>Progress Calendar</HeatMapTitle>
+          {isEditing ? (
+            <EditLogItemForm
+              logItem={logItem}
+              updateLogItem={updateLogItem}
+              setIsEditing={setIsEditing}
+              setIsOptionListDisplayed={setIsOptionListDisplayed}
+            />
+          ) : (
+            <Heading size={'h1'}>{logItem.name}</Heading>
+          )}
+
+          {renderOptionList()}
         </HeatMapHeader>
         <ReactTooltip />
         <CalendarHeatmap
