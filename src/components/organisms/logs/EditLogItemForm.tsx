@@ -22,6 +22,7 @@ const NameInput = styled(Input)`
   display: block;
   width: 100%;
   display: block;
+  background-color: #f2f4f7;
 
   :focus {
     outline: none;

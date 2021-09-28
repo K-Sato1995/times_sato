@@ -8,7 +8,7 @@ import { doc, DocumentData, runTransaction } from 'firebase/firestore'
 const ItemContainer = styled.div`
   position: relative;
   padding: 1.5rem 0.2rem;
-  border-bottom: solid ${(props) => props.theme.borderColor} 1px;
+
   cursor: pointer;
 
   :hover {

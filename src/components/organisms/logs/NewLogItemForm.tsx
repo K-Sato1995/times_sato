@@ -7,7 +7,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const LogItemForm = styled.form`
   display: flex;
-  /* border-bottom: solid ${(props) => props.theme.borderColor} 1px; */
+  border-top: solid ${(props) => props.theme.borderColor} 1px;
 `
 
 const FormLeft = styled.div`
@@ -69,7 +69,7 @@ const NewLogItemBox = styled.div`
   font-size: 0.8rem;
   padding: 0.6rem 0;
   color: ${(props) => props.theme.secondaryColor};
-  /* border-bottom: solid ${(props) => props.theme.borderColor} 1px; */
+  border-top: solid ${(props) => props.theme.borderColor} 1px;
   cursor: pointer;
 `
 

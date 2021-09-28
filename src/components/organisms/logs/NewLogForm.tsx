@@ -11,8 +11,10 @@ const DatePicker = React.lazy(() => import('react-datepicker'))
 const LogItemForm = styled.form`
   padding: 0.6rem 1rem;
   margin-top: 1rem;
-  border: solid ${(props) => props.theme.borderColor} 1px;
   border-bottom: none;
+  background-color: #fff;
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+
   .react-datepicker-wrapper {
     display: block;
   }
@@ -61,8 +63,9 @@ const NewLogBox = styled.div`
   font-size: 0.8rem;
   padding: 0.6rem 0;
   color: ${(props) => props.theme.secondaryColor};
-  border: solid ${(props) => props.theme.borderColor} 1px;
-  border-bottom: none;
+  box-shadow: ${(props) => props.theme.boxShadow};
+  border-bottom: solid 1px ${(props) => props.theme.borderColor};
+  background-color: #fff;
   cursor: pointer;
 `
 
