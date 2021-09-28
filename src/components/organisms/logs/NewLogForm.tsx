@@ -14,7 +14,8 @@ const LogItemForm = styled.form`
   border-bottom: none;
   background-color: #fff;
   border-bottom: solid 1px ${(props) => props.theme.borderColor};
-
+  border-top-left-radius: 2.5px;
+  border-top-right-radius: 2.5px;
   .react-datepicker-wrapper {
     display: block;
   }
@@ -67,6 +68,9 @@ const NewLogBox = styled.div`
   border-bottom: solid 1px ${(props) => props.theme.borderColor};
   background-color: #fff;
   cursor: pointer;
+
+  border-top-left-radius: 2.5px;
+  border-top-right-radius: 2.5px;
 `
 
 interface Props {
