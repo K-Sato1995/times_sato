@@ -7,7 +7,11 @@ const LogDetailSkeletonContainer = styled.div`
   margin-top: 1rem;
 `
 const HeatMapSkeletonWrapper = styled.div`
-  margin-top: 1rem;
+  margin-top: 2rem;
+`
+
+const TitleContainer = styled.div`
+  margin-top: 2rem;
 `
 
 const renderLogsSkeleton = () => {
@@ -21,9 +25,11 @@ const renderLogsSkeleton = () => {
 export const LogDetailLoadingSkeleton = () => {
   return (
     <ContentWrapper>
-      <Skeleton height={25} width={300} />
+      <TitleContainer>
+        <Skeleton height={40} width={300} />
+      </TitleContainer>
       <HeatMapSkeletonWrapper>
-        <Skeleton height={120} />
+        <Skeleton height={200} />
       </HeatMapSkeletonWrapper>
       {/* DRY PLZ */}
       {renderLogsSkeleton()}

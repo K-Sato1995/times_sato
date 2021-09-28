@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Heading, Button } from 'components/atoms'
-import { auth } from 'firebaseConfig'
+import { Heading } from 'components/atoms'
+// import { auth } from 'firebaseConfig'
 import { useHistory } from 'react-router-dom'
 
 const NavWrapper = styled.div`
