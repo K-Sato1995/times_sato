@@ -9,6 +9,8 @@ const TodoDetail = lazy(() => import('pages/TodoDetail'))
 const Logs = lazy(() => import('pages/Logs'))
 const LogDetail = lazy(() => import('pages/LogDetail'))
 
+const Analysis = lazy(() => import('pages/Analysis'))
+
 interface Props {
   currentUser: User
 }
@@ -25,12 +27,8 @@ const Routes = ({ currentUser }: Props) => {
           <LogDetail currentUser={currentUser} />
         </Route>
 
-        <Route exact path={'/issues'}>
-          <Todos currentUser={currentUser} />
-        </Route>
-
-        <Route path={'/issues/:itemID(\\w+)'}>
-          <TodoDetail />
+        <Route path={'/analysis'}>
+          <Analysis />
         </Route>
       </Suspense>
     </Switch>
