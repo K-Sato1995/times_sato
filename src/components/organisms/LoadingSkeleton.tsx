@@ -2,9 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   LogsLoadingSkeleton,
-  IssuesLoadingSkeleton,
   LogDetailLoadingSkeleton,
-  IssueDetailLoadingSkeleton,
 } from 'components/organisms'
 
 export const LoadingSkeleton = () => {
@@ -15,10 +13,6 @@ export const LoadingSkeleton = () => {
     return <LogsLoadingSkeleton />
   } else if (/\/logs\//.test(currPath)) {
     return <LogDetailLoadingSkeleton />
-  } else if (currPath === '/issues') {
-    return <IssuesLoadingSkeleton />
-  } else if (/\/issues\//.test(currPath)) {
-    return <IssueDetailLoadingSkeleton />
   } else {
     return <LogsLoadingSkeleton />
   }

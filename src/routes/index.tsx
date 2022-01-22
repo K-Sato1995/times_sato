@@ -4,8 +4,6 @@ import { User } from 'firebase/auth'
 
 import { LoadingSkeleton } from 'components/organisms'
 
-const Todos = lazy(() => import('pages/Todos'))
-const TodoDetail = lazy(() => import('pages/TodoDetail'))
 const Logs = lazy(() => import('pages/Logs'))
 const LogDetail = lazy(() => import('pages/LogDetail'))
 

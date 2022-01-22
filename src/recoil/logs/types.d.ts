@@ -25,6 +25,11 @@ interface Log {
   createdAt: any
 }
 
+type FormattedLog = {
+  date: string
+  count: number
+}
+
 interface LogItemsByCategory {
   [id: string]: {
     color?: string
