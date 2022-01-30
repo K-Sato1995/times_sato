@@ -38,6 +38,22 @@ interface LogItemsByCategory {
   }
 }
 
+interface LogCategoryWithChildren {
+  id: string
+  color: string
+  name: string
+  uid: string
+  createdAt: any
+  logItems?: DocumentData
+}
+
+interface LogsByDate {
+  [id: string]: {
+    totalHours: number
+    logs: Log[]
+  }
+}
+
 interface LogItemWithChildLogs {
   id: string
   categoryID: string

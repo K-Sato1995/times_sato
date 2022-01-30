@@ -15,7 +15,7 @@ export const allLogsState = selector({
       (a, b) => a.createdAt - b.createdAt,
     )
 
-    const logItemsByCateogory: LogItemsByCategory = {}
+    const logCategoryWithChildren: LogCategoryWithChildren[] = []
     const logItemsWithChildLogs: LogItemWithChildLogs[] = []
 
     sortedLogItems.forEach((logItem) => {
@@ -27,17 +27,16 @@ export const allLogsState = selector({
     })
 
     sortedCategories.forEach((category) => {
-      let items = logItemsWithChildLogs
+      let logItems = logItemsWithChildLogs
         ?.filter((item) => item.categoryID === category.id)
         .sort((a, b) => a.createdAt - b.createdAt)
 
-      logItemsByCateogory[category.name] = {
-        color: category.color,
-        categoryID: category.id,
-        items,
-      }
+      logCategoryWithChildren.push({
+        ...category,
+        logItems,
+      })
     })
 
-    return logItemsByCateogory
+    return logCategoryWithChildren
   },
 })

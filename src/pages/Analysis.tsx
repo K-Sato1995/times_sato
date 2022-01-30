@@ -10,6 +10,18 @@ import {
 import { useRecoilValue } from 'recoil'
 import { collection, query, where } from 'firebase/firestore'
 import { User } from 'firebase/auth'
+import { format } from 'date-fns'
+// import {
+//   BarChart,
+//   Bar,
+//   Cell,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   Legend,
+//   ResponsiveContainer,
+// } from 'recharts'
 
 interface Props {
   currentUser: User
@@ -33,7 +45,25 @@ const Analysis = ({ currentUser }: Props) => {
   )
 
   const allLogs = useRecoilValue(allLogsState)
-  console.log(allLogs)
+
+  const logByDate: LogsByDate = {}
+
+  // INFO: O(n**3) (^^ ;)
+  allLogs.forEach((category) => {
+    category.logItems.forEach((logItem: LogItemWithChildLogs) => {
+      logItem.logs.forEach((log: Log) => {
+        const date = format(new Date(log.date.toDate()), 'yyyy-MM-dd')
+        if (logByDate[date]) {
+          logByDate[date].totalHours += log.hours
+          logByDate[date].logs.push(log)
+        } else {
+          logByDate[date] = { totalHours: log.hours, logs: [log] }
+        }
+      })
+    })
+  })
+
+  console.log(logByDate)
 
   return (
     <div>
