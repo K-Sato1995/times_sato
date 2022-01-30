@@ -37,3 +37,13 @@ interface LogItemsByCategory {
     items?: DocumentData
   }
 }
+
+interface LogItemWithChildLogs {
+  id: string
+  categoryID: string
+  name: string
+  totalHours: number
+  uid: string
+  createdAt: any
+  logs?: DocumentData
+}

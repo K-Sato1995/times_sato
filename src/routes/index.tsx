@@ -26,7 +26,7 @@ const Routes = ({ currentUser }: Props) => {
         </Route>
 
         <Route path={'/analysis'}>
-          <Analysis />
+          <Analysis currentUser={currentUser} />
         </Route>
       </Suspense>
     </Switch>
