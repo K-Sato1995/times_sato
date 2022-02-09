@@ -11,17 +11,18 @@ import { useRecoilValue } from 'recoil'
 import { collection, query, where } from 'firebase/firestore'
 import { User } from 'firebase/auth'
 import { format } from 'date-fns'
-// import {
-//   BarChart,
-//   Bar,
-//   Cell,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   Legend,
-//   ResponsiveContainer,
-// } from 'recharts'
+import { add, differenceInCalendarDays, isFuture } from 'date-fns'
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts'
 
 interface Props {
   currentUser: User
@@ -64,6 +65,72 @@ const Analysis = ({ currentUser }: Props) => {
   })
 
   console.log(logByDate)
+
+  const data = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: 'Page D',
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: 'Page E',
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: 'Page F',
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: 'Page G',
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ]
+
+  const getTicks = (startDate: any, endDate: any, num: any) => {
+    const diffDays = differenceInCalendarDays(endDate, startDate)
+
+    let current = startDate,
+      velocity = Math.round(diffDays / (num - 1))
+
+    const ticks = [startDate.getTime()]
+
+    for (let i = 1; i < num - 1; i++) {
+      ticks.push(add(current, { days: i * velocity }).getTime())
+    }
+
+    ticks.push(endDate.getTime())
+    return ticks
+  }
+
+  const startDate = new Date(2019, 0, 11)
+  const endDate = new Date(2019, 9, 15)
+
+  const ticks = getTicks(startDate, endDate, 5)
 
   return (
     <div>
