@@ -7,14 +7,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: pwd && ls
-      - run: yarn
-      - run: yarn run analyse.js
+      - run: yarn && yarn run analyse
       - name: custom_workflow_step
         id: hello
         uses: K-Sato1995/gh-actions-test@v1.6
         with:
           name: 'custom name'
           message: "Message"
+      - run: pwd && ls
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
