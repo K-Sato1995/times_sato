@@ -7,6 +7,7 @@ jobs:
     steps:
       - name: custom_workflow_step
         id: hello
-        uses: K-Sato1995/gh-actions-test@v1.2
+        uses: K-Sato1995/gh-actions-test@v1.4
         with:
           name: 'custom name'
+        
