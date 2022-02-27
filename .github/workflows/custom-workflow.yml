@@ -10,4 +10,5 @@ jobs:
         uses: K-Sato1995/gh-actions-test@v1.5
         with:
           name: 'custom name'
+          message: "Message"
         
