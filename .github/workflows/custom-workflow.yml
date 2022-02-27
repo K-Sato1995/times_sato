@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: custom_workflow_step
         id: hello
-        uses: K-Sato1995/gh-actions-test@v1.5
+        uses: K-Sato1995/gh-actions-test@v1.6
         with:
           name: 'custom name'
           message: "Message"
