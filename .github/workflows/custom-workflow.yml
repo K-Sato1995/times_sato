@@ -5,11 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - uses: actions/checkout@v2
-      - run: pwd && ls
-      - run: yarn && yarn run analyze
-      - name: custom_workflow_step
+      - name: analyze_test
         run: pwd && ls
+        run: yarn && yarn run analyze
+      - name: custom_workflow_step
         uses: K-Sato1995/gh-actions-test@v1.6
         with:
           name: 'custom name'
