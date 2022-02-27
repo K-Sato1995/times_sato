@@ -11,4 +11,6 @@ jobs:
         with:
           name: 'custom name'
           message: "Message"
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
