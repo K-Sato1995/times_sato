@@ -9,12 +9,11 @@ jobs:
       - run: pwd && ls
       - run: yarn && yarn run analyze
       - name: custom_workflow_step
-        id: hello
+        run: pwd && ls
         uses: K-Sato1995/gh-actions-test@v1.6
         with:
           name: 'custom name'
           message: "Message"
-      - run: pwd && ls
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
