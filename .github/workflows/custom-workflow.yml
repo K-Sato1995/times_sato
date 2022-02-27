@@ -6,6 +6,7 @@ jobs:
     name: A job to say hello
     steps:
       - uses: actions/checkout@v2
+      - run: pwd && ls
       - name: custom_workflow_step
         id: hello
         uses: K-Sato1995/gh-actions-test@v1.6
