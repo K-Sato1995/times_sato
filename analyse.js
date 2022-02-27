@@ -15,7 +15,9 @@ const green = (text) => {
 }
 
 // pushing BundleAnalyzerPlugin to plugins array
-webpackConfigProd.plugins.push(new BundleAnalyzerPlugin())
+webpackConfigProd.plugins.push(
+  new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+)
 
 // optional - pushing progress-bar plugin for better feedback;
 // it can and will work without progress-bar,
