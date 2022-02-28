@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: check files
+        run: ls -a
       - name: yarn install
         run: yarn
       - name: check files
