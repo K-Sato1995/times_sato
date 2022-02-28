@@ -9,6 +9,8 @@ jobs:
         uses: actions/checkout@v2
       - name: yarn install
         run: yarn
+      - name: check files
+        run: ls -a
       - name: custom_workflow_step
         uses: K-Sato1995/gh-actions-test@v1.7
         with:
