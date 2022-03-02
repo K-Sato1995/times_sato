@@ -16,7 +16,7 @@ jobs:
       - name: custom_workflow_step
         uses: K-Sato1995/webpack-bundle-analyzer-action@develop
         with:
-          webpack-config-path: 'webpack-config-obj.js'
+          webpack-config-path: 'webpack-config-obj'
           github-token: ${{ secrets.GITHUB_TOKEN }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
