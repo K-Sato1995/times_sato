@@ -66,8 +66,8 @@ const Footer = ({ currentUser }: Props) => {
               Logs
             </FooterItem>
 
-            <FooterItem to={'/issues'} active={/\/issues/.test(currPath)}>
-              Issues
+            <FooterItem to={'/analysis'} active={/\/analysis/.test(currPath)}>
+              Analysis
             </FooterItem>
           </>
         )}

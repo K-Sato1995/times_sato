@@ -1,0 +1,22 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: check files
+        run: ls -a
+      - name: yarn install
+        run: yarn
+      - name: check files
+        run: ls -a
+      - name: custom_workflow_step
+        uses: K-Sato1995/webpack-bundle-analyzer-action@develop
+        with:
+          webpack-config-path: 'webpack-config-obj'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

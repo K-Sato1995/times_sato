@@ -5,4 +5,4 @@ export {
   logsState,
 } from 'recoil/logs/atoms'
 
-export { logItemsByCategoryState } from 'recoil/logs/selectors'
+export { logItemsByCategoryState, allLogsState } from 'recoil/logs/selectors'
