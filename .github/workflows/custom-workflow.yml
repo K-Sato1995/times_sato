@@ -14,10 +14,9 @@ jobs:
       - name: check files
         run: ls -a
       - name: custom_workflow_step
-        uses: K-Sato1995/gh-actions-test@v2.9
+        uses: K-Sato1995/webpack-bundle-analyzer-action@develop
         with:
-          name: 'custom name'
-          message: "Message"
+          webpack-config-path: 'node_modules/react-scripts/config/webpack.config'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
